@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import AdminHeader from '../components/commons/AdminHeader';
 
 
-function Layout() {
+function AdminLayout() {
 
     return (
         <div>
@@ -12,4 +12,4 @@ function Layout() {
     );
 }
 
-export default Layout;
+export default AdminLayout;
