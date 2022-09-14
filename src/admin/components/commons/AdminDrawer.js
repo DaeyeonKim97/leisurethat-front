@@ -19,7 +19,8 @@ import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Link from '@mui/material/Link';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { createBrowserHistory } from "history";
 // import { Link } from 'react-router-dom';
 
 export default function AdminDrawer(props) {
@@ -30,6 +31,23 @@ export default function AdminDrawer(props) {
     opened: "회원",
     selected: "회원 조회"
   });
+
+  const history = createBrowserHistory();
+
+  React.useEffect(()=>{
+    const unlistenHistoryEvent = history.listen(({ action }) => {
+      if (action === "POP") {
+        navigate('/admin')
+        setState({
+          left:false,
+          opened: "회원",
+          selected: "회원 조회"
+        })
+      }
+    });
+
+    return unlistenHistoryEvent;
+  },[])
   
   const handleClick = (e) => {
     if(state.opened === e.target.innerText){
