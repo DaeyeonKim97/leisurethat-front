@@ -28,8 +28,8 @@ export default function AdminDrawer(props) {
   
   const [state, setState] = React.useState({
     left: false,
-    opened: "회원",
-    selected: "회원 조회"
+    opened: "",
+    selected: ""
   });
 
   const history = createBrowserHistory();
@@ -40,12 +40,11 @@ export default function AdminDrawer(props) {
         navigate('/admin')
         setState({
           left:false,
-          opened: "회원",
-          selected: "회원 조회"
+          opened: "",
+          selected: ""
         })
       }
     });
-
     return unlistenHistoryEvent;
   },[])
   
@@ -154,6 +153,7 @@ export default function AdminDrawer(props) {
         // onClick={toggleDrawer(anchor, false)}
         // onKeyDown={toggleDrawer(anchor, false)}
       >
+        <h2 align="center" style={{color : '#00AEEF'}}>LEISURETHAT</h2>
         
             <List>
               <ListItem disablePadding>
