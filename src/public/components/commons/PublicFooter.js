@@ -132,9 +132,15 @@ export default function PublicFooter() {
           벤처인증기업 : 제 20220000000 호
         </div>
         <LinkIcon>
-          <FacebookIcon sx={{ mr: '8px' }} />
-          <InstagramIcon sx={{ mr: '8px' }} />
-          <TwitterIcon sx={{ mr: '8px' }} />
+          <a href="https://ko-kr.facebook.com/" target="_blank">
+            <FacebookIcon sx={{ mr: '8px' }} />
+          </a>
+          <a href="https://www.instagram.com/" target="_blank">
+            <InstagramIcon sx={{ mr: '8px' }} />
+          </a>
+          <a href="https://twitter.com/" target="_blank">
+            <TwitterIcon sx={{ mr: '8px' }} />
+          </a>
         </LinkIcon>
       </FooterBot>
     </FooterBigContainer>
