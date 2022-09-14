@@ -7,8 +7,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -20,35 +18,42 @@ import CreditCardOffOutlinedIcon from '@mui/icons-material/CreditCardOffOutlined
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 export default function AdminDrawer(props) {
 
-    const [state, setState] = React.useState({
-      left: false,
-      opened: ""
-    });
-
-    const handleClick = (e) => {
-      if(state.opened === e.target.innerText){
-        setState({ ...state, opened: "" });
-      }
-      else{
-        setState({ ...state, opened: e.target.innerText});
-      }
-    };
-
-    const handleSelect = (e) => {
-      setState({...state, selected: e.target.innerText});
+  
+  const [state, setState] = React.useState({
+    left: false,
+    opened: "회원",
+    selected: "회원 조회"
+  });
+  
+  const handleClick = (e) => {
+    if(state.opened === e.target.innerText){
+      setState({ ...state, opened: "" });
     }
+    else{
+      setState({ ...state, opened: e.target.innerText});
+    }
+  };
   
-    const toggleDrawer = (anchor, open) => (event) => {
-      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-        return;
-      }
+  const handleSelect = (e) => {
+    setState({...state, selected: e.target.innerText});
+    navigate('/admin/judge', {replace:true});
+  }
   
-      setState({ ...state, [anchor]: open});
-    };
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    
+    setState({ ...state, [anchor]: open});
+  };
+
+  const navigate = useNavigate();
   
     const list = (anchor) => (
       <Box
@@ -60,7 +65,7 @@ export default function AdminDrawer(props) {
         
             <List>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="회원"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <PersonOutlineOutlinedIcon/>
                       </ListItemIcon>
@@ -75,7 +80,7 @@ export default function AdminDrawer(props) {
                     {state.selected === "회원 조회"?
                       <ListItemText primary="회원 조회"
                         primaryTypographyProps={{
-                            color: 'primary',
+                            color: '#00AEEF',
                             variant: 'body2',
                         }}
                       />
@@ -93,7 +98,7 @@ export default function AdminDrawer(props) {
                     {state.selected === "제작자 조회"?
                       <ListItemText primary="제작자 조회"
                         primaryTypographyProps={{
-                            color: 'primary',
+                            color: '#00AEEF',
                             variant: 'body2',
                         }}
                       />
@@ -111,7 +116,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding >
-                  <ListItemButton onClick={handleClick} >
+                  <ListItemButton onClick={handleClick} sx={state.opened==="프로젝트"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <AccountTreeOutlinedIcon/>
                       </ListItemIcon>
@@ -126,7 +131,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "프로젝트 등록 안내"?
                         <ListItemText primary="프로젝트 등록 안내"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -139,28 +144,30 @@ export default function AdminDrawer(props) {
                         />
                       }
                     </ListItemButton>
-                    <ListItemButton sx={{ pl: 9 }} onClick={handleSelect}>
-                      {state.selected === "프로젝트 등록 심사"?
-                        <ListItemText primary="프로젝트 등록 심사"
-                          primaryTypographyProps={{
-                              color: 'primary',
-                              variant: 'body2',
-                          }}
-                        />
-                      :
-                        <ListItemText primary="프로젝트 등록 심사"
-                          primaryTypographyProps={{
-                              color: 'black',
-                              variant: 'body2',
-                          }}
-                        />
-                      }
-                    </ListItemButton>
+                    {/* <Link href="/admin/judge" underline="none"> */}
+                      <ListItemButton sx={{ pl: 9 }} onClick={handleSelect}>
+                        {state.selected === "프로젝트 등록 심사"?
+                          <ListItemText primary="프로젝트 등록 심사"
+                            primaryTypographyProps={{
+                                color: '#00AEEF',
+                                variant: 'body2',
+                            }}
+                          />
+                        :
+                          <ListItemText primary="프로젝트 등록 심사"
+                            primaryTypographyProps={{
+                                color: 'black',
+                                variant: 'body2',
+                            }}
+                          />
+                        }
+                      </ListItemButton>
+                    {/* </Link> */}
                     <ListItemButton sx={{ pl: 9 }} onClick={handleSelect}>
                       {state.selected === "오픈예정 프로젝트"?
                         <ListItemText primary="오픈예정 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -177,7 +184,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "진행중인 프로젝트"?
                         <ListItemText primary="진행중인 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -194,7 +201,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "프로젝트 포기승인"?
                         <ListItemText primary="프로젝트 포기승인"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -211,7 +218,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "진행마감 프로젝트"?
                         <ListItemText primary="진행마감 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -229,7 +236,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="프로젝트 로그"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <LibraryBooksOutlinedIcon/>
                       </ListItemIcon>
@@ -244,7 +251,7 @@ export default function AdminDrawer(props) {
                     {state.selected === "반려된 프로젝트"?
                       <ListItemText primary="반려된 프로젝트"
                         primaryTypographyProps={{
-                            color: 'primary',
+                            color: '#00AEEF',
                             variant: 'body2',
                         }}
                       />
@@ -261,7 +268,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "취소된 프로젝트"?
                         <ListItemText primary="취소된 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -278,7 +285,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "강제 종료된 프로젝트"?
                         <ListItemText primary="강제 종료된 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -295,7 +302,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "포기된 프로젝트"?
                         <ListItemText primary="포기된 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -312,7 +319,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "미달성 종료된 프로젝트"?
                         <ListItemText primary="미달성 종료된 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -329,7 +336,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "결제 후 종료된 프로젝트"?
                         <ListItemText primary="결제 후 종료된 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -346,7 +353,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "완료된 프로젝트"?
                         <ListItemText primary="완료된 프로젝트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -364,7 +371,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="결제"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <CreditCardOutlinedIcon/>
                       </ListItemIcon>
@@ -378,7 +385,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "결제 현황"?
                         <ListItemText primary="결제 현황"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -395,7 +402,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "프로젝트별 결제현황"?
                         <ListItemText primary="프로젝트별 결제현황"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -412,7 +419,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "미결제 현황"?
                         <ListItemText primary="미결제 현황"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -430,7 +437,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="환불"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <CreditCardOffOutlinedIcon/>
                       </ListItemIcon>
@@ -444,7 +451,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "프로젝트 환불"?
                         <ListItemText primary="프로젝트 환불"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -461,7 +468,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "주문 취소"?
                         <ListItemText primary="주문 취소"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -479,7 +486,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="정산"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <PaidOutlinedIcon/>
                       </ListItemIcon>
@@ -493,7 +500,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "정산 신청"?
                         <ListItemText primary="정산 신청"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -510,7 +517,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "계좌 변경 신청"?
                         <ListItemText primary="계좌 변경 신청"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -528,7 +535,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="문의"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <HelpOutlineOutlinedIcon/>
                       </ListItemIcon>
@@ -542,7 +549,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "FAQ"?
                         <ListItemText primary="FAQ"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -559,7 +566,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "1:1 문의"?
                         <ListItemText primary="1:1 문의"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -577,7 +584,7 @@ export default function AdminDrawer(props) {
 
               <Divider/>
               <ListItem disablePadding>
-                  <ListItemButton onClick={handleClick}>
+                  <ListItemButton onClick={handleClick} sx={state.opened==="정보제공"?{bgcolor:'#F1FBFF'}:{}}>
                       <ListItemIcon>
                         <InfoOutlinedIcon/>
                       </ListItemIcon>
@@ -592,7 +599,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "공지사항"?
                         <ListItemText primary="공지사항"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
@@ -609,7 +616,7 @@ export default function AdminDrawer(props) {
                       {state.selected === "이벤트"?
                         <ListItemText primary="이벤트"
                           primaryTypographyProps={{
-                              color: 'primary',
+                              color: '#00AEEF',
                               variant: 'body2',
                           }}
                         />
