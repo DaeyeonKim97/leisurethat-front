@@ -21,6 +21,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Link from '@mui/material/Link';
 import { useNavigate} from 'react-router-dom';
 import { createBrowserHistory } from "history";
+import { fontSize } from '@mui/system';
 // import { Link } from 'react-router-dom';
 
 export default function AdminDrawer(props) {
@@ -153,7 +154,7 @@ export default function AdminDrawer(props) {
         // onClick={toggleDrawer(anchor, false)}
         // onKeyDown={toggleDrawer(anchor, false)}
       >
-        <h2 align="center" style={{color : '#00AEEF'}}>LEISURETHAT</h2>
+        <h2 align="center" style={{color : '#00AEEF', fontSize:"20px", margin:20}}>LEISURETHAT</h2>
         
             <List>
               <ListItem disablePadding>
