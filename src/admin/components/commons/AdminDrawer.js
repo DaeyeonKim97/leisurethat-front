@@ -19,7 +19,8 @@ import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import Link from '@mui/material/Link';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { createBrowserHistory } from "history";
 // import { Link } from 'react-router-dom';
 
 export default function AdminDrawer(props) {
@@ -27,9 +28,25 @@ export default function AdminDrawer(props) {
   
   const [state, setState] = React.useState({
     left: false,
-    opened: "회원",
-    selected: "회원 조회"
+    opened: "",
+    selected: ""
   });
+
+  const history = createBrowserHistory();
+
+  React.useEffect(()=>{
+    const unlistenHistoryEvent = history.listen(({ action }) => {
+      if (action === "POP") {
+        navigate('/admin')
+        setState({
+          left:false,
+          opened: "",
+          selected: ""
+        })
+      }
+    });
+    return unlistenHistoryEvent;
+  },[])
   
   const handleClick = (e) => {
     if(state.opened === e.target.innerText){
@@ -42,7 +59,81 @@ export default function AdminDrawer(props) {
   
   const handleSelect = (e) => {
     setState({...state, selected: e.target.innerText});
-    navigate('/admin/judge', {replace:true});
+    switch(e.target.innerText){
+      case "회원 조회":
+        navigate('/admin/users');
+        break;
+      case "제작자 조회":
+        navigate('/admin/producers');
+        break;
+      case "프로젝트 등록 안내":
+        navigate('/admin/guide');
+        break;
+      case "프로젝트 등록 심사":
+        navigate('/admin/judge');
+        break;
+      case "오픈예정 프로젝트":
+        navigate('/admin/judge-open');
+        break;
+      case "진행중인 프로젝트":
+        navigate('/admin/judge-engaging');
+        break;
+      case "프로젝트 포기승인":
+        navigate('/admin/judge-giveup');
+        break;
+      case "진행마감 프로젝트":
+        navigate('/admin/ended');
+        break;
+      case "반려된 프로젝트":
+        navigate('/admin/refunded');
+        break;
+      case "취소된 프로젝트":
+        navigate('/admin/canceled');
+        break;
+      case "강제 종료된 프로젝트":
+        navigate('/admin/canceled-forced');
+        break;
+      case "포기된 프로젝트":
+        navigate('/admin/givup');
+        break;
+      case "미달성 종료된 프로젝트":
+        navigate('/admin/notfunded');
+        break;
+      case "완료된 프로젝트":
+        navigate('/admin/completed');
+        break;
+      case "결제 현황":
+        navigate('/admin/payment');
+        break;
+      case "프로젝트별 결제 현황":
+        navigate('/admin/payment-state');
+        break;
+      case "미결제 현황":
+        navigate('/admin/outstanding');
+        break;
+      case "프로젝트 환불":
+        navigate('/admin/refund');
+        break;
+      case "주문 취소":
+        navigate('/admin/withdraw');
+        break;
+      case "정산 신청":
+        navigate('/admin/calculate');
+        break;
+      case "FAQ":
+        navigate('/admin/faq');
+        break;
+      case "1:1 문의":
+        navigate('/admin/qna');
+        break;
+      case "공지사항":
+        navigate('/admin/notice');
+        break;
+      case "이벤트":
+        navigate('/admin/event');
+        break;
+    }
+    
   }
   
   const toggleDrawer = (anchor, open) => (event) => {
@@ -62,6 +153,7 @@ export default function AdminDrawer(props) {
         // onClick={toggleDrawer(anchor, false)}
         // onKeyDown={toggleDrawer(anchor, false)}
       >
+        <h2 align="center" style={{color : '#00AEEF'}}>LEISURETHAT</h2>
         
             <List>
               <ListItem disablePadding>

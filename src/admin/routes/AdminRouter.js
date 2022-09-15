@@ -7,7 +7,7 @@ export default function AdminRouter(){
     return (
             <Routes>
                 <Route path="/" element={<AdminLayout/>} >
-                    <Route path='judge' element={<JudgePage/>}/>
+                    <Route path='*' element={<JudgePage/>}/>
                 </Route>
             </Routes>
     )
