@@ -5,7 +5,7 @@ import AdminHeader from '../components/commons/AdminHeader';
 function AdminLayout() {
 
     return (
-        <div>
+        <div style={{height:"100vh"}}>
             <AdminHeader/>
             <Outlet/>
         </div>
