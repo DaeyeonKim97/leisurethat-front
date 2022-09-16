@@ -6,9 +6,8 @@ function PublicLayout() {
   return (
     <div>
       <PublicHeader />
-      <PublicMain />
-      <PublicFooter />
       <Outlet />
+      <PublicFooter />
     </div>
   )
 }
