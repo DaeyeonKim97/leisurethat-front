@@ -5,7 +5,7 @@ export default function PublicRouter() {
   return (
     <Routes>
       <Route path="/" element={<PublicLayout />}>
-        <Route path="main" element={<PublicMain />} />
+        <Route path="/" element={<PublicMain />} />
       </Route>
     </Routes>
   )
