@@ -7,7 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Typography,Pagination } from '@mui/material';
+import { Typography,Button } from '@mui/material';
+import JudgePagenation from './JudgePagenation';
+import IconButton from '@mui/material/IconButton';
+import PageviewIcon from '@mui/icons-material/Pageview';
+
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -22,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(even)': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: "#E6F4F150",
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -52,22 +58,24 @@ const rows = [
 
 export default function JudgeTable() {
   return (
-    <TableContainer component={Paper}  sx={{height:'100%'}} style={{display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+    <>
+    <TableContainer component={Paper}  sx={{height:'95%'}} style={{display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
         <Typography
-            height="62px"
+            height="40px"
+            
             variant="h6"
             id="tableTitle"
             component="div"
-            padding="15px"
+            padding="5px 15px"
             backgroundColor="#6297BAA0"
             color="white"
         >
             전체 결과
         </Typography>
-      <Table sx={{ minWidth: 700, height:'0.75' }} aria-label="customized table">
+      <Table sx={{ minWidth: 700, height:'0.8' }} style={{flex:1}} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align='center' sx={{width:100}}>심사아이디</StyledTableCell>
+            <StyledTableCell align='center' sx={{width:130}}>심사아이디</StyledTableCell>
             <StyledTableCell align="center">프로젝트명</StyledTableCell>
             <StyledTableCell align="center">제작자ID</StyledTableCell>
             <StyledTableCell align="center">제출서류</StyledTableCell>
@@ -77,24 +85,39 @@ export default function JudgeTable() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.id}>
-                <StyledTableCell component="th" scope="row">
+            <StyledTableRow key={row.id} hover>
+                <StyledTableCell component="th" scope="row" sx={{width:100}}>
                     {row.id}
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.name}</StyledTableCell>
-                <StyledTableCell align="center">{row.makerID}</StyledTableCell>
-                <StyledTableCell align="center">{row.submit}</StyledTableCell>
+                <StyledTableCell align="center" >
+                    <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+                        {row.makerID}
+                        <IconButton color="primary" aria-label="add to shopping cart">
+                            <PageviewIcon />
+                        </IconButton>
+                    </div>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                    <Button variant="outlined" style={{ margin:'0px 10px'}} size="midium">제출 서류</Button>    
+                </StyledTableCell>
                 <StyledTableCell align="center">{row.created}</StyledTableCell>
                 <StyledTableCell align="center">
-                    
+                    <IconButton color="primary" aria-label="add to shopping cart">
+                            <CheckCircleOutlineIcon />
+                    </IconButton>
+                    <IconButton color="primary" aria-label="add to shopping cart">
+                            <HighlightOffIcon color='error'/>
+                    </IconButton>
                 </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
-      <div style={{display:'flex', justifyContent:'center', alignItems:'center', padding:'10px', flex : 1}}>
-        <Pagination count={5} color="primary" variant="outlined"/>
-      </div>
     </TableContainer>
+      <div style={{display:'flex', justifyContent:'center', alignItems:'center', padding:'10px'}}>
+        <JudgePagenation/>
+      </div>
+    </>
   );
 }
