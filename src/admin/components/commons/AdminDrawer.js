@@ -155,7 +155,6 @@ export default function AdminDrawer(props) {
         // onKeyDown={toggleDrawer(anchor, false)}
       >
         <h2 align="center" style={{color : '#00AEEF', fontSize:"20px", margin:20, textAlign:'center'}}>LEISURETHAT</h2>
-        
             <List>
               <ListItem disablePadding>
                   <ListItemButton onClick={handleClick} sx={state.opened==="회원"?{bgcolor:'#F1FBFF'}:{}}>
