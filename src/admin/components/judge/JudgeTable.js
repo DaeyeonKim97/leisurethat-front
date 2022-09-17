@@ -14,6 +14,9 @@ import PageviewIcon from '@mui/icons-material/Pageview';
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ProjectInfoModal from '../commons/ProjectInfoModal/ProjectInfoModal';
+import ParticipantsInfoModal from '../commons/ParticipantsInfoModal/ParticipantsInfoModal';
+import MakerInfoModal from '../commons/MakerInfoModal/MakerInfoModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -93,13 +96,17 @@ export default function JudgeTable() {
                 <StyledTableCell align="center" >
                     <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
                         {row.makerID}
-                        <IconButton color="primary" aria-label="add to shopping cart">
+                        <MakerInfoModal>
+                          <IconButton color="primary" aria-label="add to shopping cart">
                             <PageviewIcon />
-                        </IconButton>
+                          </IconButton>
+                        </MakerInfoModal>
                     </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
+                  <ProjectInfoModal>
                     <Button variant="outlined" style={{ margin:'0px 10px'}} size="midium">제출 서류</Button>    
+                  </ProjectInfoModal>
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.created}</StyledTableCell>
                 <StyledTableCell align="center">
