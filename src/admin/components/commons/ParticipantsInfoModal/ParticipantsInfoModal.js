@@ -26,7 +26,12 @@ export default function ParticipantsInfoModal(props) {
 
   return (
     <div>
-      <div onClick={handleOpen}>{props.children}</div>
+      <div
+        onClick={handleOpen}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        {props.children}
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
