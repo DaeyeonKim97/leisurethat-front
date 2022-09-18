@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
 import SearchIcon from '@mui/icons-material/Search'
+import { Link } from 'react-router-dom'
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -95,7 +96,7 @@ export default function PublicHeader() {
             }}
             style={{ alignContent: 'bottom' }}
           >
-            LEISURETHAT
+            <Link to={'/'}>LEISURETHAT</Link>
           </Typography>
           <MenuBox>
             <Button
@@ -162,7 +163,7 @@ export default function PublicHeader() {
                 variant="outlined"
                 sx={{ ml: '30px', width: '100px', fontWeight: '800' }}
               >
-                로그인
+                <Link to={'/login'}>로그인</Link>
               </Button>
               <Button
                 variant="contained"

@@ -8,9 +8,9 @@ import MainMenuButton from '../components/commons/MainMenuButton'
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike'
 import { AnimatePresence, motion } from 'framer-motion'
 import { wrap } from 'popmotion'
-import MainFundingProject from '../components/MainFundingProject'
 import { height } from '@mui/system'
-import MainAdditional from '../components/MainAdditional'
+import MainAdditional from '../components/Main/MainAdditional'
+import MainFundingProject from '../components/Main/MainFundingProject'
 
 const FlexContainer = styled.div`
   display: flex;
@@ -209,7 +209,11 @@ export default function PublicMain() {
           <FlexContainer style={{ width: '100%', height: '100%' }}>
             <GridContainer>
               {fundingMap.map((content) => (
-                <MainFundingProject contents={content} img={fundingImgUrl} />
+                <MainFundingProject
+                  key={content}
+                  contents={content}
+                  img={fundingImgUrl}
+                />
               ))}
             </GridContainer>
           </FlexContainer>
