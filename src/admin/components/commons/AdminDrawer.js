@@ -68,7 +68,7 @@ export default function AdminDrawer(props) {
         navigate('/admin/judge')
         break
       case '오픈예정 프로젝트':
-        navigate('/admin/judge-open')
+        navigate('/admin/pre-open')
         break
       case '진행중인 프로젝트':
         navigate('/admin/judge-engaging')
