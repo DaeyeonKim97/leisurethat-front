@@ -15,8 +15,8 @@ import PageviewIcon from '@mui/icons-material/Pageview';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ProjectInfoModal from '../commons/ProjectInfoModal/ProjectInfoModal';
-import ParticipantsInfoModal from '../commons/ParticipantsInfoModal/ParticipantsInfoModal';
 import MakerInfoModal from '../commons/MakerInfoModal/MakerInfoModal';
+import JudgeRefuseModal from './JudgeRefuseModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -110,12 +110,16 @@ export default function JudgeTable() {
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.created}</StyledTableCell>
                 <StyledTableCell align="center">
+                  <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
                     <IconButton color="primary" aria-label="add to shopping cart">
                             <CheckCircleOutlineIcon />
                     </IconButton>
-                    <IconButton color="primary" aria-label="add to shopping cart">
-                            <HighlightOffIcon color='error'/>
-                    </IconButton>
+                    <JudgeRefuseModal>
+                      <IconButton color="primary" aria-label="add to shopping cart">
+                              <HighlightOffIcon color='error'/>
+                      </IconButton>
+                    </JudgeRefuseModal>
+                  </div>
                 </StyledTableCell>
             </StyledTableRow>
           ))}
