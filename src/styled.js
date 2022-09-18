@@ -8,6 +8,7 @@ input{
   }
   *{
     box-sizing: border-box;
+    text-align: left;
   }
   body{
           font-size: 14px;

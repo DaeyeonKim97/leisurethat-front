@@ -8,6 +8,7 @@ export const GlobalTheme = createTheme({
     primary: {
       main: '#00AEEF',
       darker: '#218c74',
+      contrastText: '#fff',
     },
     neutral: {
       main: '#64748B',
