@@ -17,6 +17,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ProjectInfoModal from '../commons/ProjectInfoModal/ProjectInfoModal';
 import MakerInfoModal from '../commons/MakerInfoModal/MakerInfoModal';
 import JudgeRefuseModal from './JudgeRefuseModal';
+import JudgeAcceptModal from './JudgeAcceptModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -111,9 +112,11 @@ export default function JudgeTable() {
                 <StyledTableCell align="center">{row.created}</StyledTableCell>
                 <StyledTableCell align="center">
                   <div style={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-                    <IconButton color="primary" aria-label="add to shopping cart">
-                            <CheckCircleOutlineIcon />
-                    </IconButton>
+                    <JudgeAcceptModal>
+                      <IconButton color="primary" aria-label="add to shopping cart">
+                              <CheckCircleOutlineIcon />
+                      </IconButton>
+                    </JudgeAcceptModal>
                     <JudgeRefuseModal>
                       <IconButton color="primary" aria-label="add to shopping cart">
                               <HighlightOffIcon color='error'/>
