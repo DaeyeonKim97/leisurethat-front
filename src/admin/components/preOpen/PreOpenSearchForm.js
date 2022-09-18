@@ -83,7 +83,7 @@ export default function PreOpenSearchForm() {
                 shrink: true,
               }}
               size="small"
-              style={{ margin: '0px 15px' }}
+              style={{ margin: '0px 15px', marginLeft: '120px' }}
             />
             이후
           </Grid>
