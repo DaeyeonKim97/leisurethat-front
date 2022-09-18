@@ -1,8 +1,8 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { Divider,Alert,AlertTitle } from '@mui/material';
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Modal from '@mui/material/Modal'
+import { Divider } from '@mui/material'
 
 const style = {
   position: 'absolute',
@@ -15,19 +15,23 @@ const style = {
   boxShadow: 24,
   borderRadius: 2,
   p: 4,
-};
+}
 
 export default function ProjectInfoModal(props) {
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <div>
-      <div onClick={handleOpen}>{props.children}</div>
+      <div
+        onClick={handleOpen}
+        style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        {props.children}
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -38,10 +42,10 @@ export default function ProjectInfoModal(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             프로젝트 상세정보
           </Typography>
-          <Divider style={{marginBottom:'20px'}}/>
-            Modal test
+          <Divider style={{ marginBottom: '20px' }} />
+          Modal test
         </Box>
       </Modal>
     </div>
-  );
+  )
 }

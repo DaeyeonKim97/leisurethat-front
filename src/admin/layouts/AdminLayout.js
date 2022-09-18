@@ -1,15 +1,13 @@
-import { Outlet } from 'react-router-dom';
-import AdminHeader from '../components/commons/AdminHeader';
-
+import { Outlet } from 'react-router-dom'
+import AdminHeader from '../components/commons/AdminHeader'
 
 function AdminLayout() {
-
-    return (
-        <div style={{height:"100vh"}}>
-            <AdminHeader/>
-            <Outlet/>
-        </div>
-    );
+  return (
+    <div style={{ height: '100vh' }}>
+      <AdminHeader />
+      <Outlet />
+    </div>
+  )
 }
 
-export default AdminLayout;
+export default AdminLayout
