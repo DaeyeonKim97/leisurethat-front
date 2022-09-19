@@ -8,10 +8,12 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
 import SearchIcon from '@mui/icons-material/Search'
+import { Link } from 'react-router-dom'
 
 const HeaderContainer = styled.div`
   position: sticky;
   top: 0;
+  background-color: white;
   z-index: 999;
   flex-grow: '1';
 `
@@ -61,6 +63,9 @@ const Input = styled(motion.input)`
 
 export default function PublicHeader() {
   const inputAnimation = useAnimation()
+
+  const [isLogin, setLogin] = React.useState(true)
+
   const [searchOpen, setSerchOpen] = React.useState(false)
   const toggleSearch = () => {
     if (searchOpen) {
@@ -91,7 +96,7 @@ export default function PublicHeader() {
             }}
             style={{ alignContent: 'bottom' }}
           >
-            LEISURETHAT
+            <Link to={'/'}>LEISURETHAT</Link>
           </Typography>
           <MenuBox>
             <Button
@@ -151,29 +156,54 @@ export default function PublicHeader() {
               <SearchIcon style={{ color: 'black' }} />
             </motion.svg>
           </Search>
-          <Button variant="outlined" sx={{ mx: '30px' }}>
-            프로젝트 만들기
-          </Button>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            color="primary"
-          >
-            <AccountCircle />
-          </IconButton>
 
-          <IconButton
-            size="large"
-            aria-label="show 17 new notifications"
-            color="primary"
-            style={{ marginRight: '50px' }}
-          >
-            <Badge badgeContent={17} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          {isLogin ? (
+            <div>
+              <Button
+                variant="outlined"
+                sx={{ ml: '30px', width: '100px', fontWeight: '800' }}
+              >
+                <Link to={'/login'}>로그인</Link>
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  mr: '40px',
+                  ml: '15px',
+                  width: '100px',
+                  fontWeight: '800',
+                }}
+              >
+                회원가입
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Button variant="outlined" sx={{ mx: '30px' }}>
+                프로젝트 만들기
+              </Button>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="primary"
+              >
+                <AccountCircle />
+              </IconButton>
+
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="primary"
+                style={{ marginRight: '50px' }}
+              >
+                <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </div>
+          )}
         </FlexBox>
       </Bar>
     </HeaderContainer>
