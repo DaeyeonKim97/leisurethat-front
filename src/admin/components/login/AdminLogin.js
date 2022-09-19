@@ -58,7 +58,7 @@ export default function SignIn() {
             component="img"
             className="logoImage"
             alt="logoImage"
-            src="/static/img/Logo_big.png"
+            src="/static/img/Logo_High.png"
             sx={{
               height: 100,
               mt: 3,
