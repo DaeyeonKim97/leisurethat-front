@@ -8,16 +8,15 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { Typography, Button } from '@mui/material'
-import JudgePagenation from './JudgePagenation'
 import IconButton from '@mui/material/IconButton'
 import PageviewIcon from '@mui/icons-material/Pageview'
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import ProjectInfoModal from '../commons/ProjectInfoModal/ProjectInfoModal'
 import MakerInfoModal from '../commons/MakerInfoModal/MakerInfoModal'
-import JudgeRefuseModal from './JudgeRefuseModal'
-import JudgeAcceptModal from './JudgeAcceptModal'
+import ProceedingRefuseModal from './ProceedingRefuseModal'
+import ProceedingPagenation from './ProceedingPagenation'
+import ParticipantsInfoModal from '../commons/ParticipantsInfoModal/ParticipantsInfoModal'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -40,27 +39,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-function createData(id, name, makerID, submit, created, accept) {
+function createData(id, name, makerID, end, participant, status) {
   return {
     id,
     name,
     makerID,
-    submit,
-    created,
-    accept,
+    end,
+    participant,
+    status,
   }
 }
 
 const rows = [
-  createData(1, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
-  createData(2, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
-  createData(3, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
-  createData(4, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
-  createData(5, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
-  createData(6, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
+  createData(1, '프로젝트 명', 'leisurethat01', '2022-01-01', 10, 'Y'),
+  createData(2, '프로젝트 명', 'leisurethat01', '2022-01-01', 11, 'Y'),
+  createData(3, '프로젝트 명', 'leisurethat01', '2022-01-01', 12, 'Y'),
+  createData(4, '프로젝트 명', 'leisurethat01', '2022-01-01', 13, 'N'),
+  createData(5, '프로젝트 명', 'leisurethat01', '2022-01-01', 14, 'N'),
+  createData(6, '프로젝트 명', 'leisurethat01', '2022-01-01', 15, 'Y'),
 ]
 
-export default function JudgeTable() {
+export default function ProceedingTable() {
   return (
     <>
       <TableContainer
@@ -95,18 +94,42 @@ export default function JudgeTable() {
               </StyledTableCell>
               <StyledTableCell align="center">프로젝트명</StyledTableCell>
               <StyledTableCell align="center">제작자ID</StyledTableCell>
-              <StyledTableCell align="center">제출서류</StyledTableCell>
-              <StyledTableCell align="center">심사요청일</StyledTableCell>
-              <StyledTableCell align="center">승인/반려</StyledTableCell>
+              <StyledTableCell align="center">프로젝트 종료일</StyledTableCell>
+              <StyledTableCell align="center">참여자정보</StyledTableCell>
+              <StyledTableCell align="center">상태</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => (
               <StyledTableRow key={row.id} hover>
-                <StyledTableCell component="th" scope="row" sx={{ width: 100 }}>
+                <StyledTableCell
+                  component="th"
+                  scope="row"
+                  sx={{ width: 100 }}
+                  align="center"
+                >
                   {row.id}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center">
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {row.name}
+                    <ProjectInfoModal>
+                      <IconButton
+                        color="primary"
+                        aria-label="add to shopping cart"
+                      >
+                        <PageviewIcon />
+                      </IconButton>
+                    </ProjectInfoModal>
+                  </div>
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
                     style={{
@@ -127,43 +150,40 @@ export default function JudgeTable() {
                     </MakerInfoModal>
                   </div>
                 </StyledTableCell>
+                <StyledTableCell align="center">{row.end}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <ProjectInfoModal>
+                  <ParticipantsInfoModal>
                     <Button
                       variant="outlined"
                       style={{ margin: '0px 10px' }}
                       size="midium"
                     >
-                      제출 서류
+                      총 {row.participant} 명
                     </Button>
-                  </ProjectInfoModal>
+                  </ParticipantsInfoModal>
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.created}</StyledTableCell>
                 <StyledTableCell align="center">
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'row',
                       alignItems: 'center',
-                      justifyContent: 'center',
+                      justifyContent: 'left',
+                      marginLeft: '30%',
                     }}
                   >
-                    <JudgeAcceptModal>
-                      <IconButton
-                        color="primary"
-                        aria-label="add to shopping cart"
-                      >
-                        <CheckCircleOutlineIcon />
-                      </IconButton>
-                    </JudgeAcceptModal>
-                    <JudgeRefuseModal>
-                      <IconButton
-                        color="primary"
-                        aria-label="add to shopping cart"
-                      >
-                        <HighlightOffIcon color="error" />
-                      </IconButton>
-                    </JudgeRefuseModal>
+                    {row.status === 'Y' ? (
+                      <>
+                        펀딩 진행중
+                        <ProceedingRefuseModal>
+                          <IconButton color="primary">
+                            <HighlightOffIcon color="primary" />
+                          </IconButton>
+                        </ProceedingRefuseModal>
+                      </>
+                    ) : (
+                      <>포기 신청중</>
+                    )}
                   </div>
                 </StyledTableCell>
               </StyledTableRow>
@@ -179,7 +199,7 @@ export default function JudgeTable() {
           padding: '10px',
         }}
       >
-        <JudgePagenation />
+        <ProceedingPagenation />
       </div>
     </>
   )

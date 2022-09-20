@@ -35,7 +35,7 @@ const CssTextField = styled(TextField)({
   },
 })
 
-export default function JudgeSearchForm() {
+export default function PreOpenSearchForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
@@ -73,6 +73,19 @@ export default function JudgeSearchForm() {
               variant="outlined"
               size="small"
             />
+            <CssTextField
+              id="date"
+              label="오픈예정일"
+              type="date"
+              defaultValue="2022-01-01"
+              sx={{ width: 220 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              size="small"
+              style={{ margin: '0px 15px', marginLeft: '120px' }}
+            />
+            이후
           </Grid>
           <Grid
             item

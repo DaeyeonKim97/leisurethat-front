@@ -1,19 +1,19 @@
 import Divider from '@mui/material/Divider'
-import JudgeSearchForm from '../components/judge/JudgeSearchForm'
-import JudgeTable from '../components/judge/JudgeTable'
+import PreOpenTable from '../components/preOpen/PreOpenTable'
+import PreOpenSearchForm from '../components/preOpen/PreOpenSearchForm'
 
-export default function JudgePage() {
+export default function PreOpenPage() {
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
-        프로젝트 등록 심사
+        오픈 예정 프로젝트 관리
       </header>
 
       <Divider
         style={{ boxShadow: '0px 2px 4px gray', margin: '15px 0px 25px 0px' }}
       />
 
-      <JudgeSearchForm />
+      <PreOpenSearchForm />
 
       <div
         className="whatsthis"
@@ -34,7 +34,7 @@ export default function JudgePage() {
           총 <span style={{ color: '#6297BA' }}>22320</span> 개
         </section>
 
-        <JudgeTable />
+        <PreOpenTable />
       </div>
     </section>
   )
