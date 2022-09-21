@@ -1,13 +1,13 @@
 /** @format */
 
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Button, Typography } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
+import * as React from 'react'
+import { styled } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
+import { Button, Typography } from '@mui/material'
+import TextField from '@mui/material/TextField'
+import SearchIcon from '@mui/icons-material/Search'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
-}));
+}))
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -35,7 +35,7 @@ const CssTextField = styled(TextField)({
       border: '2px solid #00AEEF',
     },
   },
-});
+})
 
 export default function PaymentSearchForm() {
   return (
@@ -47,7 +47,7 @@ export default function PaymentSearchForm() {
             xs={10}
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'left',
               alignItems: 'center',
             }}
           >
@@ -88,6 +88,7 @@ export default function PaymentSearchForm() {
               label="결제일"
               type="date"
               sx={{ width: 220 }}
+              style={{ marginLeft: '15px' }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -104,5 +105,5 @@ export default function PaymentSearchForm() {
         </Grid>
       </Item>
     </Box>
-  );
+  )
 }
