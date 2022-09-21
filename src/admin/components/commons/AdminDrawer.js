@@ -74,7 +74,7 @@ export default function AdminDrawer(props) {
         navigate('/admin/proceeding')
         break
       case '프로젝트 포기승인':
-        navigate('/admin/judge-giveup')
+        navigate('/admin/giveup')
         break
       case '진행마감 프로젝트':
         navigate('/admin/ended')
