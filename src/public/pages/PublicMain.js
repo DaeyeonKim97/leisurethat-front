@@ -11,6 +11,8 @@ import { wrap } from 'popmotion'
 import { height } from '@mui/system'
 import MainAdditional from '../components/Main/MainAdditional'
 import MainFundingProject from '../components/Main/MainFundingProject'
+import { Pagination } from '@mui/material'
+import { UnderLineBox } from '../components/shared'
 
 const FlexContainer = styled.div`
   display: flex;
@@ -85,18 +87,10 @@ const GridContainer = styled.div`
   height: 100%;
 `
 
-const ContainerHeader = styled.div`
-  width: 100%;
-  height: 50px;
-  padding: 10px 0px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-`
-
 export default function PublicMain() {
   const [[page, direction], setPage] = React.useState([0, 0])
+  const [getCategory, setCategory] = React.useState(false)
+  const [getCategorySort, setCategorySort] = React.useState('')
 
   const fundingMap = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   const fundingImgUrl = 'static/img/PublicMainFunding.png'
@@ -160,22 +154,54 @@ export default function PublicMain() {
       </FlexContainer>
       <FlexContainer style={{ height: '200px' }}>
         <MainMenuButton variant="outlined">
-          <HouseSidingIcon sx={{ fontSize: '30px', mr: '10px' }} />
+          <div
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            onClick={() => {
+              setCategorySort(1)
+            }}
+          ></div>
+          <HouseSidingIcon
+            sx={{ fontSize: '30px', mr: '10px', alignSelf: 'center' }}
+          />
           캠핑
         </MainMenuButton>
         <MainMenuButton>
+          <div
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            onClick={() => {
+              setCategorySort(2)
+            }}
+          ></div>
           <PoolIcon sx={{ fontSize: '30px', mr: '10px' }} />
           수상레저
         </MainMenuButton>
         <MainMenuButton>
+          <div
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            onClick={() => {
+              setCategorySort(3)
+            }}
+          ></div>
           <GolfCourseIcon sx={{ fontSize: '30px', mr: '10px' }} />
           골프
         </MainMenuButton>
         <MainMenuButton>
+          <div
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            onClick={() => {
+              setCategorySort(4)
+            }}
+          ></div>
           <PhishingIcon sx={{ fontSize: '30px', mr: '10px' }} />
           낚시
         </MainMenuButton>
         <MainMenuButton>
+          <div
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            onClick={() => {
+              setCategorySort(5)
+            }}
+          ></div>
           <DirectionsBikeIcon sx={{ fontSize: '30px', mr: '10px' }} />
           자전거
         </MainMenuButton>
@@ -184,17 +210,37 @@ export default function PublicMain() {
         <FlexContainer
           style={{ height: '100%', width: '1150px', flexDirection: 'column' }}
         >
-          <ContainerHeader>
+          <UnderLineBox
+            style={{
+              marginBottom: '10px',
+            }}
+          >
             <p
               style={{
                 fontSize: '30px',
                 fontWeight: '800',
               }}
             >
-              펀딩 진행 중 프로젝트
+              {getCategorySort === 0 ? (
+                <div>펀딩 진행 중 프로젝트</div>
+              ) : getCategorySort === 1 ? (
+                <div>캠핑 관련 프로젝트</div>
+              ) : getCategorySort === 2 ? (
+                <div>수상레저 관련 프로젝트</div>
+              ) : getCategorySort === 3 ? (
+                <div>골프 관련 프로젝트</div>
+              ) : getCategorySort === 4 ? (
+                <div>낚시 관련 프로젝트</div>
+              ) : getCategorySort === 5 ? (
+                <div>자전거 관련 프로젝트</div>
+              ) : (
+                <div>펀딩 진행 중 프로젝트</div>
+              )}
             </p>
             <p
-              onClick={() => {}}
+              onClick={() => {
+                setCategory(!getCategory)
+              }}
               style={{
                 fontSize: '17px',
                 textDecorationLine: 'underline',
@@ -205,7 +251,7 @@ export default function PublicMain() {
             >
               더 보기
             </p>
-          </ContainerHeader>
+          </UnderLineBox>
           <FlexContainer style={{ width: '100%', height: '100%' }}>
             <GridContainer>
               {fundingMap.map((content) => (
@@ -218,17 +264,19 @@ export default function PublicMain() {
             </GridContainer>
           </FlexContainer>
           <FlexContainer style={{ width: '100%', height: '150px' }}>
-            123
+            {getCategory ? <Pagination count={10} color="primary" /> : null}
           </FlexContainer>
         </FlexContainer>
       </FlexContainer>
-      <FlexContainer style={{ height: '600px' }}>
-        <FlexContainer style={{ height: '100%', width: '1150px' }}>
-          <MainAdditional title="이벤트" content={bottomMap} />
-          <div style={{ width: '130px' }} />
-          <MainAdditional title="공지사항" content={bottomMap} />
+      {getCategory ? null : (
+        <FlexContainer style={{ height: '600px' }}>
+          <FlexContainer style={{ height: '100%', width: '1150px' }}>
+            <MainAdditional title="이벤트" content={bottomMap} />
+            <div style={{ width: '130px' }} />
+            <MainAdditional title="공지사항" content={bottomMap} />
+          </FlexContainer>
         </FlexContainer>
-      </FlexContainer>
+      )}
     </div>
   )
 }
