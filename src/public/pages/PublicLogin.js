@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom'
 import MainFormError from '../components/Login/MainFormError'
 import MainButton from '../components/Login/MainButton'
 import MainFormBox from '../components/Main/MainFormBox'
-import NestedModal from '../components/delivery/DeliveryModal'
 
 const BaseBox = styled.div`
   display: flex;
@@ -55,7 +54,6 @@ const PublicLogin = () => {
 
   return (
     <BaseBox>
-      <NestedModal />
       <MainFormBox>
         <div style={{ width: '300px', height: '400px' }}>
           <div style={{ fontSize: '30px', fontWeight: 'bolder' }}>로그인</div>
