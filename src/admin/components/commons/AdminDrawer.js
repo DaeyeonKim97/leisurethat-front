@@ -100,7 +100,7 @@ export default function AdminDrawer(props) {
       case '결제 현황':
         navigate('/admin/payment')
         break
-      case '프로젝트별 결제 현황':
+      case '프로젝트별 결제현황':
         navigate('/admin/payment-state')
         break
       case '미결제 현황':

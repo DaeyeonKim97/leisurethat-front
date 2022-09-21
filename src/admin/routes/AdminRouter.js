@@ -6,7 +6,8 @@ import JudgePage from '../pages/JudgePage'
 import PreOpenPage from '../pages/PreOpenPage'
 import ProceedingPage from '../pages/ProceedingPage'
 import CalculatePage from "../pages/CalculatePage";
-
+import Payment from '../pages/Payment'
+import ProjectPayment from '../pages/ProjectPayment'
 
 export default function AdminRouter() {
   console.log("admin router");
@@ -18,6 +19,9 @@ export default function AdminRouter() {
         <Route path="proceeding" element={<ProceedingPage />} />
         <Route path="calculate" element={<CalculatePage />} />
         <Route path="giveup" element={<GiveupPage />} />
+        <Route path="giveup" element={<GiveupPage />} />
+        <Route path="payment" element={<Payment />} />
+        <Route path="payment-state" element={<ProjectPayment />} />
       </Route>
     </Routes>
   );
