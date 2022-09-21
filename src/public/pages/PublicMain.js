@@ -87,18 +87,42 @@ const GridContainer = styled.div`
   height: 100%;
 `
 
+const campingImgUrl = 'static/img/mainMenu/campingImg.png'
+const waterImgUrl = 'static/img/mainMenu/waterImg.jpeg'
+const golfImgUrl = 'static/img/mainMenu/golfImg.jpeg'
+const fishingImgUrl = 'static/img/mainMenu/fishingImg.jpeg'
+const bycicleImgUrl = 'static/img/mainMenu/bycicleImg.jpeg'
+
+const campingText = '캠핑을 즐겨 봅시다.'
+const waterText = '빠지를 즐겨 봅시다.'
+const golfText = '골프를 즐겨 봅시다.'
+const fishingText = '피슁을 즐겨봅시다.'
+const bycicleText = '바이시클을 즐겨 봅시다.'
+
+const bannerImg = [
+  'static/img/PublicMainTop.png',
+  'static/img/PublicMainTop.png',
+  'static/img/PublicMainTop.png',
+]
+
+const key = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
 export default function PublicMain() {
   const [[page, direction], setPage] = React.useState([0, 0])
   const [getCategory, setCategory] = React.useState(false)
-  const [getCategorySort, setCategorySort] = React.useState('')
+  const [getCategorySort, setCategorySort] = React.useState(1)
+
+  const [getImg, setImg] = React.useState(campingImgUrl)
+  const [getText, setText] = React.useState(campingText)
+
+  const fundingProp = {
+    id: getCategorySort,
+    img: getImg,
+    text: getText,
+  }
 
   const fundingMap = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  const fundingImgUrl = 'static/img/PublicMainFunding.png'
-  const bannerImg = [
-    'static/img/PublicMainTop.png',
-    'static/img/PublicMainTop.png',
-    'static/img/PublicMainTop.png',
-  ]
+
   const bottomMap = [1, 2, 3]
 
   const imageIndex = wrap(0, bannerImg.length, page)
@@ -158,6 +182,8 @@ export default function PublicMain() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             onClick={() => {
               setCategorySort(1)
+              setImg(campingImgUrl)
+              setText(campingText)
             }}
           ></div>
           <HouseSidingIcon
@@ -170,6 +196,9 @@ export default function PublicMain() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             onClick={() => {
               setCategorySort(2)
+
+              setImg(waterImgUrl)
+              setText(waterText)
             }}
           ></div>
           <PoolIcon sx={{ fontSize: '30px', mr: '10px' }} />
@@ -180,6 +209,9 @@ export default function PublicMain() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             onClick={() => {
               setCategorySort(3)
+
+              setImg(golfImgUrl)
+              setText(golfText)
             }}
           ></div>
           <GolfCourseIcon sx={{ fontSize: '30px', mr: '10px' }} />
@@ -190,6 +222,9 @@ export default function PublicMain() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             onClick={() => {
               setCategorySort(4)
+
+              setImg(fishingImgUrl)
+              setText(fishingText)
             }}
           ></div>
           <PhishingIcon sx={{ fontSize: '30px', mr: '10px' }} />
@@ -200,13 +235,16 @@ export default function PublicMain() {
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             onClick={() => {
               setCategorySort(5)
+
+              setImg(bycicleImgUrl)
+              setText(bycicleText)
             }}
           ></div>
           <DirectionsBikeIcon sx={{ fontSize: '30px', mr: '10px' }} />
           자전거
         </MainMenuButton>
       </FlexContainer>
-      <FlexContainer style={{ height: '1500px' }}>
+      <FlexContainer style={{}}>
         <FlexContainer
           style={{ height: '100%', width: '1150px', flexDirection: 'column' }}
         >
@@ -215,7 +253,7 @@ export default function PublicMain() {
               marginBottom: '10px',
             }}
           >
-            <p
+            <div
               style={{
                 fontSize: '30px',
                 fontWeight: '800',
@@ -236,7 +274,7 @@ export default function PublicMain() {
               ) : (
                 <div>펀딩 진행 중 프로젝트</div>
               )}
-            </p>
+            </div>
             <p
               onClick={() => {
                 setCategory(!getCategory)
@@ -255,11 +293,7 @@ export default function PublicMain() {
           <FlexContainer style={{ width: '100%', height: '100%' }}>
             <GridContainer>
               {fundingMap.map((content) => (
-                <MainFundingProject
-                  key={content}
-                  contents={content}
-                  img={fundingImgUrl}
-                />
+                <MainFundingProject key={content} img={getImg} text={getText} />
               ))}
             </GridContainer>
           </FlexContainer>

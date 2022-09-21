@@ -41,7 +41,7 @@ const PublicBuying = () => {
   const [monthValue, setMonthValue] = useState(cardList[0])
   const [monthInput, setMonthInput] = useState('')
 
-  const payInfo = {
+  const payInfoProp = {
     reward: 69000,
     shipping: 3000,
     totalFunding: 72000,
@@ -66,7 +66,7 @@ const PublicBuying = () => {
                 >
                   리워드 가격
                 </UnderLineContent>
-                <UnderLineContent>{Comma(payInfo.reward)}</UnderLineContent>
+                <UnderLineContent>{Comma(payInfoProp.reward)}</UnderLineContent>
               </UnderLineContentBox>{' '}
               <UnderLineContentBox>
                 <UnderLineContent
@@ -74,7 +74,9 @@ const PublicBuying = () => {
                 >
                   배송비
                 </UnderLineContent>
-                <UnderLineContent>{Comma(payInfo.shipping)}</UnderLineContent>
+                <UnderLineContent>
+                  {Comma(payInfoProp.shipping)}
+                </UnderLineContent>
               </UnderLineContentBox>{' '}
               <UnderLineContentBox>
                 <UnderLineContent
@@ -83,7 +85,7 @@ const PublicBuying = () => {
                   총 펀딩 금액
                 </UnderLineContent>
                 <UnderLineContent>
-                  {Comma(payInfo.totalFunding)}
+                  {Comma(payInfoProp.totalFunding)}
                 </UnderLineContent>
               </UnderLineContentBox>
             </div>
@@ -248,7 +250,7 @@ const PublicBuying = () => {
               sx={{ width: 300, height: 50 }}
               style={{ fontSize: '15px' }}
             >
-              {Comma(payInfo.completeFunding)}원 펀딩하기
+              {Comma(payInfoProp.completeFunding)}원 펀딩하기
             </Button>
           </div>
         </div>
