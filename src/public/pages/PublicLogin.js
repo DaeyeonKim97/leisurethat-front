@@ -5,14 +5,7 @@ import { useLocation } from 'react-router-dom'
 import MainFormError from '../components/Login/MainFormError'
 import MainButton from '../components/Login/MainButton'
 import MainFormBox from '../components/Main/MainFormBox'
-
-const BaseBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 900px;
-`
+import { BaseBox } from '../components/shared'
 
 const ButtonContainer = styled.div`
   width: 100%;

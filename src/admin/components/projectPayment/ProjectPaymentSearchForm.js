@@ -47,7 +47,7 @@ export default function ProjectPaymentSearchForm() {
             xs={10}
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'left',
               alignItems: 'center',
             }}
           >
@@ -67,14 +67,14 @@ export default function ProjectPaymentSearchForm() {
               label="프로젝트 명"
               variant="outlined"
               size="small"
-              style={{ marginRight: '8%' }}
+              style={{ marginLeft: '15px' }}
             />
             <CssTextField
               id="outlined-basic"
               label="제작자 명"
               variant="outlined"
               size="small"
-              style={{ marginRight: '8%' }}
+              style={{ marginLeft: '15px' }}
             />
             <CssTextField
               id="date"
@@ -84,6 +84,7 @@ export default function ProjectPaymentSearchForm() {
               InputLabelProps={{
                 shrink: true,
               }}
+              style={{ marginLeft: '15px' }}
               size="small"
             />
           </Grid>
@@ -98,4 +99,5 @@ export default function ProjectPaymentSearchForm() {
       </Item>
     </Box>
   );
+  )
 }
