@@ -74,7 +74,7 @@ export default function AdminDrawer(props) {
         navigate('/admin/proceeding')
         break
       case '프로젝트 포기승인':
-        navigate('/admin/judge-giveup')
+        navigate('/admin/giveup')
         break
       case '진행마감 프로젝트':
         navigate('/admin/ended')
@@ -100,7 +100,7 @@ export default function AdminDrawer(props) {
       case '결제 현황':
         navigate('/admin/payment')
         break
-      case '프로젝트별 결제 현황':
+      case '프로젝트별 결제현황':
         navigate('/admin/payment-state')
         break
       case '미결제 현황':
