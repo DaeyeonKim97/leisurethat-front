@@ -2,12 +2,14 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
-import { IconButton, Typography } from '@mui/material'
+import { IconButton, Link, Typography } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear'
 import TextField from '@mui/material/TextField'
-import { positions } from '@mui/system'
 import DeliveryCard from './DeliveryCard'
 import SearchIcon from '@mui/icons-material/Search'
+import PostCode from './PostCode'
+import PopupDom from './PopupDom'
+import PopupPostCode from './PopupPostCode'
 
 const style = {
   position: 'absolute',
@@ -55,6 +57,18 @@ function ChildModal() {
   }
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const [isPopupOpen, setIsPopupOpen] = React.useState(false)
+
+  // 팝업창 열기
+  const openPostCode = () => {
+    setIsPopupOpen(true)
+  }
+
+  // 팝업창 닫기
+  const closePostCode = () => {
+    setIsPopupOpen(false)
   }
 
   return (
@@ -122,12 +136,16 @@ function ChildModal() {
             <Typography sx={{ display: 'inline-flex', fontSize: 20 }}>
               주소
             </Typography>
-            <Button
-              variant="outlined"
-              sx={{ width: 310, ml: 2, fontWeight: 'bold' }}
-            >
-              우편 번호 찾기 <SearchIcon />
-            </Button>
+            <button type="button" onClick={openPostCode}>
+              우편번호 검색
+            </button>
+            <div id="popupDom">
+              {isPopupOpen && (
+                <PopupDom>
+                  <PopupPostCode onClose={closePostCode} />
+                </PopupDom>
+              )}
+            </div>
             <TextField
               margin="normal"
               multiline
@@ -144,7 +162,7 @@ function ChildModal() {
                 width: 350,
                 backgroundColor: 'white',
               }}
-            />
+            ></TextField>
             <Typography sx={{ fontSize: 20 }}>배송지명</Typography>
             <TextField
               margin="normal"
