@@ -11,7 +11,7 @@ import {
   UnderLineContentBox,
   UnderLineContentsBox,
 } from '../shared'
-import ShippingAddressModal from './\bShippingAddressModal'
+import ShippingAddressModal from './ShippingAddressModal'
 
 const BuyingInfo = ({ complete }) => {
   const [open, setOpen] = React.useState(false)
