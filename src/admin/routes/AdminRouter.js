@@ -10,6 +10,7 @@ import CalculatePage from '../pages/CalculatePage'
 import Payment from '../pages/Payment'
 import ProjectPayment from '../pages/ProjectPayment'
 import RefundedPage from '../pages/RefundedPage'
+import EndedPage from '../pages/EndedPage'
 
 export default function AdminRouter() {
   console.log('admin router')
@@ -26,6 +27,7 @@ export default function AdminRouter() {
         <Route path="payment" element={<Payment />} />
         <Route path="payment-state" element={<ProjectPayment />} />
         <Route path="refunded" element={<RefundedPage />} />
+        <Route path="ended" element={<EndedPage />} />
       </Route>
     </Routes>
   )
