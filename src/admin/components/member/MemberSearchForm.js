@@ -1,13 +1,12 @@
-/** @format */
-
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Button, Typography } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
+import * as React from 'react'
+import { styled } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Grid from '@mui/material/Grid'
+import { Button, Typography } from '@mui/material'
+import TextField from '@mui/material/TextField'
+import SearchIcon from '@mui/icons-material/Search'
+import MemberRegistModal from './MemberRegistModal';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
-}));
+}))
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -35,9 +34,9 @@ const CssTextField = styled(TextField)({
       border: '2px solid #00AEEF',
     },
   },
-});
+})
 
-export default function PaymentSearchForm() {
+export default function JudgeSearchForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
@@ -64,45 +63,39 @@ export default function PaymentSearchForm() {
             </Typography>
             <CssTextField
               id="outlined-basic"
-              label="프로젝트 명"
+              label="회원 ID"
               variant="outlined"
               size="small"
               style={{ margin: '0px 15px' }}
             />
             <CssTextField
               id="outlined-basic"
-              label="제작자 ID"
+              label="회원 이름"
               variant="outlined"
               size="small"
-              style={{ margin: '0px 15px' }}
             />
-            <CssTextField
-              id="outlined-basic"
-              label="주문자 명"
-              variant="outlined"
-              size="small"
-              style={{ margin: '0px 15px' }}
-            />
-            <CssTextField
-              id="date"
-              label="결제일"
-              type="date"
-              sx={{ width: 220 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              size="small"
-            />
+            <Button style={{marginLeft : "20px"}} variant="contained">search</Button>
           </Grid>
           <Grid
             item
             xs={2}
             style={{ display: 'flex', justifyContent: 'right' }}
           >
-            <Button variant="contained">search</Button>
+
+            <MemberRegistModal>
+            <Button
+            variant="contained"
+            style={{ margin: '0px 10px' }}
+            size="midium"
+            >
+            회원 등록
+            </Button>
+            </MemberRegistModal>
+            
+            
           </Grid>
         </Grid>
       </Item>
     </Box>
-  );
+  )
 }
