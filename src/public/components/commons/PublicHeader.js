@@ -174,7 +174,7 @@ export default function PublicHeader() {
                   fontWeight: '800',
                 }}
               >
-                회원가입
+                <Link to={'/signup'}>회원가입</Link>
               </Button>
             </div>
           ) : (
