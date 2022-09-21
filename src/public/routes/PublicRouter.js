@@ -9,9 +9,9 @@ export default function PublicRouter() {
     <Routes>
       <Route path="/" element={<PublicLayout />}>
         <Route path="/" element={<PublicMain />} />
-        <Route path="/Login" element={<PublicLogin />} />
-        <Route path="/Complete" element={<PublicBuyComplete />} />
-        <Route path="/Buying" element={<PublicBuying />} />
+        <Route path="/login" element={<PublicLogin />} />
+        <Route path="/complete" element={<PublicBuyComplete />} />
+        <Route path="/buying" element={<PublicBuying />} />
       </Route>
     </Routes>
   )
