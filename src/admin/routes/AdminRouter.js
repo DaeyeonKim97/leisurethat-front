@@ -1,9 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import AdminLayout from '../layouts/AdminLayout'
+import GiveupPage from '../pages/GiveupPage'
+import JudgePage from '../pages/JudgePage'
+import PreOpenPage from '../pages/PreOpenPage'
+import ProceedingPage from '../pages/ProceedingPage'
 import CalculatePage from "../pages/CalculatePage";
-import AdminLayout from "../layouts/AdminLayout";
-import JudgePage from "../pages/JudgePage";
-import PreOpenPage from "../pages/PreOpenPage";
-import ProceedingPage from "../pages/ProceedingPage";
+
 
 export default function AdminRouter() {
   console.log("admin router");
@@ -14,6 +17,7 @@ export default function AdminRouter() {
         <Route path="pre-open" element={<PreOpenPage />} />
         <Route path="proceeding" element={<ProceedingPage />} />
         <Route path="calculate" element={<CalculatePage />} />
+        <Route path="giveup" element={<GiveupPage />} />
       </Route>
     </Routes>
   );
