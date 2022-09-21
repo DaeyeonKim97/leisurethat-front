@@ -3,6 +3,7 @@ import AdminLayout from '../layouts/AdminLayout'
 import JudgePage from '../pages/JudgePage'
 import PreOpenPage from '../pages/PreOpenPage'
 import ProceedingPage from '../pages/ProceedingPage'
+import MemberPage from '../pages/MemberPage'
 
 export default function AdminRouter() {
   console.log('admin router')
@@ -12,6 +13,7 @@ export default function AdminRouter() {
         <Route path="judge" element={<JudgePage />} />
         <Route path="pre-open" element={<PreOpenPage />} />
         <Route path="proceeding" element={<ProceedingPage />} />
+        <Route path="users" element={<MemberPage />} />
       </Route>
     </Routes>
   )
