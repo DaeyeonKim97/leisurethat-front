@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import BuyingInfo from '../components/Buying/BuyingInfo'
 import {
   BaseBox,
   UnderLineContent,
@@ -12,7 +11,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { useState } from 'react'
 import { Autocomplete, Button, TextField } from '@mui/material'
-import { display } from '@mui/system'
+import PaymentInfo from '../components/Payment/PaymentInfo'
 
 const PaymentBox = styled.div`
   width: 50%;
@@ -32,7 +31,7 @@ const ImagContainer = styled.div`
 const cardList = ['농협', 'bc 카드', '토스', ' 삼성카드']
 const monthList = ['1 개월', '2 개월', '3 개월', '4 개월']
 
-const PublicBuying = () => {
+const PublicPayment = () => {
   const [check, setCheck] = useState(false)
 
   const [value, setValue] = useState(cardList[0])
@@ -55,7 +54,7 @@ const PublicBuying = () => {
       }}
     >
       <div>
-        <BuyingInfo complete={false} />
+        <PaymentInfo complete={false} />
         <div>
           <UnderLineContentsBox>결제 정보</UnderLineContentsBox>
           <div style={{ display: 'flex' }}>
@@ -259,4 +258,4 @@ const PublicBuying = () => {
   )
 }
 
-export default PublicBuying
+export default PublicPayment
