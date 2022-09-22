@@ -7,7 +7,6 @@ import ClearIcon from '@mui/icons-material/Clear'
 import TextField from '@mui/material/TextField'
 import DeliveryCard from './DeliveryCard'
 import SearchIcon from '@mui/icons-material/Search'
-import PostCode from './PostCode'
 import PopupDom from './PopupDom'
 import PopupPostCode from './PopupPostCode'
 
@@ -45,8 +44,11 @@ const handleSubmit = (event) => {
   event.preventDefault()
   const data = new FormData(event.currentTarget)
   console.log({
-    email: data.get('email'),
-    password: data.get('password'),
+    name: data.get('name'),
+    address: data.get('address'),
+    phone: data.get('phone'),
+    placeName: data.get('placeName'),
+    YN: data.get('YN'),
   })
 }
 
@@ -69,6 +71,12 @@ function ChildModal() {
   // 팝업창 닫기
   const closePostCode = () => {
     setIsPopupOpen(false)
+  }
+  const [fullAddress, setfullAddress] = React.useState('')
+
+  const completeHandler = (data) => {
+    console.log(data)
+    setfullAddress(data)
   }
 
   return (
@@ -100,7 +108,6 @@ function ChildModal() {
           <Box
             fontSize={33}
             sx={{
-              mt: 2,
               mb: 5,
               ml: 4,
               fontWeight: 'bold',
@@ -133,16 +140,41 @@ function ChildModal() {
                 backgroundColor: 'white',
               }}
             />
-            <Typography sx={{ display: 'inline-flex', fontSize: 20 }}>
+            <Typography sx={{ display: 'inline-flex', fontSize: 20, mt: 2 }}>
               주소
             </Typography>
-            <button type="button" onClick={openPostCode}>
-              우편번호 검색
-            </button>
+            <TextField
+              multiline
+              maxRows={2}
+              id="postCode"
+              label="우편번호를 검색하세요"
+              name="postCode"
+              autoComplete="postCode"
+              autoFocus
+              size="small"
+              value={fullAddress}
+              sx={{
+                ml: 1,
+                mt: 2,
+                mb: -1,
+                width: 280,
+                backgroundColor: 'white',
+              }}
+            ></TextField>
+            <IconButton
+              type="button"
+              onClick={openPostCode}
+              sx={{ color: '#00aeef', position: 'absolute', mt: 2, ml: -5 }}
+            >
+              <SearchIcon />
+            </IconButton>
             <div id="popupDom">
               {isPopupOpen && (
                 <PopupDom>
-                  <PopupPostCode onClose={closePostCode} />
+                  <PopupPostCode
+                    onClose={closePostCode}
+                    setData={completeHandler}
+                  />
                 </PopupDom>
               )}
             </div>
@@ -234,10 +266,7 @@ export default function NestedModal() {
       <Button
         onClick={handleOpen}
         variant="outlined"
-        sx={{
-          height: 25,
-          fontWeight: 'bold',
-        }}
+        sx={{ width: '140px', height: '30px' }}
       >
         배송지 변경
       </Button>
