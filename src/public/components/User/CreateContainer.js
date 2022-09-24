@@ -1,14 +1,7 @@
 import { TextField } from '@mui/material'
 import styled from 'styled-components'
 
-const CreateContainer = ({
-  first,
-  title,
-  children,
-  input,
-  inputCal,
-  inputSide,
-}) => {
+const CreateContainer = ({ first, title, children, input }) => {
   return (
     <>
       <div

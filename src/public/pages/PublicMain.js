@@ -87,11 +87,11 @@ const GridContainer = styled.div`
   height: 100%;
 `
 
-const campingImgUrl = 'static/img/mainMenu/campingImg.png'
-const waterImgUrl = 'static/img/mainMenu/waterImg.jpeg'
-const golfImgUrl = 'static/img/mainMenu/golfImg.jpeg'
-const fishingImgUrl = 'static/img/mainMenu/fishingImg.jpeg'
-const bycicleImgUrl = 'static/img/mainMenu/bycicleImg.jpeg'
+const campingImgUrl = '/static/img/mainMenu/campingImg.png'
+const waterImgUrl = '/static/img/mainMenu/waterImg.jpeg'
+const golfImgUrl = '/static/img/mainMenu/golfImg.jpeg'
+const fishingImgUrl = '/static/img/mainMenu/fishingImg.jpeg'
+const bycicleImgUrl = '/static/img/mainMenu/bycicleImg.jpeg'
 
 const campingText = '캠핑을 즐겨 봅시다.'
 const waterText = '빠지를 즐겨 봅시다.'
@@ -100,9 +100,9 @@ const fishingText = '피슁을 즐겨봅시다.'
 const bycicleText = '바이시클을 즐겨 봅시다.'
 
 const bannerImg = [
-  'static/img/PublicMainTop.png',
-  'static/img/PublicMainTop.png',
-  'static/img/PublicMainTop.png',
+  '/static/img/PublicMainTop.png',
+  '/static/img/PublicMainTop.png',
+  '/static/img/PublicMainTop.png',
 ]
 
 const key = [1, 2, 3, 4, 5, 6, 7, 8, 9]
