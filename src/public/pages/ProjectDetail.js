@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Tabs, Tab, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
+import DetailStory from '../components/projectDetail/story/DetailStory'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -65,6 +66,35 @@ export default function ProjectDetail(props) {
       </div>
       <section style={{ display: 'flex' }}>
         <Box sx={{ flexGrow: 1, p: 4 }}>
+          <Typography variant="h2" style={{ marginTop: 30 }}>
+            단 1초만에 구명튜브로 변신
+          </Typography>
+          <Typography variant="h4" style={{ marginTop: 30 }}>
+            수상레저의 수호신 에스튜브!
+          </Typography>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'right',
+              marginBottom: '12px',
+            }}
+          >
+            <div style={{ margin: '5px' }}>
+              <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>
+                프로젝트 시작일
+              </b>{' '}
+              2022-09-01
+            </div>
+            <div style={{ margin: '5px' }}>
+              <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>
+                프로젝트 종료일
+              </b>{' '}
+              2022-10-22
+            </div>
+            <div style={{ margin: '5px' }}>
+              <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>조회수</b> 999
+            </div>
+          </div>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs
@@ -79,7 +109,7 @@ export default function ProjectDetail(props) {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              스토리
+              <DetailStory />
             </TabPanel>
             <TabPanel value={value} index={1}>
               Item Two
@@ -89,7 +119,7 @@ export default function ProjectDetail(props) {
             </TabPanel>
           </Box>
         </Box>
-        <Box sx={{ width: '350px', backgroundColor: 'red', p: 4 }}>2</Box>
+        <Box sx={{ width: '400px', backgroundColor: 'red', p: 4 }}>2</Box>
       </section>
     </Box>
   )
