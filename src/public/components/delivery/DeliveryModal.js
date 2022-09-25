@@ -252,7 +252,7 @@ function ChildModal() {
   )
 }
 
-export default function NestedModal() {
+export default function DeliveryModal() {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => {
     setOpen(true)

@@ -1,10 +1,12 @@
 import * as React from 'react'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import MainInput from '../login/MainInput'
+import MainFormError from '../login/MainFormError'
+import MainButton from '../login/MainButton'
+import { useForm } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
 
 const theme = createTheme()
 
@@ -30,96 +32,113 @@ export default function SignIn() {
   //     return <Navigate to="/"/>
   // }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
+  const location = useLocation()
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      userName: location?.state?.userName || '',
+      password: location?.state?.password || '',
+    },
+  })
+
+  const loading = false
+
+  const onSubmitValid = (data) => {
+    if (loading) {
+      return
+    }
+    const { userName, password } = getValues()
   }
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault()
+  //   const data = new FormData(event.currentTarget)
+  //   console.log({
+  //     email: data.get('email'),
+  //     password: data.get('password'),
+  //   })
+  // }
 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 14,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            backgroundColor: '#ECFBFF',
-            height: 450,
-            width: 430,
-          }}
-        >
+        <form onSubmit={handleSubmit(onSubmitValid)}>
           <Box
-            component="img"
-            className="logoImage"
-            alt="logoImage"
-            src="/static/img/Logo_High.png"
             sx={{
-              height: 100,
-              mt: 3,
-              ml: 3,
-            }}
-          />
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{
-              mt: 1,
+              marginTop: 14,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              backgroundColor: '#ECFBFF',
+              height: 450,
+              width: 430,
             }}
           >
-            <TextField
-              margin="normal"
-              required
-              id="email"
-              label="이메일를 입력하세요"
-              name="email"
-              autoComplete="email"
-              autoFocus
+            <Box
+              component="img"
+              className="logoImage"
+              alt="logoImage"
+              src="/static/img/Logo_High.png"
               sx={{
-                mt: 2,
-                ml: 5,
-                width: 350,
-                backgroundColor: 'white',
+                height: 100,
+                mt: 3,
+                ml: 3,
               }}
             />
-            <TextField
-              margin="normal"
-              required
-              name="password"
-              label="패스워드를 입력하세요"
+            <MainInput
+              {...register('userName', {
+                required: '아이디를 입력해 주세요.',
+                onChange() {
+                  clearErrors('result')
+                },
+                minLength: { value: 5, message: '5글자 이상 입력해주세요.' },
+              })}
+              type="text"
+              placeholder="아이디"
+              hasError={Boolean(errors?.userName?.message)}
+            />
+            <MainFormError message={errors?.userName?.message} />
+            <MainInput
+              {...register('password', {
+                required: '비밀번호를 입력해 주세요.',
+                onChange() {
+                  clearErrors('result')
+                },
+              })}
               type="password"
-              id="password"
-              autoComplete="current-password"
-              sx={{
-                ml: 5,
-                width: 350,
-                backgroundColor: 'white',
-              }}
+              placeholder="비밀번호"
+              hasError={Boolean(errors?.password?.message)}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                display: 'plex',
-                mt: 6,
-                mb: 2,
-                width: 200,
-                ml: 14,
-                height: 50,
-                fontSize: 23,
-                backgroundColor: '#00aeef',
+            <MainFormError message={errors?.password?.message} />
+            <div
+              style={{
+                display: 'flex',
+                width: '40%',
+                justifyContent: 'flex-end',
+                fontSize: '16px',
+                color: '#00aeef',
+                margin: '28px 0 20px 160px',
+                cursor: 'pointer',
               }}
             >
-              로그인
-            </Button>
+              <div>아이디/비멀번호 찾기</div>
+            </div>
+            <MainButton
+              type="submit"
+              color="white"
+              bgColor="#00aeef"
+              value={loading ? '로그인 중입니다.' : '로그인'}
+              disabled={!isValid || loading}
+            />
           </Box>
-        </Box>
+        </form>
       </Container>
     </ThemeProvider>
   )
