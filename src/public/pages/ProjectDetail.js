@@ -3,6 +3,8 @@ import { Tabs, Tab, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 import DetailStory from '../components/projectDetail/story/DetailStory'
+import DetailQna from '../components/projectDetail/qna/DetailQna'
+import DetailNotice from '../components/projectDetail/notice/DetailNotice'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -112,10 +114,10 @@ export default function ProjectDetail(props) {
               <DetailStory />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              Item Two
+              <DetailQna />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              Item Three
+              <DetailNotice />
             </TabPanel>
           </Box>
         </Box>
