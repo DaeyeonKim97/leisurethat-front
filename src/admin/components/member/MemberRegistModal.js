@@ -29,16 +29,8 @@ flex-direction :column;
 span{
   font-size: 14px;
     color: red;
-}
+}`;
 
-
-
-`;
-
-const MemberLogTableBox =styled.div`
-width: 90%;
-
-`;
 const MemberFormBox = styled.div`
 
 display: flex;
@@ -55,9 +47,13 @@ border : 1px solid #D9D9D9;
 }
 
 input{
-width: 40%;
-border : 1px solid #D9D9D9;
-}
+  width: 40%;
+  border : 1px solid #D9D9D9;
+  font-size: 14px;
+  padding: 2px 8px;
+  box-sizing: border-box;
+  font-weight : normal;
+  }
 
 button{
   display : flex;
@@ -110,7 +106,7 @@ export default function MemberDetailModal(props) {
 
 
                 <MemberFormBox>
-                    <label>닉네임</label>
+                    <label>아이디</label>
                     <input type="text"></input>
                 </MemberFormBox>
 
@@ -155,7 +151,7 @@ export default function MemberDetailModal(props) {
                     <input type="text"></input>
                 </MemberFormBox>
 
-                <MemberFormBox >
+                <MemberFormBox style={{margin : "20px 0"}} >
                     <button type = "button">등록</button>
                     <button type = "button">취소</button>
                 </MemberFormBox>

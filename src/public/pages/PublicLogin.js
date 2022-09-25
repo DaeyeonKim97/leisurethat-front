@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import MainInput from '../components/Login/MainInput'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import MainFormError from '../components/Login/MainFormError'
 import MainButton from '../components/Login/MainButton'
 import MainFormBox from '../components/Main/MainFormBox'
@@ -93,7 +93,7 @@ const PublicLogin = () => {
                 cursor: 'pointer',
               }}
             >
-              <div>아이디/비멀번호 찾기</div>
+              <div><Link to={'/user/match'}>아이디/비밀번호 찾기</Link></div>
             </div>
             <MainButton
               type="submit"
@@ -109,7 +109,7 @@ const PublicLogin = () => {
                 bgColor="#FEE500"
                 value={'카카오로 로그인'}
               />
-              <LogoContainer src="static/img/kakao.png" />
+              <LogoContainer src="/static/img/kakao.png" />
             </ButtonContainer>
             <ButtonContainer>
               <MainButton
@@ -118,7 +118,7 @@ const PublicLogin = () => {
                 bgColor="#00D337"
                 value={'네이버로 로그인'}
               />
-              <LogoContainer src="static/img/naver.png" />
+              <LogoContainer src="/static/img/naver.png" />
             </ButtonContainer>
             <MainFormError message={errors?.result?.message} />
           </form>
@@ -134,7 +134,7 @@ const PublicLogin = () => {
             <div
               style={{ marginLeft: '5px', color: '#00aeef', cursor: 'pointer' }}
             >
-              회원가입
+              <Link to={'/user/signup'}>회원가입</Link>
             </div>
           </div>
         </div>

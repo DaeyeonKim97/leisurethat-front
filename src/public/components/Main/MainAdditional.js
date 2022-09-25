@@ -60,7 +60,7 @@ const MainAdditional = ({ title, content }) => (
           }}
         >
           <img
-            src="static/img/PublicMainDisabled.png"
+            src="/static/img/PulbicMainDisabled.png"
             style={{ height: '100%', width: '120px', cursor: 'pointer' }}
           ></img>
           <div style={{ width: '100%', margin: '8px 16px' }}>

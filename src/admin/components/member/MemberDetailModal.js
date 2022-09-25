@@ -7,6 +7,8 @@ import styled from "styled-components";
 import MemberLogTable from './MeberLogTable';
 import MemberFundingLogTable from './MemberFundingLogTable';
 
+
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -59,6 +61,10 @@ border : 1px solid #D9D9D9;
 input{
 width: 40%;
 border : 1px solid #D9D9D9;
+font-size: 14px;
+padding: 2px 8px;
+box-sizing: border-box;
+font-weight : normal;
 }
 
 button{
@@ -107,12 +113,12 @@ export default function MemberDetailModal(props) {
 
                 <MemberFormBox>
                     <label>회원Id<span>*</span></label>
-                    <input type="text"></input>
+                    <input type="text" defaultValue={props.id}></input>
                 </MemberFormBox>
 
 
                 <MemberFormBox>
-                    <label>닉네임</label>
+                    <label>아이디</label>
                     <input type="text"></input>
                 </MemberFormBox>
 
@@ -157,7 +163,7 @@ export default function MemberDetailModal(props) {
                     <input type="text"></input>
                 </MemberFormBox>
 
-                <MemberFormBox >
+                <MemberFormBox style={{margin : "20px 0"}}>
                     <button type = "button">수정</button>
                     <button type = "button">취소</button>
                 </MemberFormBox>

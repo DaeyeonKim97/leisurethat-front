@@ -123,7 +123,7 @@ export default function JudgeTable() {
                 <StyledTableCell align="center">{row.status}</StyledTableCell>
 
                 <StyledTableCell align="center">
-                  <MemberDetailModal>
+                  <MemberDetailModal id={rows[0].id}>
                     <Button
                       variant="outlined"
                       style={{ margin: '0px 10px' }}

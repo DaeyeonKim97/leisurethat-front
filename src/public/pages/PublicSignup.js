@@ -1,23 +1,26 @@
 import styled, {css} from "styled-components";
 import React, {useState} from 'react';
 import { useForm } from "react-hook-form";
+import { NavLink } from 'react-router-dom'
+import SignupButton from '../components/signup/SignupButton';
 
 
 const CertButton = styled.button`
-display  :flex-inline;
+display :flex;
 width:92px;
 height:45px;
 color: #FFF;
 border:none;
 border-radius: 5px;
-font-size:16px;
+font-size:12px;
 font-weight:bold;
 cursor : pointer;
 margin-left :10px;
 align-items: center;
 justify-content: center;
+margin-top : 10px;
 
-background-color: ${props => props.certState ==='before' ? "#00AEEF40" : "#D9D9D9"};
+background-color: ${props => props.emailCertState ==='before' ? "#00AEEF40" : "#D9D9D9"};
 
 &:hover{
     background-color : #00AEEF;
@@ -26,7 +29,7 @@ background-color: ${props => props.certState ==='before' ? "#00AEEF40" : "#D9D9D
 
 const ErrorMessage = styled.div`
     margin : 10px 0;
-    color : #ff0000;
+    color : #E54545;
     font-size : 14px;
 `
 
@@ -38,25 +41,6 @@ const SignupContainer = styled.div`
 
 `
 
-const SignupButton = styled.button`
-    display : flex;
-    align-items : center;
-justify-content:center;
-    width:400px;
-    height:50px;
-    background-color : #00AEEF40;
-    color: #FFF;
-    border:none;
-    border-radius: 5px;
-    font-size:16px;
-    font-weight:bold;
-    cursor  :pointer;
-    
-
-    &:hover{
-        background-color : #00AEEF;
-    }
-`
 
 const BasicInput = styled.input`
     width:400px;
@@ -82,6 +66,14 @@ const BasicInput = styled.input`
  
 `;
 
+const SignupTitle = styled.div`
+        font-size: 32px;
+        font-weight: bold;
+        border-top : 1px solid #D9D9D9;
+        padding-top : 40px;
+        margin : 40px 0;
+`;
+
 const InputBox = styled.div`
 
 `;
@@ -94,11 +86,10 @@ justify-content : center;
 width:400px;
 height:43px;
 font-weight :bold;
-border:1px solid #D9D9D9;
 border-radius: 5px;
 margin-top : 10px;
 cursor : pointer;
-background : url('static/img/kakao.png');
+background : url('/static/img/kakao.png');
 background-repeat : no-repeat;
 background-color : #FEE500;
 background-position : center left 20px;
@@ -112,12 +103,11 @@ justify-content : center;
 width:400px;
 height:43px;
 font-weight :bold;
-border:1px solid #D9D9D9;
 border-radius: 5px;
 margin-top : 10px;
 color:#FFF;
 cursor : pointer;
-background : url('static/img/naver.png');
+background : url('/static/img/naver.png');
 background-repeat : no-repeat;
 background-color : #00D337;
 background-position : center left 20px;
@@ -126,7 +116,8 @@ background-position : center left 20px;
 
 function PublicSignup() {
 
-    const [certState,setCertState] = useState("before");
+    const [emailCertState,setEmailCertState] = useState("before");
+    const [idCheckCertState,setIdCheckCertState] = useState("before");
 
 
     const {
@@ -136,9 +127,17 @@ function PublicSignup() {
       } = useForm();
 
       const onSubmit = (data) => console.log(data, errors);
+
       const emailCert = () => {
-        setCertState("progress");
-        console.log(certState);
+        setEmailCertState("progress");
+        console.log(emailCertState);
+      }
+
+
+      const idCheckCert = () => {
+        setIdCheckCertState("after");
+        console.log(idCheckCertState);
+        alert("사용가능한 아이디 입니다.");
       }
 
 
@@ -152,36 +151,30 @@ function PublicSignup() {
 <KakaoLogin>카카오로 로그인</KakaoLogin>
 <NaverLogin>네이버로 로그인</NaverLogin>
 
-<h1 style={{fontSize: '32px',fontWeight: 'bold', borderTop : "1px solid #D9D9D9" ,paddingTop:"20px"}}>이메일로 가입</h1>
+<SignupTitle>이메일로 가입</SignupTitle>
 
 
 <form style={{marginTop: '20px'}} className="formGroup" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="name">이메일</label>
-        <InputBox>
+        <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
             id="email"
             type="email"
-            {...register("email", {
-                required: true,
-                maxLength: {
-                value: 5,
-                message: "이름은 5자 이하로 입력해주세요."
-                }
-            })}
             />
-            <CertButton certState={certState} type="button" onClick={emailCert}>{certState==='progress'? '재전송' : '인증하기' }</CertButton>
+            <CertButton emailCertState={emailCertState} type="button" onClick={emailCert}>{emailCertState==='progress'? '재전송' : '인증하기' }</CertButton>
         </InputBox>
 
 
-        {certState==='progress'?
-        <InputBox>
+       
+        {emailCertState==='progress'?
+        <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
             id="emailCert"
             type="text"
             />
-            <CertButton certState type="button">확인</CertButton>
+            <CertButton emailCertState type="button">확인</CertButton>
         </InputBox> 
         : null}
 
@@ -214,8 +207,9 @@ function PublicSignup() {
 
         <label htmlFor="nickname">아이디</label>
 
-        <InputBox>
+        <InputBox style={{display : "flex"}}>
             <BasicInput
+            cert
             id="nickname"
             type="text"
             {...register("nickname", {
@@ -226,6 +220,7 @@ function PublicSignup() {
                 }
             })}
             />
+            <CertButton  idCheckCertState={idCheckCertState} type="button" onClick={idCheckCert}>중복확인</CertButton>
         </InputBox>
 
         <ErrorMessage>
@@ -272,7 +267,7 @@ function PublicSignup() {
       </form>
 
 
-    <div style={{marginTop:"10px",display:"flex" ,justifyContent:"center"}}>이미 회원이신가요? <a href="#" style={{color:"#00AEEF"}}>로그인</a></div>
+    <div style={{marginTop:"10px",display:"flex" ,justifyContent:"center"}}>이미 회원이신가요? <NavLink style={{color:"#00AEEF"}} to={'/user/login'}>로그인</NavLink></div>
 
 </div>
 </SignupContainer>

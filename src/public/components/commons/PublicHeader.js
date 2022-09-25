@@ -163,7 +163,7 @@ export default function PublicHeader() {
                 variant="outlined"
                 sx={{ ml: '30px', width: '100px', fontWeight: '800' }}
               >
-                <Link to={'/login'}>로그인</Link>
+                <Link to={'user/login'}>로그인</Link>
               </Button>
               <Button
                 variant="contained"
@@ -174,7 +174,7 @@ export default function PublicHeader() {
                   fontWeight: '800',
                 }}
               >
-                <Link to={'/signup'}>회원가입</Link>
+                <Link to={'user/signup'}>회원가입</Link>
               </Button>
             </div>
           ) : (

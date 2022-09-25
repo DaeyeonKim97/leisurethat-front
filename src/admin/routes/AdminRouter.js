@@ -14,11 +14,8 @@ export default function AdminRouter() {
         <Route path="judge" element={<JudgePage />} />
         <Route path="pre-open" element={<PreOpenPage />} />
         <Route path="proceeding" element={<ProceedingPage />} />
-<<<<<<< HEAD
         <Route path="users" element={<MemberPage />} />
-=======
         <Route path="giveup" element={<GiveupPage />} />
->>>>>>> c8767522059c7aedd6c9dd3fdfa14e33a996b391
       </Route>
     </Routes>
   )
