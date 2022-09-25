@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import DetailStory from '../components/projectDetail/story/DetailStory'
 import DetailQna from '../components/projectDetail/qna/DetailQna'
 import DetailNotice from '../components/projectDetail/notice/DetailNotice'
+import DetailMaker from '../components/projectDetail/maker/DetailMaker'
+import DetailReward from '../components/projectDetail/maker/DetailReward'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -121,7 +123,10 @@ export default function ProjectDetail(props) {
             </TabPanel>
           </Box>
         </Box>
-        <Box sx={{ width: '400px', backgroundColor: 'red', p: 4 }}>2</Box>
+        <Box sx={{ width: '400px', p: 4, marginTop: '150px' }}>
+          <DetailMaker />
+          <DetailReward />
+        </Box>
       </section>
     </Box>
   )
