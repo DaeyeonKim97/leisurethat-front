@@ -1,5 +1,3 @@
-/** @format */
-
 import * as React from 'react'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -37,7 +35,7 @@ const CssTextField = styled(TextField)({
   },
 })
 
-export default function ProjectPaymentSearchForm() {
+export default function DetailQnaSearchForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
@@ -64,28 +62,17 @@ export default function ProjectPaymentSearchForm() {
             </Typography>
             <CssTextField
               id="outlined-basic"
-              label="프로젝트 명"
+              label="제목/내용"
               variant="outlined"
               size="small"
-              style={{ marginLeft: '15px' }}
+              style={{ margin: '0px 15px' }}
             />
             <CssTextField
               id="outlined-basic"
-              label="제작자 명"
+              label="작성자"
               variant="outlined"
               size="small"
-              style={{ marginLeft: '15px' }}
-            />
-            <CssTextField
-              id="date"
-              label="종료일"
-              type="date"
-              sx={{ width: 220 }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              style={{ marginLeft: '15px' }}
-              size="small"
+              style={{ margin: '0px 15px' }}
             />
           </Grid>
           <Grid

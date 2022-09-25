@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import ProjectHeader from '../components/commons/ProjectHeader'
+import ProjectHeader from '../components/common/ProjectHeader'
 
 function ProjectLayout() {
   return (

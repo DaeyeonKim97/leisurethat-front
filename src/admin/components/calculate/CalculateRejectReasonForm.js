@@ -12,7 +12,7 @@ import CalculateModifyModal from "./CalculateModfiyModal";
 
 import TextArea from "./TextArea";
 
-function CalculateRejectForm({ round, close, childModal }) {
+function CalculateRejectReasonForm({ round, close, close2 }) {
   const ProjectLabel = styled.div`
     font-size: 24px;
     font-weight: bolder;
@@ -240,12 +240,22 @@ function CalculateRejectForm({ round, close, childModal }) {
             </Box>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <CalculateModifyModal close={close} />
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ fontWeight: "bold" }}
+              onClick={close}
+            >
+              확인
+            </Button>
             <Button
               variant="outlined"
               color="primary"
               sx={{ fontWeight: "bold" }}
-              onClick={close}
+              onClick={() => {
+                close();
+                close2();
+              }}
             >
               취소
             </Button>
@@ -256,4 +266,4 @@ function CalculateRejectForm({ round, close, childModal }) {
   );
 }
 
-export default CalculateRejectForm;
+export default CalculateRejectReasonForm;

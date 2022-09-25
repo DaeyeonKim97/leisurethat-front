@@ -32,7 +32,7 @@ export default function WaybillModal(props) {
   }
 
   const [courier, setCourier] = React.useState('')
-  const [value, setValue] = React.useState('Controlled')
+  const [value, setValue] = React.useState('')
 
   const handleValueChange = (event) => {
     setValue(event.target.value)
@@ -100,7 +100,6 @@ export default function WaybillModal(props) {
             <TextField
               id="outlined-textarea"
               label="운송장 번호"
-              placeholder="Placeholder"
               multiline
               value={value}
               size="small"

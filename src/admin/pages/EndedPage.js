@@ -1,20 +1,19 @@
 import Divider from '@mui/material/Divider'
-import WaitingPaymentSearchForm from '../components/payment/WaitingPaymentSearchForm'
-import WaitingPaymentTable from '../components/payment/WaitingPaymentTable'
+import EndedSearchForm from '../components/ended/EndedSearchForm'
+import EndedTable from '../components/ended/EndedTable'
 
-export default function WaitingPaymentPage() {
-  console.log('재휘')
+export default function EndedPage() {
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
-        주문 통합 관리-결제 대기
+        진행마감 프로젝트
       </header>
 
       <Divider
         style={{ boxShadow: '0px 2px 4px gray', margin: '15px 0px 25px 0px' }}
       />
 
-      <WaitingPaymentSearchForm />
+      <EndedSearchForm />
 
       <div
         className="whatsthis"
@@ -32,10 +31,10 @@ export default function WaitingPaymentPage() {
             alignSelf: 'flex-end',
           }}
         >
-          총 <span style={{ color: '#6297BA' }}>22320</span> 명
+          총 <span style={{ color: '#6297BA' }}>22320</span> 개
         </section>
 
-        <WaitingPaymentTable />
+        <EndedTable />
       </div>
     </section>
   )
