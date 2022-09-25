@@ -15,7 +15,8 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CalAcceptModal from "./CalAcceptModal";
 import CalRefuseModal from "./CalRefuseModal";
-import MakerInfoModal from "../commons/MakerInfoModal/MakerInfoModal";
+import MakerInfoModal from "./MakerInfoModal";
+import ProjectInfoModal from "./ProjectInfoModal";
 import CalculatePagination from "./CalculatePagination";
 import CalculateModal from "./CalculateModal";
 
@@ -232,14 +233,14 @@ export default function CalculateTable() {
                     }}
                   >
                     {row.projectName}
-                    <MakerInfoModal>
+                    <ProjectInfoModal>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
                       >
                         <PageviewIcon />
                       </IconButton>
-                    </MakerInfoModal>
+                    </ProjectInfoModal>
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
