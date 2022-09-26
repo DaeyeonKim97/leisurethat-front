@@ -16,7 +16,7 @@ const TextBox = styled.div`
   margin-right: 20px;
 `
 
-const MainFundingProject = ({ contents, img }) => {
+const MainFundingProject = ({ contents, img, text }) => {
   const navigate = useNavigate()
   return (
     <FundingContainer key={contents}>
@@ -42,7 +42,8 @@ const MainFundingProject = ({ contents, img }) => {
             marginTop: '10px',
           }}
         >
-          안녕하세요 <br /> 어쩌고 저쩌고 고양이 입니다
+          {' '}
+          {text}{' '}
         </TextBox>
       </div>
       <FundingContents>
