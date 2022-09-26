@@ -12,6 +12,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { useState } from 'react'
 import { Autocomplete, Button, TextField } from '@mui/material'
 import PaymentInfo from '../components/Payment/PaymentInfo'
+import { useNavigate } from 'react-router-dom'
 
 const PaymentBox = styled.div`
   width: 50%;
@@ -39,6 +40,8 @@ const PublicPayment = () => {
 
   const [monthValue, setMonthValue] = useState(cardList[0])
   const [monthInput, setMonthInput] = useState('')
+
+  const navigate = useNavigate()
 
   const payInfoProp = {
     reward: 69000,
@@ -248,6 +251,7 @@ const PublicPayment = () => {
               disableElevation
               sx={{ width: 300, height: 50 }}
               style={{ fontSize: '15px' }}
+              onClick={() => navigate('/payment/complete')}
             >
               {Comma(payInfoProp.completeFunding)}원 펀딩하기
             </Button>

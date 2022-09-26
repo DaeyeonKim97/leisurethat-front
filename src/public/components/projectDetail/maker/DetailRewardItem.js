@@ -17,7 +17,7 @@ export default function DetailRewardItem({ item }) {
       }}
       onMouseOver={() => setIsMouseOver(true)}
       onMouseOut={() => setIsMouseOver(false)}
-      onClick={() => navigate('/Buying')}
+      onClick={() => navigate('/payment')}
     >
       {isMouseOver ? (
         <div

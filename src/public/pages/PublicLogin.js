@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import MainInput from '../components/Login/MainInput'
+// import MainInput from '../components/Login/MainInput'
 import { Link, useLocation } from 'react-router-dom'
-import MainFormError from '../components/Login/MainFormError'
-import MainButton from '../components/Login/MainButton'
+// import MainFormError from '../components/Login/MainFormError'
+// import MainButton from '../components/Login/MainButton'
 import MainFormBox from '../components/Main/MainFormBox'
 import { BaseBox } from '../components/shared'
 import MainInput from '../components/User/MainInput'
@@ -89,7 +89,9 @@ const PublicLogin = () => {
                 cursor: 'pointer',
               }}
             >
-              <div><Link to={'/user/match'}>아이디/비밀번호 찾기</Link></div>
+              <div>
+                <Link to={'/user/match'}>아이디/비밀번호 찾기</Link>
+              </div>
             </div>
             <MainButton
               type="submit"

@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
 import SearchIcon from '@mui/icons-material/Search'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -62,6 +62,8 @@ const Input = styled(motion.input)`
 `
 
 export default function PublicHeader() {
+  const navigate = useNavigate()
+
   const [isLogin, setLogin] = React.useState(false)
   //true false 여부에 따라서 로그인되고 안되고의 레이아웃 결정
 
@@ -189,6 +191,7 @@ export default function PublicHeader() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="primary"
+                onClick={() => navigate('/mypage')}
               >
                 <AccountCircle />
               </IconButton>

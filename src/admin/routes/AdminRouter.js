@@ -11,6 +11,9 @@ import Payment from '../pages/Payment'
 import ProjectPayment from '../pages/ProjectPayment'
 import RefundedPage from '../pages/RefundedPage'
 import EndedPage from '../pages/EndedPage'
+import WithdrawOrder from '../pages/WithdrawOrder'
+import Outstanding from '../pages/Outstanding'
+import ProjectRefund from '../pages/ProjectRefund'
 
 export default function AdminRouter() {
   console.log('admin router')
@@ -28,6 +31,9 @@ export default function AdminRouter() {
         <Route path="payment-state" element={<ProjectPayment />} />
         <Route path="refunded" element={<RefundedPage />} />
         <Route path="ended" element={<EndedPage />} />
+        <Route path="withdraw" element={<WithdrawOrder />} />
+        <Route path="outstanding" element={<Outstanding />} />
+        <Route path="refund" element={<ProjectRefund />} />
       </Route>
     </Routes>
   )
