@@ -175,7 +175,7 @@ export default function PublicHeader() {
                   fontWeight: '800',
                 }}
               >
-                <Link to={'/signup'}>회원가입</Link>
+                <Link to={'user/signup'}>회원가입</Link>
               </Button>
             </div>
           ) : (
