@@ -6,6 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 
 import CalculateRejectForm from "./CalculateRejectForm";
+import CalculateRecordForm from "./CalculateRecordForm";
 
 const style = {
   position: "absolute",
@@ -142,7 +143,7 @@ export default function NestedModal(props) {
           </Box>
           <Box>
             {buttonText === "신청 내역" ? (
-              ""
+              <CalculateRecordForm />
             ) : (
               // <CalculateHistoryForm
               //   round={round}

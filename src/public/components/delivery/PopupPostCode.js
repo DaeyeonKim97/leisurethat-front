@@ -1,8 +1,11 @@
 import zIndex from '@mui/material/styles/zIndex'
 import React from 'react'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import DaumPostcode from 'react-daum-postcode'
 
 const PopupPostCode = (props) => {
+  const { setData } = props
   // 우편번호 검색 후 주소 클릭 시 실행될 함수, data callback 용
   const handlePostCode = (data) => {
     let fullAddress = data.address
@@ -21,6 +24,7 @@ const PopupPostCode = (props) => {
     console.log(data)
     console.log(fullAddress)
     console.log(data.zonecode)
+    setData(fullAddress)
     props.onClose()
   }
 
@@ -36,18 +40,20 @@ const PopupPostCode = (props) => {
   }
 
   return (
-    <div>
+    <Box>
       <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
-      <button
+      <Button
         type="button"
+        variant="contained"
         onClick={() => {
           props.onClose()
         }}
         className="postCode_btn"
+        sx={{ position: 'absolute', mt: -4, ml: 42 }}
       >
         닫기
-      </button>
-    </div>
+      </Button>
+    </Box>
   )
 }
 

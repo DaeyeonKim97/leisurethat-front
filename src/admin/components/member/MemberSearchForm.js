@@ -74,7 +74,7 @@ export default function JudgeSearchForm() {
               variant="outlined"
               size="small"
             />
-            <Button style={{marginLeft : "20px"}} variant="contained">search</Button>
+            <Button style={{marginLeft : "20px"}} variant="contained">검색</Button>
           </Grid>
           <Grid
             item

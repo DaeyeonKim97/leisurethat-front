@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Button } from '@mui/material'
 import { motion, useAnimation } from 'framer-motion'
 import SearchIcon from '@mui/icons-material/Search'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const HeaderContainer = styled.div`
   position: sticky;
@@ -62,11 +62,14 @@ const Input = styled(motion.input)`
 `
 
 export default function PublicHeader() {
-  const inputAnimation = useAnimation()
+  const navigate = useNavigate()
 
-  const [isLogin, setLogin] = React.useState(true)
+  const [isLogin, setLogin] = React.useState(false)
+  //true false 여부에 따라서 로그인되고 안되고의 레이아웃 결정
 
   const [searchOpen, setSerchOpen] = React.useState(false)
+  const inputAnimation = useAnimation()
+  //searchOpen state는 서치가 열리고 안열리고 여부를 판단함.
   const toggleSearch = () => {
     if (searchOpen) {
       inputAnimation.start({
@@ -163,7 +166,7 @@ export default function PublicHeader() {
                 variant="outlined"
                 sx={{ ml: '30px', width: '100px', fontWeight: '800' }}
               >
-                <Link to={'/login'}>로그인</Link>
+                <Link to={'/user/login'}>로그인</Link>
               </Button>
               <Button
                 variant="contained"
@@ -174,13 +177,13 @@ export default function PublicHeader() {
                   fontWeight: '800',
                 }}
               >
-                <Link to={'/signup'}>회원가입</Link>
+                <Link to={'user/signup'}>회원가입</Link>
               </Button>
             </div>
           ) : (
             <div>
               <Button variant="outlined" sx={{ mx: '30px' }}>
-                프로젝트 만들기
+                <Link to={'user/createproject'}>프로젝트 만들기</Link>
               </Button>
               <IconButton
                 size="large"
@@ -188,6 +191,7 @@ export default function PublicHeader() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 color="primary"
+                onClick={() => navigate('/mypage')}
               >
                 <AccountCircle />
               </IconButton>

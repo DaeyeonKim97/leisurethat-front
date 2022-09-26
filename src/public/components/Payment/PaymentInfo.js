@@ -13,7 +13,7 @@ import {
 } from '../shared'
 import ShippingAddressModal from './ShippingAddressModal'
 
-const BuyingInfo = ({ complete }) => {
+const PaymentInfo = ({ complete }) => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -158,4 +158,4 @@ const BuyingInfo = ({ complete }) => {
   )
 }
 
-export default BuyingInfo
+export default PaymentInfo

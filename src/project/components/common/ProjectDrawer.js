@@ -64,8 +64,8 @@ export default function ProjectDrawer(props) {
       case '결제 대기':
         navigate(`/project/${projectId}/waiting`)
         break
-      case '주문 취소':
-        navigate(`/project/${projectId}/cancle`)
+      case '결제 완료':
+        navigate(`/project/${projectId}/complete`)
         break
     }
   }

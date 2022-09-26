@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const FundingContainer = styled.div`
@@ -15,10 +16,16 @@ const TextBox = styled.div`
   margin-right: 20px;
 `
 
-const MainFundingProject = ({ contents, img }) => {
+const MainFundingProject = ({ contents, img, text }) => {
+  const navigate = useNavigate()
   return (
     <FundingContainer key={contents}>
-      <a href="https://www.naver.com" target="_blank">
+      <div
+        onClick={() => {
+          navigate('/project-detail/10')
+        }}
+        style={{ cursor: 'pointer' }}
+      >
         <ImgBox
           style={{
             height: '240px',
@@ -35,9 +42,10 @@ const MainFundingProject = ({ contents, img }) => {
             marginTop: '10px',
           }}
         >
-          안녕하세요 <br /> 어쩌고 저쩌고 고양이 입니다
+          {' '}
+          {text}{' '}
         </TextBox>
-      </a>
+      </div>
       <FundingContents>
         <TextBox
           style={{

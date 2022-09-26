@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import BuyingInfo from '../components/Buying/BuyingInfo'
 import {
   BaseBox,
   UnderLineContent,
@@ -12,7 +11,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import { useState } from 'react'
 import { Autocomplete, Button, TextField } from '@mui/material'
-import { display } from '@mui/system'
+import PaymentInfo from '../components/Payment/PaymentInfo'
+import { useNavigate } from 'react-router-dom'
 
 const PaymentBox = styled.div`
   width: 50%;
@@ -32,7 +32,7 @@ const ImagContainer = styled.div`
 const cardList = ['농협', 'bc 카드', '토스', ' 삼성카드']
 const monthList = ['1 개월', '2 개월', '3 개월', '4 개월']
 
-const PublicBuying = () => {
+const PublicPayment = () => {
   const [check, setCheck] = useState(false)
 
   const [value, setValue] = useState(cardList[0])
@@ -41,7 +41,9 @@ const PublicBuying = () => {
   const [monthValue, setMonthValue] = useState(cardList[0])
   const [monthInput, setMonthInput] = useState('')
 
-  const payInfo = {
+  const navigate = useNavigate()
+
+  const payInfoProp = {
     reward: 69000,
     shipping: 3000,
     totalFunding: 72000,
@@ -55,7 +57,7 @@ const PublicBuying = () => {
       }}
     >
       <div>
-        <BuyingInfo complete={false} />
+        <PaymentInfo complete={false} />
         <div>
           <UnderLineContentsBox>결제 정보</UnderLineContentsBox>
           <div style={{ display: 'flex' }}>
@@ -66,7 +68,7 @@ const PublicBuying = () => {
                 >
                   리워드 가격
                 </UnderLineContent>
-                <UnderLineContent>{Comma(payInfo.reward)}</UnderLineContent>
+                <UnderLineContent>{Comma(payInfoProp.reward)}</UnderLineContent>
               </UnderLineContentBox>{' '}
               <UnderLineContentBox>
                 <UnderLineContent
@@ -74,7 +76,9 @@ const PublicBuying = () => {
                 >
                   배송비
                 </UnderLineContent>
-                <UnderLineContent>{Comma(payInfo.shipping)}</UnderLineContent>
+                <UnderLineContent>
+                  {Comma(payInfoProp.shipping)}
+                </UnderLineContent>
               </UnderLineContentBox>{' '}
               <UnderLineContentBox>
                 <UnderLineContent
@@ -83,7 +87,7 @@ const PublicBuying = () => {
                   총 펀딩 금액
                 </UnderLineContent>
                 <UnderLineContent>
-                  {Comma(payInfo.totalFunding)}
+                  {Comma(payInfoProp.totalFunding)}
                 </UnderLineContent>
               </UnderLineContentBox>
             </div>
@@ -247,8 +251,9 @@ const PublicBuying = () => {
               disableElevation
               sx={{ width: 300, height: 50 }}
               style={{ fontSize: '15px' }}
+              onClick={() => navigate('/payment/complete')}
             >
-              {Comma(payInfo.completeFunding)}원 펀딩하기
+              {Comma(payInfoProp.completeFunding)}원 펀딩하기
             </Button>
           </div>
         </div>
@@ -257,4 +262,4 @@ const PublicBuying = () => {
   )
 }
 
-export default PublicBuying
+export default PublicPayment
