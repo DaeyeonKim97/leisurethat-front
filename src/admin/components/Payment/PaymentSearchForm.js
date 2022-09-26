@@ -47,7 +47,7 @@ export default function PaymentSearchForm() {
             xs={10}
             style={{
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'left',
               alignItems: 'center',
             }}
           >

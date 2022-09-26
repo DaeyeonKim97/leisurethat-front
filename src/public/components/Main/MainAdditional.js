@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import { UnderLineBox } from '../shared'
 
 const Container = styled.div`
   display: flex;
@@ -8,19 +9,9 @@ const Container = styled.div`
   width: 600px;
 `
 
-const ContainerHeader = styled.div`
-  width: 100%;
-  height: 50px;
-  padding: 10px 0px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-`
-
 const MainAdditional = ({ title, content }) => (
   <Container>
-    <ContainerHeader>
+    <UnderLineBox>
       <p
         style={{
           fontSize: '30px',
@@ -41,7 +32,7 @@ const MainAdditional = ({ title, content }) => (
       >
         더 보기
       </p>
-    </ContainerHeader>
+    </UnderLineBox>
     <div
       style={{
         marginTop: '17px',
