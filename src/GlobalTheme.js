@@ -21,5 +21,11 @@ export const GlobalTheme = createTheme({
     public: {
       main: '#FFFFFF',
     },
+    invalid: {
+      main: '#6297BA',
+    },
+    red: {
+      main: '#FF0000',
+    },
   },
 })

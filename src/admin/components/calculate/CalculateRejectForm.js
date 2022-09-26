@@ -10,6 +10,8 @@ import { TextField } from "@mui/material";
 import styled from "styled-components";
 import CalculateModifyModal from "./CalculateModfiyModal";
 
+import TextArea from "./TextArea";
+
 function CalculateRejectForm({ round, close, childModal }) {
   const ProjectLabel = styled.div`
     font-size: 24px;
@@ -200,7 +202,7 @@ function CalculateRejectForm({ round, close, childModal }) {
             <ProjectLabel>반려 사유 / 피드백</ProjectLabel>
             <Box
               sx={{
-                height: "300px",
+                height: "500px",
                 borderRadius: "5px",
                 boxShadow: "0px 2px 4px gray",
               }}
@@ -221,7 +223,7 @@ function CalculateRejectForm({ round, close, childModal }) {
                   justifyContent: "center",
                 }}
               >
-                <TextField
+                {/* <TextField
                   id="outlined-multiline-static"
                   label="Multiline"
                   multiline
@@ -232,7 +234,8 @@ function CalculateRejectForm({ round, close, childModal }) {
                     width: "90%",
                     padding: "1%",
                   }}
-                />
+                /> */}
+                <TextArea />
               </Box>
             </Box>
           </Box>

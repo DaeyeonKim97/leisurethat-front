@@ -6,6 +6,9 @@ import MainFormError from '../components/Login/MainFormError'
 import MainButton from '../components/Login/MainButton'
 import MainFormBox from '../components/Main/MainFormBox'
 import { BaseBox } from '../components/shared'
+import MainInput from '../components/User/MainInput'
+import MainFormError from '../components/User/MainFormError'
+import MainButton from '../components/User/MainButton'
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -123,7 +126,7 @@ const PublicLogin = () => {
               fontSize: '12px',
             }}
           >
-            회원이 아니신가요?{' '}
+            회원이 아니신가요?
             <div
               style={{ marginLeft: '5px', color: '#00aeef', cursor: 'pointer' }}
             >

@@ -62,11 +62,12 @@ const Input = styled(motion.input)`
 `
 
 export default function PublicHeader() {
-  const inputAnimation = useAnimation()
-
-  const [isLogin, setLogin] = React.useState(true)
+  const [isLogin, setLogin] = React.useState(false)
+  //true false 여부에 따라서 로그인되고 안되고의 레이아웃 결정
 
   const [searchOpen, setSerchOpen] = React.useState(false)
+  const inputAnimation = useAnimation()
+  //searchOpen state는 서치가 열리고 안열리고 여부를 판단함.
   const toggleSearch = () => {
     if (searchOpen) {
       inputAnimation.start({
@@ -163,7 +164,7 @@ export default function PublicHeader() {
                 variant="outlined"
                 sx={{ ml: '30px', width: '100px', fontWeight: '800' }}
               >
-                <Link to={'user/login'}>로그인</Link>
+                <Link to={'/user/login'}>로그인</Link>
               </Button>
               <Button
                 variant="contained"
@@ -180,7 +181,7 @@ export default function PublicHeader() {
           ) : (
             <div>
               <Button variant="outlined" sx={{ mx: '30px' }}>
-                프로젝트 만들기
+                <Link to={'user/createproject'}>프로젝트 만들기</Link>
               </Button>
               <IconButton
                 size="large"
