@@ -9,6 +9,9 @@ import { BaseBox } from '../components/shared'
 import MainInput from '../components/User/MainInput'
 import MainFormError from '../components/User/MainFormError'
 import MainButton from '../components/User/MainButton'
+import{callLoginAPI} from '../apis/MemberApiCalls';
+import { useNavigate } from 'react-router-dom';
+
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -23,7 +26,9 @@ const LogoContainer = styled.img`
 `
 
 const PublicLogin = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -34,18 +39,20 @@ const PublicLogin = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      userName: location?.state?.userName || '',
+      username: location?.state?.username || '',
       password: location?.state?.password || '',
     },
   })
 
   const loading = false
 
-  const onSubmitValid = (data) => {
+  const onSubmitValid = async(form) => {
     if (loading) {
       return
     }
-    const { userName, password } = getValues()
+    const response = await callLoginAPI({form : form});
+
+    const { username, password } = getValues()
   }
 
   return (
@@ -55,18 +62,18 @@ const PublicLogin = () => {
           <div style={{ fontSize: '30px', fontWeight: 'bolder' }}>로그인</div>
           <form onSubmit={handleSubmit(onSubmitValid)}>
             <MainInput
-              {...register('userName', {
+              {...register('username', {
                 required: '아이디를 입력해 주세요.',
                 onChange() {
                   clearErrors('result')
                 },
-                minLength: { value: 5, message: '5글자 이상 입력해주세요.' },
+                // minLength: { value: 5, message: '5글자 이상 입력해주세요.' },
               })}
               type="text"
               placeholder="아이디"
-              hasError={Boolean(errors?.userName?.message)}
+              hasError={Boolean(errors?.username?.message)}
             />
-            <MainFormError message={errors?.userName?.message} />
+            <MainFormError message={errors?.username?.message} />
             <MainInput
               {...register('password', {
                 required: '비밀번호를 입력해 주세요.',

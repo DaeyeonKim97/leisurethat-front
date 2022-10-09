@@ -6,6 +6,7 @@ import { Divider } from '@mui/material'
 import styled from "styled-components";
 import MemberLogTable from './MeberLogTable';
 import MemberFundingLogTable from './MemberFundingLogTable';
+import { useState } from 'react'
 
 
 
@@ -84,6 +85,7 @@ button{
 `;
 
 export default function MemberDetailModal(props) {
+
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {

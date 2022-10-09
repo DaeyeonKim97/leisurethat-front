@@ -1,8 +1,10 @@
 import styled, {css} from "styled-components";
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import { useForm } from "react-hook-form";
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 import SignupButton from '../components/signup/SignupButton';
+import {callDuplicationAPI, callRegisterAPI} from '../apis/MemberApiCalls';
+import { useNavigate } from 'react-router-dom';
 
 
 const CertButton = styled.button`
@@ -30,7 +32,7 @@ background-color: ${props => props.emailCertState ==='before' ? "#00AEEF40" : "#
 const ErrorMessage = styled.div`
     margin : 10px 0;
     color : #E54545;
-    font-size : 14px;
+    font-size : 12px;
 `
 
 
@@ -118,15 +120,28 @@ function PublicSignup() {
 
     const [emailCertState,setEmailCertState] = useState("before");
     const [idCheckCertState,setIdCheckCertState] = useState("before");
-
+    const [responseState,setResponseState]=useState(0);
+    const navigate = useNavigate();
+    
 
     const {
         register,
         formState: { errors },
-        handleSubmit
+        handleSubmit,
+        watch
       } = useForm();
 
-      const onSubmit = (data) => console.log(data, errors);
+
+      const watchPassword = watch("password", "");
+
+      const onSubmit = (form) => {
+        console.log(form);
+       
+       callRegisterAPI(form);
+   
+      }
+
+
 
       const emailCert = () => {
         setEmailCertState("progress");
@@ -135,9 +150,13 @@ function PublicSignup() {
 
 
       const idCheckCert = () => {
-        setIdCheckCertState("after");
-        console.log(idCheckCertState);
-        alert("사용가능한 아이디 입니다.");
+
+        const username = watch("username");
+        console.log(username);
+        callDuplicationAPI(username);
+        // setIdCheckCertState("after");
+        // console.log(idCheckCertState);
+        // alert("사용가능한 아이디 입니다.");
       }
 
 
@@ -159,19 +178,25 @@ function PublicSignup() {
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            id="email"
-            type="email"
+            name="email"
+            type="text"
+            {...register("email", {
+                required : true,
+                pattern: {
+                    value: /^[\w.]+@[\w.]+\.[A-Za-z]{2,3}$/,
+                    message: "올바른 이메일 형식을 입력해주세요"
+                },
+            })}
             />
             <CertButton emailCertState={emailCertState} type="button" onClick={emailCert}>{emailCertState==='progress'? '재전송' : '인증하기' }</CertButton>
         </InputBox>
-
 
        
         {emailCertState==='progress'?
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            id="emailCert"
+            name="emailCert"
             type="text"
             />
             <CertButton emailCertState type="button">확인</CertButton>
@@ -179,15 +204,15 @@ function PublicSignup() {
         : null}
 
         <ErrorMessage>
-            {errors.name?.type === "required" && "이메일을 입력해주세요"}
-            {errors.name?.type === "maxLength" && errors.name.message}
+            {errors.email?.type === "required" && "이메일을 입력해주세요"}
+            {errors.email?.type === "pattern" && errors.email.message}
         </ErrorMessage>
 
 
         <label htmlFor="name">이름</label>
         <InputBox>
             <BasicInput
-            id="name"
+            name="name"
             type="text"
             {...register("name", {
                 required: true,
@@ -199,40 +224,53 @@ function PublicSignup() {
             />
         </InputBox>
 
-
+        
         <ErrorMessage>
           {errors.name?.type === "required" && "이름을 입력해주세요"}
           {errors.name?.type === "maxLength" && errors.name.message}
         </ErrorMessage>
 
-        <label htmlFor="nickname">아이디</label>
+        <label htmlFor="username">아이디</label>
 
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            id="nickname"
+            name="username"
             type="text"
-            {...register("nickname", {
+            {...register("username", {
                 required : true,
                 pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "문자열을 입력하여 주시길 바랍니다."
-                }
+                    value: /^[a-z]+[a-z0-9]{5,19}$/g,
+                    message: "영문, 숫자 조합으로 입력하여 주시길 바랍니다."
+                },
+
+                minLength: {
+                    value: 6,
+                    message: "아이디는 6자 이상으로 입력하여 주시길 바랍니다."
+                    },
+                
+                
+                maxLength: {
+                    value: 20,
+                    message: "아이디는 20 이하로 입력하여 주시길 바랍니다."
+                    }
             })}
             />
             <CertButton  idCheckCertState={idCheckCertState} type="button" onClick={idCheckCert}>중복확인</CertButton>
         </InputBox>
 
         <ErrorMessage>
-          {errors.nickname?.type === "required" && "아이디를 입력해주세요"}
-          {errors.nickname?.type === "maxLength" && errors.name.message}
+          {errors.username?.type === "required" && "아이디를 입력해주세요"}
+          {errors.username?.type === "maxLength" && errors.username.message}
+          {errors.username?.type === "minLength" && errors.username.message}
+          {errors.username?.type === "pattern" && errors.username.message}
         </ErrorMessage>
 
 
         <label htmlFor="password">비밀번호</label>
         <InputBox>
             <BasicInput
-            id="password"
+            name="password"
             type="password"
             {...register("password", {
                 required : true,
@@ -245,14 +283,16 @@ function PublicSignup() {
             {errors.password?.type==="required" && "비밀번호를 입력해주세요"}
         </ErrorMessage>
 
-        <label htmlFor="password">비밀번호확인</label>
+        <label htmlFor="passwordCheck">비밀번호확인</label>
 
         <InputBox>
             <BasicInput
-            id="passwordCheck"
+            name="passwordCheck"
             type="password"
             {...register("passwordCheck", {
                 required : true,
+                validate: (value) => 
+                    value===watchPassword,
             })}
             />
         </InputBox>
@@ -260,6 +300,7 @@ function PublicSignup() {
 
         <ErrorMessage>
             {errors.passwordCheck?.type==="required" && "비밀번호를 입력해주세요"}
+            {errors.passwordCheck?.type==="validate" && "비밀번호가 일치하지 않습니다."}
         </ErrorMessage>
 
 

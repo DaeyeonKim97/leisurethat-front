@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useEffect,useState } from 'react'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -10,6 +11,9 @@ import Paper from '@mui/material/Paper'
 import { Typography, Button } from '@mui/material'
 import MemberPagenation from './MemberPagenation'
 import MemberDetailModal from './MemberDetailModal'
+import {callMemberListAPI} from '../../apis/MemberApi'
+import { Co2Sharp } from '@mui/icons-material'
+import { formControlUnstyledClasses } from '@mui/base'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,15 +47,44 @@ function createData(id, nickname, name, email, regDate, status) {
   }
 }
 
-const rows = [
-    createData(1,'Nal_rA', '강민','Nal_rA@leisurethat.com','2022-08-01','가입'),
-    createData(2,'SLayerS_BoxeR', '임요환','SLayerS_BoxeR@leisurethat.com','2022-08-02','가입'),
-    createData(3,'iloveoov', '최연성','Nal_iloveoov@leisurethat.com','2022-08-03','가입'),
-    createData(4,'NaDa', '이윤열','NaDa@leisurethat.com','2022-08-04','탈퇴'),
-    createData(5,'JD1234', '이제동','JD@leisurethat.com','2022-08-05','탈퇴'),
-  ];
 
-export default function JudgeTable() {
+// let rows = [
+//     createData(1,'Nal_rA', '강민','Nal_rA@leisurethat.com','2022-08-01','가입'),
+//     createData(2,'SLayerS_BoxeR', '임요환','SLayerS_BoxeR@leisurethat.com','2022-08-02','가입'),
+//     createData(3,'iloveoov', '최연성','Nal_iloveoov@leisurethat.com','2022-08-03','가입'),
+//     createData(4,'NaDa', '이윤열','NaDa@leisurethat.com','2022-08-04','탈퇴'),
+//     createData(5,'JD1234', '이제동','JD@leisurethat.com','2022-08-05','탈퇴'),
+    
+//   ];
+
+export default function MemberTable() {
+
+
+  let [rows,setRows] = useState([]);
+
+  useEffect(() => {
+
+  const getMemberList = async(page)=>{
+    const requestURL = `http://localhost:8001/user?page=${page}`;
+    rows =  await fetch(requestURL, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          "Accept": "*/*"
+      },
+  })
+  .then(response => response.json())
+  .then(data=>data.content)
+
+  console.log("rows :" , rows);
+  setRows(rows);
+   }
+
+   getMemberList(0);
+   
+
+  }, []);
+
   return (
     <>
       <TableContainer
@@ -88,17 +121,18 @@ export default function JudgeTable() {
               <StyledTableCell align="center">회원명</StyledTableCell>
               <StyledTableCell align="center">이메일</StyledTableCell>
               <StyledTableCell align="center">가입일자</StyledTableCell>
-              <StyledTableCell align="center">상태</StyledTableCell>
+              <StyledTableCell align="center">탈퇴여부</StyledTableCell>
               <StyledTableCell align="center">상세보기</StyledTableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {rows.map((row) => (
               <StyledTableRow key={row.id} hover>
                 <StyledTableCell component="th" scope="row" sx={{ width: 100 }}>
                   {row.id}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.nickname}</StyledTableCell>
+                <StyledTableCell align="center">{row.username}</StyledTableCell>
                 <StyledTableCell align="center">
                   <div
                     style={{
@@ -120,10 +154,10 @@ export default function JudgeTable() {
 
                 <StyledTableCell align="center">{row.regDate}</StyledTableCell>
                 
-                <StyledTableCell align="center">{row.status}</StyledTableCell>
+                <StyledTableCell align="center">{row.secYn}</StyledTableCell>
 
                 <StyledTableCell align="center">
-                  <MemberDetailModal id={rows[0].id}>
+                  <MemberDetailModal id={row.id}>
                     <Button
                       variant="outlined"
                       style={{ margin: '0px 10px' }}
