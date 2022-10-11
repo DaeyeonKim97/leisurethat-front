@@ -13,6 +13,7 @@ import MainAdditional from '../components/Main/MainAdditional'
 import MainFundingProject from '../components/Main/MainFundingProject'
 import { Pagination } from '@mui/material'
 import { UnderLineBox } from '../components/shared'
+import axios from 'axios'
 
 const FlexContainer = styled.div`
   display: flex;
@@ -111,9 +112,25 @@ export default function PublicMain() {
   const [[page, direction], setPage] = React.useState([0, 0])
   const [getCategory, setCategory] = React.useState(false)
   const [getCategorySort, setCategorySort] = React.useState(1)
+  const [data, setData] = React.useState([])
+  const [init, setInit] = React.useState(true)
 
   const [getImg, setImg] = React.useState(campingImgUrl)
   const [getText, setText] = React.useState(campingText)
+
+  React.useState(() => {
+    if (init == true) {
+      async function get() {
+        const result = await axios
+          .get(`http://localhost:8001/project`)
+          .then((res) => {
+            setData(res.data.results)
+          })
+      }
+      get()
+      setInit(false)
+    }
+  }, [])
 
   const fundingProp = {
     id: getCategorySort,
@@ -291,11 +308,13 @@ export default function PublicMain() {
             </p>
           </UnderLineBox>
           <FlexContainer style={{ width: '100%', height: '100%' }}>
-            <GridContainer>
-              {fundingMap.map((content) => (
-                <MainFundingProject key={content} img={getImg} text={getText} />
-              ))}
-            </GridContainer>
+            {data.projectList == undefined ? null : (
+              <GridContainer>
+                {data.projectList.map((item, index) => {
+                  return <MainFundingProject item={item} key={index} />
+                })}
+              </GridContainer>
+            )}
           </FlexContainer>
           <FlexContainer style={{ width: '100%', height: '150px' }}>
             {getCategory ? <Pagination count={10} color="primary" /> : null}
