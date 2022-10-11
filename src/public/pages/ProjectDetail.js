@@ -134,6 +134,7 @@ export default function ProjectDetail() {
               <DetailStory
                 story={data ? data.storyList[0] : null}
                 productList={data ? data.productList : null}
+                refundPolicy={data ? data.project.refundPolicy : null}
               />
             </TabPanel>
             <TabPanel value={value} index={1}>
@@ -145,8 +146,8 @@ export default function ProjectDetail() {
           </Box>
         </Box>
         <Box sx={{ width: '400px', p: 4, marginTop: '150px' }}>
-          <DetailMaker />
-          <DetailReward />
+          <DetailMaker data={data ? data : null} />
+          <DetailReward rewardList={data ? data.rewardList : null} />
         </Box>
       </section>
     </Box>

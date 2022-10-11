@@ -84,7 +84,7 @@ A table:
 | - | - |
 `
 
-export default function DetailStory({ story, productList }) {
+export default function DetailStory({ story, productList, refundPolicy }) {
   const [activeStep, setActiveStep] = React.useState(0)
 
   return (
@@ -131,6 +131,22 @@ export default function DetailStory({ story, productList }) {
             productList={productList}
           />
         </div>
+      </Box>
+
+      <Box>
+        <Typography variant="h4" style={{ marginTop: 50 }}>
+          환불정책
+        </Typography>
+        <Divider style={{ marginBottom: 30 }} />
+        <Box
+          flexGrow={1}
+          sx={{ backgroundColor: '#f2f2f2' }}
+          style={{ padding: 30, maxWidth: '100%', whiteSpace: 'pre-wrap' }}
+        >
+          <Typography color={'gray'}>
+            {refundPolicy ? refundPolicy : null}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   )
