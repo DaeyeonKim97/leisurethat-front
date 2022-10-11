@@ -111,7 +111,7 @@ const key = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 export default function PublicMain() {
   const [[page, direction], setPage] = React.useState([0, 0])
   const [getCategory, setCategory] = React.useState(false)
-  const [getCategorySort, setCategorySort] = React.useState(1)
+  const [getCategorySort, setCategorySort] = React.useState(0)
   const [data, setData] = React.useState([])
   const [init, setInit] = React.useState(true)
 
