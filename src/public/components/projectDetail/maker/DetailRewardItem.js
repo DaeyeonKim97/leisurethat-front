@@ -40,14 +40,24 @@ export default function DetailRewardItem({ item }) {
         </div>
       ) : null}
       <Typography style={{ color: 'gray' }}>
-        <span style={{ color: '#00AAEF' }}>{item.price}</span> ₩
+        <span style={{ color: '#00AAEF' }}>{item.rewardPrice}</span> ₩
       </Typography>
       <Typography variant="h5" style={{ margin: '10px 0' }}>
-        {item.name}
+        {item ? item.rewardTitle : null}
       </Typography>
-      <Typography style={{ color: 'gray' }}>{item.detail}</Typography>
       <Divider style={{ margin: '10px 0' }} />
-      <Typography>{item.desc}</Typography>
+      <div style={{ margin: '15px 0px' }}>
+        <Typography style={{ color: 'gray', whiteSpace: 'pre-wrap' }}>
+          배송비 : {item ? item.rewardFee : null}
+        </Typography>
+        <Typography style={{ color: 'gray', whiteSpace: 'pre-wrap' }}>
+          추가 배송비 : {item ? item.rewardFeeFar : null}
+        </Typography>
+        <Typography style={{ color: 'gray', whiteSpace: 'pre-wrap' }}>
+          예상 배송일 : {item ? item.rewardDate : null}
+        </Typography>
+      </div>
+      <Typography>{item ? item.rewardContent : null}</Typography>
     </Paper>
   )
 }

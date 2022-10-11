@@ -37,16 +37,18 @@ const rows = [
   ),
 ]
 
-export default function DetailReward(props) {
+export default function DetailReward({ rewardList }) {
   return (
     <>
       <Typography variant="h5" style={{ marginTop: 20 }}>
         리워드 목록
       </Typography>
       <Divider style={{ margin: '10px 0' }} />
-      {rows.map((item) => {
-        return <DetailRewardItem item={item} />
-      })}
+      {rewardList
+        ? rewardList.map((item) => {
+            return <DetailRewardItem item={item} />
+          })
+        : null}
     </>
   )
 }

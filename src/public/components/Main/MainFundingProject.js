@@ -31,7 +31,7 @@ const MainFundingProject = ({ item }) => {
             height: '240px',
             width: '100%',
           }}
-          src={`${item.projectAttachment.downloadAddress}`}
+          src={`${item ? item.projectAttachment.downloadAddress : null}`}
         ></ImgBox>
         <TextBox
           style={{
@@ -43,7 +43,7 @@ const MainFundingProject = ({ item }) => {
           }}
         >
           {' '}
-          {item.projectName}{' '}
+          {item ? item.projectName : null}{' '}
         </TextBox>
       </div>
       <FundingContents>
@@ -52,7 +52,7 @@ const MainFundingProject = ({ item }) => {
             width: '100%',
           }}
         >
-          {item.projectCategory} | {item.memberName}
+          {item ? item.projectCategory : null} | {item ? item.memberName : null}
         </TextBox>
         <FundingContents
           style={{
@@ -82,11 +82,11 @@ const MainFundingProject = ({ item }) => {
                 marginRight: '20px',
               }}
             >
-              {item.totalAmount / item.targetAmount}%
+              {item ? item.totalAmount / item.targetAmount : null}%
             </TextBox>
-            <TextBox>{item.totalAmount} 원</TextBox>
+            <TextBox>{item ? item.totalAmount : null} 원</TextBox>
           </FundingContents>
-          <TextBox>{item.endDate}</TextBox>
+          <TextBox>{item ? item.endDate : null}</TextBox>
         </FundingContents>
       </FundingContents>
     </FundingContainer>
