@@ -60,7 +60,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
 ]
 
-export default function JudgeTable() {
+export default function JudgeTable({ list }) {
   return (
     <>
       <TableContainer
@@ -101,12 +101,14 @@ export default function JudgeTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.id} hover>
+            {list.map((row) => (
+              <StyledTableRow key={row.projectId} hover>
                 <StyledTableCell component="th" scope="row" sx={{ width: 100 }}>
-                  {row.id}
+                  {row.projectId}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.projectName}
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
                     style={{
@@ -116,7 +118,7 @@ export default function JudgeTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.makerID}
+                    {row.makerName}
                     <MakerInfoModal>
                       <IconButton
                         color="primary"
@@ -138,7 +140,9 @@ export default function JudgeTable() {
                     </Button>
                   </ProjectInfoModal>
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.created}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.startDate}
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
                     style={{
@@ -148,7 +152,7 @@ export default function JudgeTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    <JudgeAcceptModal>
+                    <JudgeAcceptModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -156,7 +160,7 @@ export default function JudgeTable() {
                         <CheckCircleOutlineIcon />
                       </IconButton>
                     </JudgeAcceptModal>
-                    <JudgeRefuseModal>
+                    <JudgeRefuseModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
