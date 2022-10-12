@@ -1,5 +1,6 @@
 import { ChildCare } from '@mui/icons-material'
 import { Button, TextField } from '@mui/material'
+import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -37,7 +38,7 @@ const PublicCreateProject = () => {
   const [accountNumber, setAccountNumber] = useState('')
   const [accountHolder, setAccountHolder] = useState('')
   const [accountFile, setAccountFile] = useState(null)
-  const [projectFile, setProjectFile] = useState(null)
+  const [projectFile, setProjectFile] = useState()
   const [refundPolicy, setRefundPolicy] = useState('')
   const [inquiryEmail, setInquiryEmail] = useState('')
   const [inquiryPhone, setInquiryPhone] = useState('')
@@ -56,9 +57,58 @@ const PublicCreateProject = () => {
   const [rewardFee, setRewardFee] = useState(0)
   const [rewardFeeFar, setRewardFeeFar] = useState(0)
 
-  // useEffect(() => {
-  //   console.log(name)
-  // }, [name])
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+    )
+  }
+
+  const handleSubmit = () => {
+    let formData = new FormData()
+    formData.append('name', name)
+    formData.append('startDate', dateToString(startDate))
+    formData.append('endDate', dateToString(endDate))
+    formData.append('targetAmount', targetAmount)
+    formData.append('url', url)
+    formData.append('categoryId', categoryId)
+    formData.append('businessFile', businessFile)
+    formData.append('taxInvoiceEmail', taxInvoiceEmail)
+    formData.append('bankId', bankId)
+    formData.append('accountNumber', accountNumber)
+    formData.append('accountHolder', accountHolder)
+    formData.append('accountFile', accountFile)
+    formData.append('projectFile', projectFile)
+    formData.append('refundPolicy', refundPolicy)
+    formData.append('inquiryEmail', inquiryEmail)
+    formData.append('inquiryPhone', inquiryPhone)
+    formData.append('storyFile', storyFile)
+    formData.append('storyTitle', storyTitle)
+    formData.append('storyContent', storyContent)
+    formData.append('productName', productName)
+    formData.append('productFile', productFile)
+    formData.append('productDetail', productDetail)
+    formData.append('rewardPrice', rewardPrice)
+    formData.append('rewardMaxCount', rewardMaxCount)
+    formData.append('rewardServeCount', rewardServeCount)
+    formData.append('rewardTitle', rewardTitle)
+    formData.append('rewardContent', rewardContent)
+    formData.append('rewardDate', dateToString(rewardDate))
+    formData.append('rewardFee', rewardFee)
+    formData.append('rewardFeeFar', rewardFeeFar)
+
+    let accessToken = 'Bearer ' + localStorage.getItem('accessToken')
+    console.log(accessToken)
+    console.log(formData.get('accountFile'))
+
+    axios
+      .post('http://localhost:8001/project/enroll', formData, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((res) => console.log(res))
+  }
+
   // useEffect(() => {
   //   console.log('startDate', startDate)
   // }, [startDate])
@@ -71,12 +121,11 @@ const PublicCreateProject = () => {
   // useEffect(() => {
   //   console.log('story : ', storyContent)
   // }, [storyContent])
-  // useEffect(() => {
-  //   console.log(productFile)
-  // }, [productFile])
-  // useEffect(() => {
-  //   console.log(rewardContent)
-  // }, [rewardContent])
+  useEffect(() => {
+    console.log('acc : ', accountFile)
+    console.log('prj : ', projectFile)
+    console.log('name : ', name)
+  }, [name, accountFile, projectFile])
 
   return (
     <>
@@ -208,13 +257,16 @@ const PublicCreateProject = () => {
             }}
           >
             <Button
-              onClick={() => {}}
+              onClick={() => {
+                handleSubmit()
+              }}
               variant="outlined"
               color="red"
               size="large"
               sx={{ width: '200px' }}
             >
-              <Link to={'/'}>승인 요청하기</Link>
+              승인 요청하기
+              {/* <Link to={'/'}>승인 요청하기</Link> */}
             </Button>
           </div>
         </form>
