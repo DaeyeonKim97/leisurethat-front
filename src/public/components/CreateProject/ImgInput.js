@@ -18,24 +18,34 @@ const ImgInput = ({ sm, lg, value, setValue }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            overflow: 'hidden',
           }}
         >
           {lg ? (
-            <img src="/static/img/PublicCreateImgInput.png" />
+            <img
+              src={
+                value
+                  ? URL.createObjectURL(value)
+                  : '/static/img/PublicCreateImgInput.png'
+              }
+              style={value ? { width: '100%' } : null}
+            />
           ) : (
             <img
-              src="/static/img/PublicCreateImgInput.png"
-              style={{ width: '18px', height: '18px' }}
+              src={
+                value
+                  ? URL.createObjectURL(value)
+                  : '/static/img/PublicCreateImgInput.png'
+              }
+              style={
+                value ? { width: '100%' } : { width: '18px', height: '18px' }
+              }
             />
           )}
         </div>
       </label>
       <input
         type="file"
-        id="inputImg"
-        style={{
-          display: 'none',
-        }}
         files={value}
         onChange={(e) => {
           setValue(e.target.files[0])
