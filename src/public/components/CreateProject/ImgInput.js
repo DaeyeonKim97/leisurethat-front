@@ -1,4 +1,4 @@
-const ImgInput = ({ sm, lg }) => {
+const ImgInput = ({ sm, lg, value, setValue }) => {
   return (
     <div
       style={{
@@ -35,6 +35,10 @@ const ImgInput = ({ sm, lg }) => {
         id="inputImg"
         style={{
           display: 'none',
+        }}
+        files={value}
+        onChange={(e) => {
+          setValue(e.target.files[0])
         }}
       />
     </div>

@@ -1,6 +1,6 @@
 import { ChildCare } from '@mui/icons-material'
 import { Button, TextField } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import AprojectInfo from '../components/CreateProject/AprojectInfo'
@@ -25,8 +25,58 @@ const PrecessMenu = styled.div`
 `
 
 const PublicCreateProject = () => {
-  const [getCreateLevel, setCreateLevel] = useState(1)
-  //state 숫자에 따라서 프로젝트 만들기 하위의 css가 변경
+  const [name, setName] = useState('')
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+  const [targetAmount, setTargetAmount] = useState(0)
+  const [url, setUrl] = useState('')
+  const [categoryId, setCategoryId] = useState(1)
+  const [businessFile, setBusinessFile] = useState(null)
+  const [taxInvoiceEmail, setTaxInvoiceEmail] = useState('')
+  const [bankId, setBankId] = useState(1)
+  const [accountNumber, setAccountNumber] = useState('')
+  const [accountHolder, setAccountHolder] = useState('')
+  const [accountFile, setAccountFile] = useState(null)
+  const [projectFile, setProjectFile] = useState(null)
+  const [refundPolicy, setRefundPolicy] = useState('')
+  const [inquiryEmail, setInquiryEmail] = useState('')
+  const [inquiryPhone, setInquiryPhone] = useState('')
+  const [storyFile, setStoryFile] = useState(null)
+  const [storyTitle, setStoryTitle] = useState('')
+  const [storyContent, setStoryContent] = useState('')
+  const [productName, setProductName] = useState('')
+  const [productFile, setProductFile] = useState(null)
+  const [productDetail, setProductDetail] = useState('')
+  const [rewardPrice, setRewardPrice] = useState(0)
+  const [rewardMaxCount, setRewardMaxCount] = useState(0)
+  const [rewardServeCount, setRewardServeCount] = useState(0)
+  const [rewardTitle, setRewardTitle] = useState('')
+  const [rewardContent, setRewardContent] = useState('')
+  const [rewardDate, setRewardDate] = useState(new Date())
+  const [rewardFee, setRewardFee] = useState(0)
+  const [rewardFeeFar, setRewardFeeFar] = useState(0)
+
+  // useEffect(() => {
+  //   console.log(name)
+  // }, [name])
+  // useEffect(() => {
+  //   console.log('startDate', startDate)
+  // }, [startDate])
+  // useEffect(() => {
+  //   console.log('endDate', endDate)
+  // }, [endDate])
+  // useEffect(() => {
+  //   console.log('files : ', projectFile)
+  // }, [projectFile])
+  // useEffect(() => {
+  //   console.log('story : ', storyContent)
+  // }, [storyContent])
+  // useEffect(() => {
+  //   console.log(productFile)
+  // }, [productFile])
+  // useEffect(() => {
+  //   console.log(rewardContent)
+  // }, [rewardContent])
 
   return (
     <>
@@ -63,7 +113,7 @@ const PublicCreateProject = () => {
         <div style={{ width: '250px' }}>
           <div style={{ margin: '75px 50px', fontSize: '14px' }}>
             <div style={{ fontSize: '16px' }}>프로젝트 만들기</div>
-            <PrecessMenu process={getCreateLevel}>
+            <PrecessMenu>
               <ProjectMenu>1. 기본정보</ProjectMenu>
               <ProjectMenu>2. 스토리</ProjectMenu>
               <ProjectMenu>3. 리워드</ProjectMenu>
@@ -79,20 +129,76 @@ const PublicCreateProject = () => {
             fontSize: '16px',
           }}
         >
-          {getCreateLevel === 1 ? (
-            <AprojectInfo />
-          ) : getCreateLevel === 2 ? (
-            <BprojectStory />
-          ) : getCreateLevel === 3 ? (
-            <CprojectReward />
-          ) : getCreateLevel === 4 ? (
-            <DprojectService />
-          ) : getCreateLevel === 5 ? (
-            <EprojectAdditional />
-          ) : (
-            <AprojectInfo />
-          )}
-
+          <AprojectInfo
+            name={name}
+            setName={setName}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            targetAmount={targetAmount}
+            setTargetAmount={setTargetAmount}
+            url={url}
+            setUrl={setUrl}
+            projectFile={projectFile}
+            setProjectFile={setProjectFile}
+            categoryId={categoryId}
+            setCategoryId={setCategoryId}
+          />
+          <BprojectStory
+            storyTitle={storyTitle}
+            setStoryTitle={setStoryTitle}
+            storyFile={storyFile}
+            setStoryFile={setStoryFile}
+            storyContent={storyContent}
+            setStoryContent={setStoryContent}
+          />
+          <CprojectReward
+            productName={productName}
+            productFile={productFile}
+            productDetail={productDetail}
+            rewardPrice={rewardPrice}
+            rewardMaxCount={rewardMaxCount}
+            rewardTitle={rewardTitle}
+            rewardContent={rewardContent}
+            rewardDate={rewardDate}
+            rewardServeCount={rewardServeCount}
+            rewardFee={rewardFee}
+            rewardFeeFar={rewardFeeFar}
+            setProductName={setProductName}
+            setProductFile={setProductFile}
+            setProductDetail={setProductDetail}
+            setRewardPrice={setRewardPrice}
+            setRewardMaxCount={setRewardMaxCount}
+            setRewardTitle={setRewardTitle}
+            setRewardContent={setRewardContent}
+            setRewardDate={setRewardDate}
+            setRewardServeCount={setRewardServeCount}
+            setRewardFee={setRewardFee}
+            setRewardFeeFar={setRewardFeeFar}
+          />
+          <DprojectService
+            refundPolicy={refundPolicy}
+            inquiryPhone={inquiryPhone}
+            inquiryEmail={inquiryEmail}
+            setRefundPolicy={setRefundPolicy}
+            setInquiryPhone={setInquiryPhone}
+            setInquiryEmail={setInquiryEmail}
+          />
+          <EprojectAdditional
+            bankId={bankId}
+            accountNumber={accountNumber}
+            accountHolder={accountHolder}
+            accountFile={accountFile}
+            taxInvoiceEmail={taxInvoiceEmail}
+            businessFile={businessFile}
+            setBankId={setBankId}
+            setAccountNumber={setAccountNumber}
+            setAccountHolder={setAccountHolder}
+            setAccountFile={setAccountFile}
+            setTaxInvoiceEmail={setTaxInvoiceEmail}
+            setBusinessFile={setBusinessFile}
+          />
           <div
             style={{
               display: 'flex',
@@ -101,52 +207,15 @@ const PublicCreateProject = () => {
               marginRight: '100px',
             }}
           >
-            {getCreateLevel === 5 ? (
-              <Button
-                onClick={() => {}}
-                variant="outlined"
-                color="red"
-                size="large"
-                sx={{ width: '200px' }}
-              >
-                <Link to={'/'}>승인 요청하기</Link>
-              </Button>
-            ) : getCreateLevel > 1 ? (
-              <Button
-                onClick={() => {
-                  if (getCreateLevel > 1) {
-                    setCreateLevel(getCreateLevel - 1)
-                  } else {
-                  }
-                  javascript: window.scrollTo(0, 0)
-                }}
-                variant="contained"
-                size="large"
-                sx={{ width: '200px' }}
-              >
-                이전단계
-              </Button>
-            ) : null}
-
-            {getCreateLevel === 5 ? null : (
-              <>
-                <div style={{ width: '20px' }} />
-                <Button
-                  onClick={() => {
-                    if (getCreateLevel <= 5) {
-                      setCreateLevel(getCreateLevel + 1)
-                    } else {
-                    }
-                    javascript: window.scrollTo(0, 0)
-                  }}
-                  variant="contained"
-                  size="large"
-                  sx={{ width: '200px' }}
-                >
-                  다음단계
-                </Button>
-              </>
-            )}
+            <Button
+              onClick={() => {}}
+              variant="outlined"
+              color="red"
+              size="large"
+              sx={{ width: '200px' }}
+            >
+              <Link to={'/'}>승인 요청하기</Link>
+            </Button>
           </div>
         </form>
       </div>

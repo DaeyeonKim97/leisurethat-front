@@ -1,7 +1,19 @@
 import { TextField } from '@mui/material'
 import styled from 'styled-components'
 
-const CreateContainer = ({ first, title, children, input }) => {
+const CreateContainer = ({
+  first,
+  title,
+  children,
+  input,
+  none,
+  value,
+  setValue,
+}) => {
+  const onChangeHandler = (e) => {
+    setValue(e.target.value)
+  }
+
   return (
     <>
       <div
@@ -14,12 +26,14 @@ const CreateContainer = ({ first, title, children, input }) => {
         {title}
       </div>
       <div style={{ lineHeight: '20px' }}>{children}</div>
-      {input ? (
+      {input && !none ? (
         <TextField
           id="outlined-basic"
           label={input}
           variant="outlined"
           style={{ marginTop: '25px', width: '400px', height: '50px' }}
+          value={value}
+          onChange={onChangeHandler}
         />
       ) : null}
     </>
