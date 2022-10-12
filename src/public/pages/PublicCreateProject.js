@@ -2,7 +2,7 @@ import { ChildCare } from '@mui/icons-material'
 import { Button, TextField } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import AprojectInfo from '../components/CreateProject/AprojectInfo'
 import BprojectStory from '../components/CreateProject/BprojectStory'
@@ -26,6 +26,9 @@ const PrecessMenu = styled.div`
 `
 
 const PublicCreateProject = () => {
+  const navigate = useNavigate()
+  const [available, setAvailable] = useState(true)
+
   const [name, setName] = useState('')
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
@@ -64,6 +67,8 @@ const PublicCreateProject = () => {
   }
 
   const handleSubmit = () => {
+    setAvailable(false)
+
     let formData = new FormData()
     formData.append('name', name)
     formData.append('startDate', dateToString(startDate))
@@ -106,7 +111,14 @@ const PublicCreateProject = () => {
           Authorization: accessToken,
         },
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+        navigate('/')
+      })
+      .catch((err) => {
+        alert('프로젝트 등록 정보를 다시 확인해주세요!')
+        setAvailable(true)
+      })
   }
 
   // useEffect(() => {
@@ -256,18 +268,34 @@ const PublicCreateProject = () => {
               marginRight: '100px',
             }}
           >
-            <Button
-              onClick={() => {
-                handleSubmit()
-              }}
-              variant="outlined"
-              color="red"
-              size="large"
-              sx={{ width: '200px' }}
-            >
-              승인 요청하기
-              {/* <Link to={'/'}>승인 요청하기</Link> */}
-            </Button>
+            {available ? (
+              <Button
+                onClick={() => {
+                  handleSubmit()
+                }}
+                variant="outlined"
+                color="red"
+                size="large"
+                sx={{ width: '200px' }}
+              >
+                승인 요청하기
+                {/* <Link to={'/'}>승인 요청하기</Link> */}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  handleSubmit()
+                }}
+                variant="outlined"
+                color="red"
+                size="large"
+                sx={{ width: '200px' }}
+                disable
+              >
+                승인 요청하기
+                {/* <Link to={'/'}>승인 요청하기</Link> */}
+              </Button>
+            )}
           </div>
         </form>
       </div>
