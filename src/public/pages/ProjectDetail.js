@@ -47,6 +47,7 @@ export default function ProjectDetail() {
   let { projectId } = useParams()
   const [init, setInit] = React.useState(true)
   const [data, setData] = React.useState(null)
+  const [paymentData, setPaymentData] = React.useState(null)
   const [value, setValue] = React.useState(0)
 
   React.useEffect(() => {
@@ -55,8 +56,9 @@ export default function ProjectDetail() {
         const result = await axios
           .get(`http://localhost:8001/project/${projectId}`)
           .then((res) => {
-            console.log(res.data.results.project)
+            console.log(res.data.results)
             setData(res.data.results.project)
+            setPaymentData(res.data.results.payment)
           })
       }
       get()
@@ -146,7 +148,10 @@ export default function ProjectDetail() {
           </Box>
         </Box>
         <Box sx={{ width: '400px', p: 4, marginTop: '150px' }}>
-          <DetailMaker data={data ? data : null} />
+          <DetailMaker
+            data={data ? data : null}
+            paymentData={paymentData ? paymentData : null}
+          />
           <DetailReward rewardList={data ? data.rewardList : null} />
         </Box>
       </section>
