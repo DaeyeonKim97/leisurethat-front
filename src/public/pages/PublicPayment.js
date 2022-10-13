@@ -6,13 +6,15 @@ import {
   UnderLineContentsBox,
 } from '../components/shared'
 import Comma from '../lib/Comma'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import { useState } from 'react'
-import { Autocomplete, Button, TextField } from '@mui/material'
+import { useEffect } from 'react'
+import { Button } from '@mui/material'
 import PaymentInfo from '../components/Payment/PaymentInfo'
 import { useNavigate } from 'react-router-dom'
+import { PaymentAPI } from '../apis/payments/PaymentAPI'
+import qs from 'query-string'
+import { useLocation } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
+import { TossAPI } from '../apis/payments/TossAPI'
 
 const PaymentBox = styled.div`
   width: 50%;
@@ -29,26 +31,19 @@ const ImagContainer = styled.div`
   margin-top: 5px;
 `
 
-const cardList = ['농협', 'bc 카드', '토스', ' 삼성카드']
-const monthList = ['1 개월', '2 개월', '3 개월', '4 개월']
-
 const PublicPayment = () => {
-  const [check, setCheck] = useState(false)
+  const dispatch = useDispatch()
 
-  const [value, setValue] = useState(cardList[0])
-  const [inputValue, setInputValue] = useState('')
+  const searchParams = useLocation().search
+  const params = qs.parse(searchParams)
 
-  const [monthValue, setMonthValue] = useState(cardList[0])
-  const [monthInput, setMonthInput] = useState('')
+  const content = useSelector((state) => state.paymentProjectHandler)
+  const reward = useSelector((state) => state.rewardHandler)
 
-  const navigate = useNavigate()
-
-  const payInfoProp = {
-    reward: 69000,
-    shipping: 3000,
-    totalFunding: 72000,
-    completeFunding: 72000,
-  }
+  let totlaPrice = reward.price + reward.rewardFee
+  useEffect(() => {
+    dispatch(PaymentAPI(params.rewardId))
+  }, [])
 
   return (
     <BaseBox
@@ -57,18 +52,30 @@ const PublicPayment = () => {
       }}
     >
       <div>
-        <PaymentInfo complete={false} />
+        <PaymentInfo complete={false} content={content} />
         <div>
           <UnderLineContentsBox>결제 정보</UnderLineContentsBox>
           <div style={{ display: 'flex' }}>
-            <div style={{ width: '50%', paddingRight: '30px' }}>
+            <div style={{ width: '100%', paddingRight: '30px' }}>
+              <UnderLineContentBox>
+                <UnderLineContent
+                  style={{ marginRight: '10px', width: '180px' }}
+                >
+                  리워드 제목
+                </UnderLineContent>
+                <UnderLineContent>{reward.title}</UnderLineContent>
+              </UnderLineContentBox>{' '}
               <UnderLineContentBox>
                 <UnderLineContent
                   style={{ marginRight: '20px', width: '180px' }}
                 >
                   리워드 가격
                 </UnderLineContent>
-                <UnderLineContent>{Comma(payInfoProp.reward)}</UnderLineContent>
+                <UnderLineContent>
+                  {[reward.price]
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </UnderLineContent>
               </UnderLineContentBox>{' '}
               <UnderLineContentBox>
                 <UnderLineContent
@@ -77,7 +84,9 @@ const PublicPayment = () => {
                   배송비
                 </UnderLineContent>
                 <UnderLineContent>
-                  {Comma(payInfoProp.shipping)}
+                  {[reward.rewardFee]
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </UnderLineContent>
               </UnderLineContentBox>{' '}
               <UnderLineContentBox>
@@ -87,156 +96,11 @@ const PublicPayment = () => {
                   총 펀딩 금액
                 </UnderLineContent>
                 <UnderLineContent>
-                  {Comma(payInfoProp.totalFunding)}
+                  {[totlaPrice]
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </UnderLineContent>
               </UnderLineContentBox>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '50%',
-                height: '250px',
-              }}
-            >
-              <div>
-                <UnderLineContentBox style={{ width: '100%' }}>
-                  <UnderLineContent
-                    style={{
-                      marginRight: '20px',
-                      width: '250px',
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {check ? (
-                      <div
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          setCheck(!check)
-                        }}
-                      >
-                        <CheckCircleIcon
-                          sx={{ fontSize: '20px', mr: '10px' }}
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                          setCheck(!check)
-                        }}
-                      >
-                        <CheckCircleOutlineIcon
-                          sx={{ fontSize: '20px', mr: '10px' }}
-                        />
-                      </div>
-                    )}
-                    <span>신용/체크카드</span>
-                  </UnderLineContent>
-                </UnderLineContentBox>{' '}
-                <div style={{ marginTop: '10px' }}>
-                  <FlexBox style={{ alignItems: 'center' }}>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => {
-                        setCheck(!check)
-                      }}
-                    >
-                      <FiberManualRecordIcon
-                        sx={{ fontSize: '20px', mr: '10px' }}
-                      />
-                    </div>
-                    <div>카드 선택</div>
-                    <Autocomplete
-                      value={value}
-                      onChange={(event, newValue) => {
-                        setValue(newValue)
-                      }}
-                      inputValue={inputValue}
-                      onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue)
-                      }}
-                      id="카드 선택"
-                      options={cardList}
-                      sx={{ width: 150, ml: '20px', scale: '70%' }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="카드 선택" />
-                      )}
-                    />
-                  </FlexBox>
-                  <div
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      setCheck(!check)
-                    }}
-                  ></div>
-                  <FlexBox style={{ alignItems: 'center' }}>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => {
-                        setCheck(!check)
-                      }}
-                    >
-                      <FiberManualRecordIcon
-                        sx={{ fontSize: '20px', mr: '10px' }}
-                      />
-                    </div>
-                    <div>할부 선택</div>
-                    <Autocomplete
-                      value={monthValue}
-                      onChange={(event, newValue) => {
-                        setMonthValue(newValue)
-                      }}
-                      inputValue={monthInput}
-                      onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue)
-                      }}
-                      id="할부 선택"
-                      options={monthList}
-                      sx={{ width: 150, ml: '20px', scale: '70%' }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="할부 선택" />
-                      )}
-                    />
-                  </FlexBox>
-                  <div
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      setCheck(!check)
-                    }}
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <UnderLineContentBox>
-                  <UnderLineContent
-                    style={{ marginRight: '20px', width: '250px' }}
-                  >
-                    PAY
-                  </UnderLineContent>
-                </UnderLineContentBox>{' '}
-                <div
-                  style={{
-                    height: '190px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <ImagContainer>
-                    <a href="https://www.kakao.com">
-                      <img src="static/img/KakaoPay.png" />
-                    </a>
-                  </ImagContainer>
-                  <ImagContainer>
-                    <a href="https://www.naver.com">
-                      <img src="static/img/NaverPay.png" />
-                    </a>
-                  </ImagContainer>
-                </div>
-              </div>
             </div>
           </div>
           <div
@@ -251,9 +115,12 @@ const PublicPayment = () => {
               disableElevation
               sx={{ width: 300, height: 50 }}
               style={{ fontSize: '15px' }}
-              onClick={() => navigate('/payment/complete')}
+              onClick={() => {
+                TossAPI(params.projectId, params.rewardId)
+              }}
             >
-              {Comma(payInfoProp.completeFunding)}원 펀딩하기
+              {[totlaPrice].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+              예약하기
             </Button>
           </div>
         </div>

@@ -1,15 +1,15 @@
 /** @format */
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import { Button, TextField } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import Search from '@mui/icons-material/Search';
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Modal from '@mui/material/Modal'
+import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
+import { styled } from '@mui/material/styles'
+import { Button, TextField } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import Search from '@mui/icons-material/Search'
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,22 +21,22 @@ const style = {
   boxShadow: 24,
   borderRadius: 2,
   p: 4,
-};
+}
 
 export default function RefundModal(props) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
   const handleClose = () => {
-    setOpen(false);
-  };
-
+    setOpen(false)
+  }
+  const { date } = props
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-  }));
+  }))
 
   return (
     <div>
@@ -68,7 +68,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item>데이터 삽입 홍길동</Item>
+              <Item>{date.order.member.name}</Item>
             </Grid>
             <Grid item xs={4} textAlign="center" marginBottom={1}>
               <Typography variant="label" fontSize={16}>
@@ -76,7 +76,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item>데이터 삽입 결제 수단</Item>
+              <Item>{date.division == 'C' ? '카드' : '페이'}</Item>
             </Grid>
 
             <Grid item xs={4} textAlign="center" marginBottom={1}>
@@ -85,7 +85,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item> 데이터 삽입 펀딩 금액</Item>
+              <Item> {date.price}</Item>
             </Grid>
             <Grid item xs={4} textAlign="center" marginBottom={1}>
               <Typography variant="label" fontSize={16}>
@@ -93,7 +93,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item>데이터 삽입 배송 완료일</Item>
+              <Item>{date.order.project.endDate}</Item>
             </Grid>
             <Grid item xs={4} textAlign="center" marginBottom={1}>
               <Typography variant="label" fontSize={16}>
@@ -101,7 +101,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item>환불 사유 환불인 경우 보여줌</Item>
+              <Item>{date.refundReason == null ? '-' : date.refundReason}</Item>
             </Grid>
             <Grid item xs={3} textAlign="center">
               <Button variant="contained" onClick={handleClose}>
@@ -112,5 +112,5 @@ export default function RefundModal(props) {
         </Box>
       </Modal>
     </div>
-  );
+  )
 }
