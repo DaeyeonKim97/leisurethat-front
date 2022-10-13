@@ -1,6 +1,5 @@
 export const callRegisterAPI = async(form) => {
     
-
     const requestURL = `http://localhost:8001/signup`;
     console.log("전달된 form :" , form);
 
@@ -41,7 +40,7 @@ export const callLoginAPI = async({form}) => {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
-                "Access-Control-Allow-Origin": "*"      
+                "Access-Control-Allow-Origin": "*"
             },
             body: JSON.stringify({
                 username: form.username,
@@ -54,6 +53,7 @@ export const callLoginAPI = async({form}) => {
 
         if(result.httpStatus === 200){
             window.localStorage.setItem('accessToken', result.results.token);
+            window.localStorage.setItem('username', result.results.id);
             document.location.href = '/';          
         } else if(result.httpStatus === 400){
             alert("로그인 정보가 올바르지 않습니다.");
@@ -62,7 +62,7 @@ export const callLoginAPI = async({form}) => {
 }
 
 export const callGetUserListAPI = () => {
-    const requestURL = `http://http://localhost:8001/user`;
+    const requestURL = `http://localhost:8001/user`;
 
     return async (dispatch, getState) => {
 
@@ -124,7 +124,7 @@ export const callGetUserAPI = ({username}) => {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
-                "Authorization": "Bearer " + window.localStorage.getItem("accessToken") 
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken"),
             }
         })
         .then(response => response.json());

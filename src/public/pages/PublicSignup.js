@@ -122,6 +122,37 @@ function PublicSignup() {
     const [idCheckCertState,setIdCheckCertState] = useState("before");
     const [responseState,setResponseState]=useState(0);
     const navigate = useNavigate();
+
+    const callSendEmailAPI = async(email) => {
+    
+        const requestURL = `http://localhost:8001/mail/match`;
+        console.log("전달된 email :" , email);
+    
+            const result =  await fetch(requestURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify({
+                    email: email,
+               
+                })
+            })
+            .then(response => response.json());
+    
+            console.log('[MemberAPICalls] callMatchIdAPI RESULT : ', result);
+            
+    
+            // if(result.httpStatus === 201){
+            //     alert("회원가입에 성공하셨습니다.");
+            //     document.location.href = '/login';          
+            // } else if(result.httpStatus === 400){
+            //    //회원가입 실패페이지(?)
+            // }
+            // }
+    
+    }
     
 
     const {
@@ -133,17 +164,17 @@ function PublicSignup() {
 
 
       const watchPassword = watch("password", "");
+      const watchEmail = watch("email", "");
 
-      const onSubmit = (form) => {
-        console.log(form);
-       
-       callRegisterAPI(form);
+      const onSubmit = (watchEmail) => {       
+        
    
       }
 
 
 
       const emailCert = () => {
+        callSendEmailAPI(watchEmail);
         setEmailCertState("progress");
         console.log(emailCertState);
       }

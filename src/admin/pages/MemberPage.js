@@ -1,6 +1,5 @@
 import Divider from '@mui/material/Divider'
-import JudgeSearchForm from '../components/member/MemberSearchForm'
-import MemberTable from '../components/member/MemberTable'
+import MemberSearchForm from '../components/member/MemberSearchForm'
 import { useState,useEffect } from 'react';
 
 export default function MemberPage() {
@@ -19,9 +18,11 @@ export default function MemberPage() {
         },
     })
     .then(response => response.json())
+    .then(data=>{
+      console.log(data.results.count);
+      setUserCount(data.results.count);
+    })
   
-    console.log("userCount :" , userCount);
-    setUserCount(userCount);
      }
   
      getMemberCount();
@@ -39,7 +40,20 @@ export default function MemberPage() {
         style={{ boxShadow: '0px 2px 4px gray', margin: '15px 0px 25px 0px' }}
       />
 
-      <JudgeSearchForm />
+        <section
+          style={{
+            display: 'flex',
+            margin: '12px 20px',
+            fontSize: '18px',
+            alignContent: 'center',
+            justifyContent: 'flex-end',
+          }}
+        >
+          총 <span style={{ color: '#6297BA' }}>{userCount}</span> 개
+        </section>
+
+
+      <MemberSearchForm />
 
       <div
         className="whatsthis"
@@ -50,17 +64,6 @@ export default function MemberPage() {
           height: 'calc(100% - 120px)',
         }}
       >
-        <section
-          style={{
-            margin: '12px 20px',
-            fontSize: '18px',
-            alignSelf: 'flex-end',
-          }}
-        >
-          총 <span style={{ color: '#6297BA' }}>{userCount}</span> 개
-        </section>
-
-        <MemberTable />
       </div>
     </section>
   )

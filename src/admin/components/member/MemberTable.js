@@ -11,9 +11,7 @@ import Paper from '@mui/material/Paper'
 import { Typography, Button } from '@mui/material'
 import MemberPagenation from './MemberPagenation'
 import MemberDetailModal from './MemberDetailModal'
-import {callMemberListAPI} from '../../apis/MemberApi'
-import { Co2Sharp } from '@mui/icons-material'
-import { formControlUnstyledClasses } from '@mui/base'
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,36 +34,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-function createData(id, nickname, name, email, regDate, status) {
-  return {
-    id,
-    nickname,
-    name,
-    email,
-    regDate,
-    status,
-  }
-}
 
 
-// let rows = [
-//     createData(1,'Nal_rA', '강민','Nal_rA@leisurethat.com','2022-08-01','가입'),
-//     createData(2,'SLayerS_BoxeR', '임요환','SLayerS_BoxeR@leisurethat.com','2022-08-02','가입'),
-//     createData(3,'iloveoov', '최연성','Nal_iloveoov@leisurethat.com','2022-08-03','가입'),
-//     createData(4,'NaDa', '이윤열','NaDa@leisurethat.com','2022-08-04','탈퇴'),
-//     createData(5,'JD1234', '이제동','JD@leisurethat.com','2022-08-05','탈퇴'),
-    
-//   ];
-
-export default function MemberTable() {
+export default function MemberTable(props) {
 
 
   let [rows,setRows] = useState([]);
+  const [keyword,setKeyword] = useState('');
+  const [page,setPage] = useState(0);
+
 
   useEffect(() => {
 
-  const getMemberList = async(page)=>{
-    const requestURL = `http://localhost:8001/user?page=${page}`;
+    console.log("key:",keyword);
+
+  const getMemberList = async(keyword,page)=>{
+    const requestURL = `http://localhost:8001/user?keyword=${keyword}&page=${page}`;
     rows =  await fetch(requestURL, {
       method: "GET",
       headers: {
@@ -74,19 +58,22 @@ export default function MemberTable() {
       },
   })
   .then(response => response.json())
-  .then(data=>data.content)
+  .then(data=>{
+    console.log(data.results.memberList.content);
+    setRows(data.results.memberList.content);
 
-  console.log("rows :" , rows);
-  setRows(rows);
+  })
+
    }
 
-   getMemberList(0);
-   
+   getMemberList(keyword,1);
 
-  }, []);
+
+  }, [keyword]);
 
   return (
     <>
+
       <TableContainer
         component={Paper}
         sx={{ height: '95%' }}
@@ -146,9 +133,7 @@ export default function MemberTable() {
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <MemberDetailModal>
                         {row.email}
-                  </MemberDetailModal>
                 </StyledTableCell>
 
 
@@ -157,7 +142,18 @@ export default function MemberTable() {
                 <StyledTableCell align="center">{row.secYn}</StyledTableCell>
 
                 <StyledTableCell align="center">
-                  <MemberDetailModal id={row.id}>
+                  <MemberDetailModal
+                     id={row.id} 
+                     username={row.username}
+                     secYn={row.secYn}
+                     regDate={row.regDate}
+                     email={row.email}
+                     name={row.name}
+                     snsCategory={row.snsCategory.name}
+                     role={row.role}
+                     
+                     
+                     >
                     <Button
                       variant="outlined"
                       style={{ margin: '0px 10px' }}

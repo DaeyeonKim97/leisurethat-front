@@ -68,8 +68,6 @@ export default function PublicHeader() {
   //true false 여부에 따라서 로그인되고 안되고의 레이아웃 결정
 
   const isLogin = window.localStorage.getItem('accessToken');
-  console.log(isLogin);
-
 
   const [searchOpen, setSerchOpen] = React.useState(false)
   const inputAnimation = useAnimation()
@@ -85,12 +83,6 @@ export default function PublicHeader() {
       })
     }
     setSerchOpen((p) => !p)
-  }
-
-  const logout = () =>{
-    window.localStorage.removeItem('accessToken');
-    window.href='/';
-    window.location.reload();
   }
 
   return (
@@ -217,10 +209,9 @@ export default function PublicHeader() {
                 </Badge>
               </IconButton>
 
+              <div>
               
-              <Button onClick={logout}>
-                로그아웃 테스트
-              </Button>
+              </div>
             </div>
           )}
         </FlexBox>
