@@ -66,7 +66,7 @@ export default function MemberTable(props) {
 
    }
 
-   getMemberList(keyword,1);
+   getMemberList(keyword,0);
 
 
   }, [keyword]);

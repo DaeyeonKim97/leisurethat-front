@@ -121,6 +121,7 @@ function PublicSignup() {
     const [emailCertState,setEmailCertState] = useState("before");
     const [idCheckCertState,setIdCheckCertState] = useState("before");
     const [responseState,setResponseState]=useState(0);
+    const [hideCertCode,setHideCertCode] = useState(0);
     const navigate = useNavigate();
 
     const callSendEmailAPI = async(email) => {
@@ -139,9 +140,11 @@ function PublicSignup() {
                
                 })
             })
-            .then(response => response.json());
+            .then(response => response.json())
     
             console.log('[MemberAPICalls] callMatchIdAPI RESULT : ', result);
+
+            setHideCertCode(result);
             
     
             // if(result.httpStatus === 201){
@@ -165,18 +168,54 @@ function PublicSignup() {
 
       const watchPassword = watch("password", "");
       const watchEmail = watch("email", "");
+      const inputCertCode = watch("inputCertCode", "");
 
-      const onSubmit = (watchEmail) => {       
+      const onSubmit = async(form) => {   
+            const requestURL = `http://localhost:8001/signup`;
+            console.log("전달된 form :" , form);
         
-   
+                const result =  await fetch(requestURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*"
+                    },
+                    body: JSON.stringify({
+                        username: form.username,
+                        password: form.password,
+                        email: form.email,
+                        name: form.name                
+                    })
+                })
+                .then(response => response.json());
+        
+                console.log('[MemberAPICalls] callRegisterAPI RESULT : ', result);
+                
+        
+                if(result.httpStatus === 201){
+                    alert("회원가입에 성공하셨습니다.");
+                    document.location.href = '/login';          
+                } else if(result.httpStatus === 400){
+                   //회원가입 실패페이지(?)
+                }
+                
       }
 
-
+      const sendEmail = () => {
+        const receiveCertCode = callSendEmailAPI(watchEmail);
+        setHideCertCode(receiveCertCode);
+        setEmailCertState("progress");
+      }
 
       const emailCert = () => {
-        callSendEmailAPI(watchEmail);
-        setEmailCertState("progress");
-        console.log(emailCertState);
+        console.log("입력된 인증코드 : ",inputCertCode);
+        console.log("인증 코드", hideCertCode);
+            if(inputCertCode == hideCertCode){
+                alert("인증 완료");
+                return;
+            }
+
+            alert("인증번호가 일치하지 않습니다.");
       }
 
 
@@ -202,6 +241,7 @@ function PublicSignup() {
 <NaverLogin>네이버로 로그인</NaverLogin>
 
 <SignupTitle>이메일로 가입</SignupTitle>
+<input type="number" name="hideCertCode" value={hideCertCode}/>
 
 
 <form style={{marginTop: '20px'}} className="formGroup" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
@@ -219,7 +259,7 @@ function PublicSignup() {
                 },
             })}
             />
-            <CertButton emailCertState={emailCertState} type="button" onClick={emailCert}>{emailCertState==='progress'? '재전송' : '인증하기' }</CertButton>
+            <CertButton emailCertState={emailCertState} type="button" onClick={sendEmail}>{emailCertState==='progress'? '재전송' : '인증하기' }</CertButton>
         </InputBox>
 
        
@@ -227,10 +267,12 @@ function PublicSignup() {
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            name="emailCert"
+            name="inputCertCode"
             type="text"
+            {...register("inputCertCode", {
+            })}
             />
-            <CertButton emailCertState type="button">확인</CertButton>
+            <CertButton onClick={emailCert} emailCertState type="button">확인</CertButton>
         </InputBox> 
         : null}
 
