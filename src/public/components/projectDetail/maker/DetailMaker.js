@@ -2,7 +2,7 @@ import { Divider, Paper, Typography, Avatar } from '@mui/material'
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined'
 
-export default function DetailMaker(props) {
+export default function DetailMaker({ data, paymentData }) {
   return (
     <>
       <Paper
@@ -10,31 +10,61 @@ export default function DetailMaker(props) {
         style={{ padding: 15, border: '1px solid #00AAEF' }}
       >
         <Typography variant="h5">
-          <span style={{ color: '#00AAEF' }}>13 </span>일 남음
+          <span style={{ color: '#00AAEF' }}>
+            {' '}
+            {data && paymentData
+              ? Math.ceil(
+                  (new Date(`${data.project.projectEndDate}`) - new Date()) /
+                    (1000 * 60 * 60 * 24)
+                )
+              : null}{' '}
+          </span>
+          일 남음
         </Typography>
         <Divider style={{ margin: '10px 0' }} />
         <div>
           <Typography variant="h4" style={{ margin: '5px 0' }}>
-            <span style={{ color: '#00AAEF' }}>90%</span>{' '}
+            <span style={{ color: '#00AAEF' }}>
+              {paymentData && data
+                ? paymentData.amount / data.project.targetAmount
+                : null}
+              %
+            </span>{' '}
             <span style={{ fontSize: '24px' }}>달성</span>
           </Typography>
           <Typography variant="h4" style={{ margin: '5px 0' }}>
-            <span style={{ color: '#00AAEF' }}>25,000,000 </span>
+            <span style={{ color: '#00AAEF' }}>
+              {' '}
+              {`${paymentData ? paymentData.amount : null}`.replace(
+                /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,
+                ','
+              )}{' '}
+            </span>
             <span style={{ fontSize: '24px' }}>원 펀딩</span>
           </Typography>
           <Typography variant="h4" style={{ margin: '5px 0' }}>
-            <span style={{ color: '#00AAEF' }}>250 </span>
+            <span style={{ color: '#00AAEF' }}>
+              {paymentData ? paymentData.totalParticipant : null}{' '}
+            </span>
             <span style={{ fontSize: '24px' }}>명의 서포터</span>
           </Typography>
         </div>
         <Divider style={{ margin: '10px 0' }} />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar
-            src="http://t2.gstatic.com/licensed-image?q=tbn:ANd9GcSicG_UfuAYyxZmcvJS4ypRQd-DApq8bS235yIGPT7tGJURV5-_vBIwHA9UL7-jcvu7"
+            src={
+              data
+                ? data.member.memberAttachment
+                  ? data.member.memberAttachment.downloadAddress
+                  : null
+                : null
+            }
             sx={{ width: 48, height: 48 }}
           />
           <Typography variant="h5" style={{ marginLeft: '15px' }}>
-            <b style={{ fontWeight: 'bolder' }}>이정은</b>
+            <b style={{ fontWeight: 'bolder' }}>
+              {data ? data.member.memberName : null}
+            </b>
           </Typography>
         </div>
         <div

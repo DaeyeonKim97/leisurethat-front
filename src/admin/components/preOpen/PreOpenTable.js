@@ -55,7 +55,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', '2022-01-01', 'Y'),
 ]
 
-export default function PreOpenTable() {
+export default function PreOpenTable({ list }) {
   return (
     <>
       <TableContainer
@@ -95,15 +95,15 @@ export default function PreOpenTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.id} hover>
+            {list.map((row) => (
+              <StyledTableRow key={row.projectId} hover>
                 <StyledTableCell
                   component="th"
                   scope="row"
                   sx={{ width: 100 }}
                   align="center"
                 >
-                  {row.id}
+                  {row.projectId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
@@ -114,8 +114,8 @@ export default function PreOpenTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.name}
-                    <ProjectInfoModal>
+                    {row.projectName}
+                    <ProjectInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -134,8 +134,8 @@ export default function PreOpenTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.makerID}
-                    <MakerInfoModal>
+                    {row.makerName}
+                    <MakerInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -145,8 +145,12 @@ export default function PreOpenTable() {
                     </MakerInfoModal>
                   </div>
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.created}</StyledTableCell>
-                <StyledTableCell align="center">오픈예정</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.startDate}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.projectStatus}
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

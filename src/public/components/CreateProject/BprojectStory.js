@@ -3,18 +3,25 @@ import ImgInput from './ImgInput'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import TextArea from './TextArea'
 
-const BprojectStory = () => {
+const BprojectStory = ({
+  storyTitle,
+  setStoryTitle,
+  storyFile,
+  setStoryFile,
+  storyContent,
+  setStoryContent,
+}) => {
   return (
     <div style={{ margin: '80px 50px' }}>
-      <CreateContainer fisrt title="프로젝트 소개 영상과 이미지를 등록해주세요">
-        영상과 이미지를 함께 등록할 경우, 영상이 먼저 보여집니다.
-      </CreateContainer>
-      <CreateContainer title="동영상 주소를 적어주세요" input="동영상 주소">
-        프로젝트의 핵심 내용을 담을 수 있고 간결한 제목을 정해주세요.
-      </CreateContainer>
-      <CreateContainer title="이미지를 등록해주세요">
+      <CreateContainer
+        title="스토리 제목을 적어주세요"
+        input="스토리 제목"
+        value={storyTitle}
+        setValue={setStoryTitle}
+      ></CreateContainer>
+      <CreateContainer title="스토리 이미지를 등록해주세요">
         <div style={{ display: 'flex' }}>
-          <ImgInput sm />
+          <ImgInput sm value={storyFile} setValue={setStoryFile} />
           <div
             style={{
               height: '125px',
@@ -36,7 +43,7 @@ const BprojectStory = () => {
         <div style={{ marginBottom: '30px' }}>
           프로젝트를 시작하기 위해 필요한 내용이 없다면 승인이 되지 않습니다.
         </div>
-        <TextArea />
+        <TextArea value={storyContent} setValue={setStoryContent} />
       </CreateContainer>
     </div>
   )

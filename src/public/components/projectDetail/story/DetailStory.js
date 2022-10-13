@@ -84,7 +84,7 @@ A table:
 | - | - |
 `
 
-export default function DetailStory(props) {
+export default function DetailStory({ story, productList, refundPolicy }) {
   const [activeStep, setActiveStep] = React.useState(0)
 
   return (
@@ -96,11 +96,19 @@ export default function DetailStory(props) {
         <Divider style={{ marginBottom: 30 }} />
         <Box style={{ display: 'flex', justifyContent: 'center' }}>
           <Box flexGrow={1} style={{ margin: 10 }}>
-            <Viewer initialValue={markdown} />
+            <Typography color="primary" variant="h6">
+              {story ? story.storyTitle : null}
+            </Typography>
+            {story ? (
+              <Viewer
+                id="viewer"
+                initialValue={`${story ? story.storyContent : null}`}
+              />
+            ) : null}
           </Box>
           <img
             style={{ width: '50%' }}
-            src="https://previews.123rf.com/images/mariakraynova/mariakraynova1405/mariakraynova140500426/28717325-%EB%A7%91%EA%B3%A0-%ED%91%B8%EB%A5%B8-%EB%B0%94%EB%8B%A4%EC%97%90-%EB%96%A0%EC%9E%88%EB%8A%94-%ED%92%8D%EC%84%A0-%EB%85%B8%EB%9E%80%EC%83%89-%EB%82%B4%EB%B6%80-%ED%8A%9C%EB%B8%8C.jpg"
+            src={story ? `${story.storyAttachment.downloadAddress}` : null}
           />
         </Box>
       </Box>
@@ -115,9 +123,30 @@ export default function DetailStory(props) {
             activeStep={activeStep}
             setActiveStep={setActiveStep}
             items={items}
+            productList={productList}
           />
-          <DetailItemInfo activeStep={activeStep} items={items} />
+          <DetailItemInfo
+            activeStep={activeStep}
+            items={items}
+            productList={productList}
+          />
         </div>
+      </Box>
+
+      <Box>
+        <Typography variant="h4" style={{ marginTop: 50 }}>
+          환불정책
+        </Typography>
+        <Divider style={{ marginBottom: 30 }} />
+        <Box
+          flexGrow={1}
+          sx={{ backgroundColor: '#f2f2f2' }}
+          style={{ padding: 30, maxWidth: '100%', whiteSpace: 'pre-wrap' }}
+        >
+          <Typography color={'gray'}>
+            {refundPolicy ? refundPolicy : null}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   )

@@ -10,7 +10,14 @@ const refund = `레저댓의 환불 및 교환 정책 기본사항
    3. 리워드 배송일이 예상보다 지연되는 경우, 새소식과 후원자 분들의 이메일을 통해 안내해드리겠습니다. 
    이에 관한 문의는 이메일 "admin@leisurethat.com" , 연락처 "02-000-0000" 로 연락바랍니다.`
 
-const DprojectService = () => {
+const DprojectService = ({
+  refundPolicy,
+  setRefundPolicy,
+  inquiryPhone,
+  setInquiryPhone,
+  inquiryEmail,
+  setInquiryEmail,
+}) => {
   return (
     <div style={{ margin: '80px 50px' }}>
       <CreateContainer fisrt title="환불 및 교환 정책을 적어주세요">
@@ -23,15 +30,23 @@ const DprojectService = () => {
           multiline
           rows={10}
           maxRows={10}
+          value={refundPolicy}
+          onChange={(e) => {
+            setRefundPolicy(e.target.value)
+          }}
         />
       </CreateContainer>
       <CreateContainer
         title="문의 가능한 번호"
         input="02-000-0000"
+        value={inquiryPhone}
+        setValue={setInquiryPhone}
       ></CreateContainer>
       <CreateContainer
         title="문의 이메일"
         input="admin@leisurethat.com"
+        value={inquiryEmail}
+        setValue={setInquiryEmail}
       ></CreateContainer>
       <CreateContainer>
         <TextField
@@ -55,31 +70,7 @@ const DprojectService = () => {
             width: '900px',
             justifyContent: 'space-between',
           }}
-        >
-          <div style={{ marginTop: '10px', width: '500px' }}>
-            <div style={{ display: 'flex' }}>
-              <div>상품정보고시</div>
-              <div>상품정보 등록 가이드</div>
-            </div>
-            <div
-              style={{ marginTop: '15px', fontSize: '14px', color: '#707070' }}
-            >
-              리워드를 제공하는 경우, 상품정보를 반드시 입력해야 합니다. <br />
-              여러 종류의 리워드를 제공하는 경우, 다수의 상품정보를 등록해야
-              합니다.
-            </div>
-          </div>
-          <div>
-            <Button
-              variant="outlined"
-              color="invalid"
-              size="large"
-              sx={{ width: '200px' }}
-            >
-              등록하기
-            </Button>
-          </div>
-        </div>
+        ></div>
       </CreateContainer>
       <CreateContainer>
         <div
@@ -87,38 +78,7 @@ const DprojectService = () => {
             display: 'flex',
             width: '900px',
           }}
-        >
-          <div
-            style={{
-              marginTop: '10px',
-              width: '500px',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            <div>관련 서류 제출</div>
-            <div
-              style={{ marginTop: '15px', fontSize: '14px', color: '#707070' }}
-            >
-              제출서류에 해당하는 서류 일체를 폴더 내에 첨부. 전체 폴더를 <br />
-              한 개의 압축파일로 저장하여 업로드 해주세요.
-            </div>
-            <Button
-              style={{ marginTop: '20px' }}
-              variant="outlined"
-              endIcon={<SendIcon />}
-            >
-              Send
-            </Button>
-            <Button
-              style={{ marginTop: '20px' }}
-              variant="outlined"
-              endIcon={<SendIcon />}
-            >
-              Send
-            </Button>
-          </div>
-        </div>
+        ></div>
       </CreateContainer>
     </div>
   )

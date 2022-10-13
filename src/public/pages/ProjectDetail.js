@@ -7,6 +7,8 @@ import DetailQna from '../components/projectDetail/qna/DetailQna'
 import DetailNotice from '../components/projectDetail/notice/DetailNotice'
 import DetailMaker from '../components/projectDetail/maker/DetailMaker'
 import DetailReward from '../components/projectDetail/maker/DetailReward'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -41,8 +43,28 @@ function a11yProps(index) {
   }
 }
 
-export default function ProjectDetail(props) {
+export default function ProjectDetail() {
+  let { projectId } = useParams()
+  const [init, setInit] = React.useState(true)
+  const [data, setData] = React.useState(null)
+  const [paymentData, setPaymentData] = React.useState(null)
   const [value, setValue] = React.useState(0)
+
+  React.useEffect(() => {
+    if (init == true) {
+      async function get() {
+        const result = await axios
+          .get(`http://localhost:8001/project/${projectId}`)
+          .then((res) => {
+            console.log(res.data.results)
+            setData(res.data.results.project)
+            setPaymentData(res.data.results.payment)
+          })
+      }
+      get()
+      setInit(false)
+    }
+  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -52,7 +74,9 @@ export default function ProjectDetail(props) {
       <div style={{ position: 'relative' }}>
         <div
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url(${'https://previews.123rf.com/images/mariakraynova/mariakraynova1405/mariakraynova140500426/28717325-%EB%A7%91%EA%B3%A0-%ED%91%B8%EB%A5%B8-%EB%B0%94%EB%8B%A4%EC%97%90-%EB%96%A0%EC%9E%88%EB%8A%94-%ED%92%8D%EC%84%A0-%EB%85%B8%EB%9E%80%EC%83%89-%EB%82%B4%EB%B6%80-%ED%8A%9C%EB%B8%8C.jpg'})`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0)), url(${
+              data ? data.project.projectAttachment.downloadAddress : null
+            })`,
             backgroundSize: 'cover',
             backgroundPosition: 'center center',
             height: 220,
@@ -61,21 +85,16 @@ export default function ProjectDetail(props) {
         ></div>
         <div style={{ position: 'absolute', top: '30%', left: 60 }}>
           <Typography variant="h3" color={'white'}>
-            단 1초만에 구명튜브로 변신
-          </Typography>
-          <Typography variant="h6" color={'white'} style={{ marginTop: 15 }}>
-            수상레저의 수호신, 에스튜브!
+            {data ? data.project.projectName : null}
           </Typography>
         </div>
       </div>
       <section style={{ display: 'flex' }}>
         <Box sx={{ flexGrow: 1, p: 4 }}>
           <Typography variant="h2" style={{ marginTop: 30 }}>
-            단 1초만에 구명튜브로 변신
+            {data ? data.project.projectName : null}
           </Typography>
-          <Typography variant="h4" style={{ marginTop: 30 }}>
-            수상레저의 수호신 에스튜브!
-          </Typography>
+          <Typography variant="h4" style={{ marginTop: 30 }}></Typography>
           <div
             style={{
               display: 'flex',
@@ -87,16 +106,17 @@ export default function ProjectDetail(props) {
               <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>
                 프로젝트 시작일
               </b>{' '}
-              2022-09-01
+              {data != null ? data.project.projectStartDate : null}
             </div>
             <div style={{ margin: '5px' }}>
               <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>
                 프로젝트 종료일
               </b>{' '}
-              2022-10-22
+              {data != null ? data.project.projectEndDate : null}
             </div>
             <div style={{ margin: '5px' }}>
-              <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>조회수</b> 999
+              <b style={{ fontWeight: 'bold', color: '#00AEEF' }}>조회수</b>{' '}
+              {data != null ? data.project.views : null}
             </div>
           </div>
           <Box sx={{ width: '100%' }}>
@@ -113,7 +133,11 @@ export default function ProjectDetail(props) {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <DetailStory />
+              <DetailStory
+                story={data ? data.storyList[0] : null}
+                productList={data ? data.productList : null}
+                refundPolicy={data ? data.project.refundPolicy : null}
+              />
             </TabPanel>
             <TabPanel value={value} index={1}>
               <DetailQna />
@@ -124,8 +148,11 @@ export default function ProjectDetail(props) {
           </Box>
         </Box>
         <Box sx={{ width: '400px', p: 4, marginTop: '150px' }}>
-          <DetailMaker />
-          <DetailReward />
+          <DetailMaker
+            data={data ? data : null}
+            paymentData={paymentData ? paymentData : null}
+          />
+          <DetailReward rewardList={data ? data.rewardList : null} />
         </Box>
       </section>
     </Box>
