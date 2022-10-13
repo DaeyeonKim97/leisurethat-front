@@ -60,13 +60,17 @@ export default function MakerInfoModal(props) {
           <Divider style={{ marginBottom: '20px' }} />
           <div>
             <div style={{ margin: '20px 0', fontSize: '25px' }}>유저 정보</div>
-            <div>번호 : {info.member.memberId}</div>
-            <div>아이디 : {info.member.username}</div>
-            <div>이메일 : {info.member.memberEmail}</div>
-            <div>전화번호 : {info.member.memberPhone}</div>
-            <div>가입일 : {info.member.memberRegDate}</div>
-            <div>가입구분 : {info.member.snsCategory.name}</div>
-            <div>권한 : {info.member.memberRole}</div>
+            {info ? (
+              <div>
+                <div>번호 : {info.member.memberId}</div>
+                <div>아이디 : {info.member.username}</div>
+                <div>이메일 : {info.member.memberEmail}</div>
+                <div>전화번호 : {info.member.memberPhone}</div>
+                <div>가입일 : {info.member.memberRegDate}</div>
+                <div>가입구분 : {info.member.snsCategory.name}</div>
+                <div>권한 : {info.member.memberRole}</div>
+              </div>
+            ) : null}
           </div>
           <div>
             <div style={{ margin: '20px 0', fontSize: '25px' }}>

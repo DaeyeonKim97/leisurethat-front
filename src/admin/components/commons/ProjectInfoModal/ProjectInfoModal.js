@@ -38,7 +38,7 @@ export default function ProjectInfoModal(props) {
           },
         })
         .then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           setInfo(res.data.results.project)
         })
     }
