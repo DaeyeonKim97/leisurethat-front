@@ -13,6 +13,7 @@ function MakeProjectItemGrid() {
             <MakeProjectItem data={data} />
           </Grid>
         ))}
+
     </Grid>
   );
 }

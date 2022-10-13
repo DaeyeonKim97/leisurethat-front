@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const FundingContainer = styled.div`
@@ -15,16 +16,22 @@ const TextBox = styled.div`
   margin-right: 20px;
 `
 
-const MainFundingProject = ({ contents, img }) => {
+const MainFundingProject = ({ item }) => {
+  const navigate = useNavigate()
   return (
-    <FundingContainer key={contents}>
-      <a href="https://www.naver.com" target="_blank">
+    <FundingContainer>
+      <div
+        onClick={() => {
+          navigate(`/project-detail/${item.projectId}`)
+        }}
+        style={{ cursor: 'pointer' }}
+      >
         <ImgBox
           style={{
             height: '240px',
             width: '100%',
           }}
-          src={`${img}`}
+          src={`${item ? item.projectAttachment.downloadAddress : null}`}
         ></ImgBox>
         <TextBox
           style={{
@@ -35,16 +42,17 @@ const MainFundingProject = ({ contents, img }) => {
             marginTop: '10px',
           }}
         >
-          안녕하세요 <br /> 어쩌고 저쩌고 고양이 입니다
+          {' '}
+          {item ? item.projectName : null}{' '}
         </TextBox>
-      </a>
+      </div>
       <FundingContents>
         <TextBox
           style={{
             width: '100%',
           }}
         >
-          캠핑 | 사업자명
+          {item ? item.projectCategory : null} | {item ? item.memberName : null}
         </TextBox>
         <FundingContents
           style={{
@@ -74,11 +82,11 @@ const MainFundingProject = ({ contents, img }) => {
                 marginRight: '20px',
               }}
             >
-              300%
+              {item ? item.totalAmount / item.targetAmount : null}%
             </TextBox>
-            <TextBox>2,500,400원</TextBox>
+            <TextBox>{item ? item.totalAmount : null} 원</TextBox>
           </FundingContents>
-          <TextBox>2022.08.12</TextBox>
+          <TextBox>{item ? item.endDate : null}</TextBox>
         </FundingContents>
       </FundingContents>
     </FundingContainer>

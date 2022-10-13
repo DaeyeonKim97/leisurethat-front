@@ -4,6 +4,8 @@ import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import { Divider } from '@mui/material'
 import styled from "styled-components";
+import {useForm} from "react-hook-form";
+import {useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -21,7 +23,7 @@ const style = {
   overflow: 'scroll',
 }
 
-const MemberForm =styled.div`
+const MemberForm =styled.form`
 
 display :flex;
 flex-direction :column;
@@ -29,16 +31,8 @@ flex-direction :column;
 span{
   font-size: 14px;
     color: red;
-}
+}`;
 
-
-
-`;
-
-const MemberLogTableBox =styled.div`
-width: 90%;
-
-`;
 const MemberFormBox = styled.div`
 
 display: flex;
@@ -55,9 +49,13 @@ border : 1px solid #D9D9D9;
 }
 
 input{
-width: 40%;
-border : 1px solid #D9D9D9;
-}
+  width: 40%;
+  border : 1px solid #D9D9D9;
+  font-size: 14px;
+  padding: 2px 8px;
+  box-sizing: border-box;
+  font-weight : normal;
+  }
 
 button{
   display : flex;
@@ -76,11 +74,54 @@ button{
 `;
 
 export default function MemberDetailModal(props) {
+
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
   }
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm();
+
+
+      const callRegisterAPI = async(form) => {
+      const requestURL = `http://localhost:8001/signup`;
+      console.log("전달된 form :" , form);
+  
+          const result =  await fetch(requestURL, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "*/*"
+              },
+              body: JSON.stringify({
+                  username: form.username,
+                  password: form.password,
+                  email: form.email,
+                  name: form.name,      
+              })
+          })
+          .then(response => response.json());
+  
+          console.log('[MemberAPICalls] callRegisterAPI RESULT : ', result);
+    
+  }
+
+
+  const onSubmit = (form) => {
+  callRegisterAPI(form);
+  alert("회원등록에 성공하셨습니다.");
+  setOpen(false);
+  
+
+  }
+
+  const onError = (errors, e) => console.log(errors, e);
 
   return (
     <div>
@@ -99,65 +140,95 @@ export default function MemberDetailModal(props) {
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
           <div>
-            <MemberForm>
+            <MemberForm onSubmit={handleSubmit(onSubmit,onError)}>
 
                 <div><span>*필수 항목입니다</span></div>
-
+                
                 <MemberFormBox>
-                    <label>회원Id<span>*</span></label>
-                    <input type="text"></input>
+                    <label>아이디</label>
+                    <input 
+                        name="username"
+                        type="text"
+                        placeholder='영문, 숫자 조합으로 6 ~ 20자 이내로 작성'
+                        {...register("username", {
+                        })}   
+                    />
                 </MemberFormBox>
 
-
                 <MemberFormBox>
-                    <label>닉네임</label>
-                    <input type="text"></input>
+                    <label>비밀번호</label>
+                    <input 
+                        name="password"
+                        type="password"
+                        placeholder='영문, 숫자, 특수 문자 조합으로 8자~20자 이내'
+                        {...register("password", {
+                        })}   
+                    />
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>이름<span>*</span></label>
-                    <input type="text"></input>
+                    <input 
+                        name="name"
+                        type="text"
+                        placeholder='5자 이내로 입력'
+                        {...register("name", {
+                        })}   
+                    />
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>이메일<span>*</span></label>
-                    <input type="text"></input>
+                    <input 
+                        name="email"
+                        type="text"
+                        placeholder='example@leisurethat.com'
+                        {...register("email", {
+                        })}   
+                    />
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>휴대전화번호</label>
-                    <input type="text"></input>
+                    <input 
+                        name="phone"
+                        type="text"
+                        placeholder='-없이 입력'
+                        {...register("phone", {
+                        })}   
+                    />
                 </MemberFormBox>
 
                 <MemberFormBox>
-                    <label>기본배송지</label>
-                    <input type="text"></input>
+                  <label>권한<span>*</span></label>
+                  <input 
+                        name="role"
+                        type="text"
+                        placeholder='USER OR ADMIN'
+                        {...register("role", {
+                        })}    
+                    />
                 </MemberFormBox>
 
-                <MemberFormBox>
-                    <label>가입일자</label>
-                    <input type="text"></input>
-                </MemberFormBox>
 
-                <MemberFormBox>
-                    <label>가입플랫폼</label>
-                    <input type="text"></input>
-                </MemberFormBox>
-
-                <MemberFormBox>
-                    <label>탈퇴여부<span>*</span></label>
-                    <input type="text"></input>
-                </MemberFormBox>
-
-                
-                <MemberFormBox>
-                    <label>탈퇴일자</label>
-                    <input type="text"></input>
-                </MemberFormBox>
-
-                <MemberFormBox >
-                    <button type = "button">등록</button>
-                    <button type = "button">취소</button>
+                <MemberFormBox style={{margin : "20px 0"}} >
+                    <button type = "submit">등록</button>
+                    <button 
+                      type = "button" onClick={() => {
+                reset({
+                      username: "",
+                      password: "",
+                      name: "",
+                      email: "",
+                      phone:"",
+                      role:""
+                    }, {
+                      keepErrors: true, 
+                      keepDirty: true,
+                    });
+                  }}>
+                취소
+                </button>
                 </MemberFormBox>
                 
             </MemberForm>

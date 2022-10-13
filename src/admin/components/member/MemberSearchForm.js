@@ -7,6 +7,8 @@ import { Button, Typography } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search'
 import MemberRegistModal from './MemberRegistModal';
+import MemberTable from './MemberTable';
+import { useState } from 'react'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -36,7 +38,23 @@ const CssTextField = styled(TextField)({
   },
 })
 
-export default function JudgeSearchForm() {
+
+export default function MemberSearchForm() {
+
+   const [name,setName] = useState("");
+
+
+  const onChangeName = (e) => {
+    console.log(e.target.value);
+    setName(e.target.value);
+    
+  }
+
+  const onsubmit = () => { 
+      setName(name);
+      console.log("name : " ,name);
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
@@ -61,20 +79,21 @@ export default function JudgeSearchForm() {
             >
               검색
             </Typography>
-            <CssTextField
+            {/* <CssTextField
               id="outlined-basic"
               label="회원 ID"
               variant="outlined"
               size="small"
               style={{ margin: '0px 15px' }}
-            />
+            /> */}
             <CssTextField
               id="outlined-basic"
               label="회원 이름"
               variant="outlined"
               size="small"
+              onChange={onChangeName}
             />
-            <Button style={{marginLeft : "20px"}} variant="contained">search</Button>
+            <Button onClick={onsubmit} style={{marginLeft : "20px"}} variant="contained">검색</Button>
           </Grid>
           <Grid
             item
@@ -92,10 +111,12 @@ export default function JudgeSearchForm() {
             </Button>
             </MemberRegistModal>
             
-            
           </Grid>
         </Grid>
       </Item>
+      <MemberTable name={name} />
     </Box>
+
+    
   )
 }

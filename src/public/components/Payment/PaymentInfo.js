@@ -4,6 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import MainFundingProject from '../Main/MainFundingProject'
+import TextField from '@mui/material/TextField'
 import {
   BaseBox,
   UnderLineBox,
@@ -12,22 +13,46 @@ import {
   UnderLineContentsBox,
 } from '../shared'
 import ShippingAddressModal from './ShippingAddressModal'
+import { useSelector } from 'react-redux'
+import { calculation } from '../../apis/payments/Calculation'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-const BuyingInfo = ({ complete }) => {
+const CssTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    color: 'primary',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#00AEEF',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      border: '2px solid #00AEEF',
+    },
+    '&:hover fieldset': {
+      border: '2px solid #00AEEF',
+    },
+    '&.Mui-focused fieldset': {
+      border: '2px solid #00AEEF',
+    },
+  },
+})
+
+const PaymentInfo = ({
+  complete,
+  content,
+  amount,
+  authKey,
+  customerKey,
+  reward,
+}) => {
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const fundingImgUrl = 'static/img/PublicMainFunding.png'
-
-  const user = { name: 'test', email: 'user@mail.com', phone: '010-000-000' }
-  const takeUser = {
-    name: '홍길동',
-    phone: '010-000-000',
-    adress: '경기 성남시 분당구 판교역로 235   1층 113호',
-    require: '문의 사항 남겨용',
-  }
-
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.userHandler)
+  const delivery = useSelector((state) => state.deliveryHandler)
+  const navigate = useNavigate()
   return (
     <div
       style={{
@@ -39,16 +64,13 @@ const BuyingInfo = ({ complete }) => {
       <div style={{ display: 'flex' }}>
         <div style={{ marginRight: '60px' }}>
           <UnderLineContentsBox>프로젝트</UnderLineContentsBox>
-          <MainFundingProject
-            contents={'데이터 들어올 공간'}
-            img={fundingImgUrl}
-          />
+          <MainFundingProject content={content} />
         </div>
         <div style={{ width: '795px' }}>
           <div>
             <UnderLineContentsBox>구매자 정보</UnderLineContentsBox>
             <div style={{ height: '160px' }}>
-              <UnderLineContentBox>
+              <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
                   style={{ marginRight: '20px', width: '180px' }}
                 >
@@ -56,7 +78,7 @@ const BuyingInfo = ({ complete }) => {
                 </UnderLineContent>
                 <UnderLineContent>{user.name}</UnderLineContent>
               </UnderLineContentBox>
-              <UnderLineContentBox>
+              <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
                   style={{ marginRight: '20px', width: '180px' }}
                 >
@@ -64,7 +86,7 @@ const BuyingInfo = ({ complete }) => {
                 </UnderLineContent>
                 <UnderLineContent>{user.email}</UnderLineContent>
               </UnderLineContentBox>
-              <UnderLineContentBox>
+              <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
                   style={{ marginRight: '20px', width: '180px' }}
                 >
@@ -77,67 +99,48 @@ const BuyingInfo = ({ complete }) => {
           <div>
             <UnderLineContentsBox>배송지 정보</UnderLineContentsBox>
             <div style={{ height: '230px' }}>
-              <UnderLineContentBox>
+              <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
                   style={{ marginRight: '20px', width: '180px' }}
                 >
                   수령인
                 </UnderLineContent>
-                <UnderLineContent>{takeUser.name}</UnderLineContent>
+                <UnderLineContent>{delivery.receiver}</UnderLineContent>
               </UnderLineContentBox>
-              <UnderLineContentBox>
+              <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
                   style={{ marginRight: '20px', width: '180px' }}
                 >
                   휴대폰 번호
                 </UnderLineContent>
-                <UnderLineContent>{takeUser.phone}</UnderLineContent>
+                <UnderLineContent>{delivery.contact}</UnderLineContent>
               </UnderLineContentBox>
-              <UnderLineContentBox>
+              <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
-                  style={{ marginRight: '20px', width: '180px' }}
+                  style={{ marginRight: '45px', width: '140px' }}
                 >
                   배송지 주소
                 </UnderLineContent>
-                <UnderLineContent>{takeUser.adress}</UnderLineContent>
-              </UnderLineContentBox>
-              <UnderLineContentBox>
-                <UnderLineContent
-                  style={{ marginRight: '20px', width: '180px' }}
-                >
-                  배송 요청사항
+                <UnderLineContent>
+                  {delivery.basicAddress + delivery.detailAddress}
                 </UnderLineContent>
                 {complete ? (
-                  <UnderLineContent
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <span style={{ alignSelf: 'center' }}>
-                      {takeUser.require}
-                    </span>
-                    <Button
-                      onClick={handleOpen}
-                      variant="contained"
-                      sx={{
-                        width: '140px',
-                        height: '30px',
+                  ''
+                ) : (
+                  <ShippingAddressModal>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
-                      배송지 변경
-                    </Button>
-                    <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <ShippingAddressModal />
-                    </Modal>
-                  </UnderLineContent>
-                ) : (
-                  <UnderLineContent>{takeUser.require}</UnderLineContent>
+                      <Button variant="contained" style={{ width: '100px' }}>
+                        배송 변경
+                      </Button>
+                    </div>
+                  </ShippingAddressModal>
                 )}
               </UnderLineContentBox>
             </div>
@@ -145,17 +148,30 @@ const BuyingInfo = ({ complete }) => {
         </div>
       </div>
       {complete ? (
-        <Link to={'/'}>
-          <Button
-            variant="contained"
-            sx={{ width: '230px', height: '50px', marginTop: '30px' }}
-          >
-            확인 완료
-          </Button>
-        </Link>
+        <Button
+          variant="contained"
+          sx={{ width: '230px', height: '50px', marginTop: '30px' }}
+          onClick={() => {
+            dispatch(
+              calculation(
+                content.id,
+                user.username,
+                delivery.id,
+                authKey,
+                customerKey,
+                reward
+              )
+            )
+            alert('결제가 완료되었습니다.')
+            navigate('/')
+          }}
+        >
+          {[amount].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          결제하기
+        </Button>
       ) : null}
     </div>
   )
 }
 
-export default BuyingInfo
+export default PaymentInfo

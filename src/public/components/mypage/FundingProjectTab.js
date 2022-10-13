@@ -68,6 +68,107 @@ function FundingProject() {
     margin: 10px 0;
   `;
 
+  function createData(
+    paymentState,
+    projectName,
+    achievements,
+    paymentAt,
+    orderAt,
+    fundingId,
+    rewardName,
+    option,
+    number,
+    recipient,
+    phone,
+    address,
+    paymentMethod,
+    totalAmount
+  ) {
+    return {
+      paymentState,
+      projectName,
+      achievements,
+      paymentAt,
+      orderAt,
+      fundingId,
+      rewardName,
+      option,
+      number,
+      recipient,
+      phone,
+      address,
+      paymentMethod,
+      totalAmount,
+    };
+  }
+
+  const datas = [
+    createData(
+      "결제 대기",
+      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
+      "456%",
+      "2022.08.26",
+      "2022.08.02",
+      "108963",
+      "에스튜브 1세트",
+      "없음",
+      "1개",
+      "leisurethat",
+      "010-1234-5678",
+      "경기도 성남시 수정구 대왕판교로 815",
+      "네이버페이 / 일시불",
+      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
+    ),
+    createData(
+      "배송 중",
+      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
+      "456%",
+      "2022.08.26",
+      "2022.08.02",
+      "108963",
+      "에스튜브 1세트",
+      "없음",
+      "1개",
+      "leisurethat",
+      "010-1234-5678",
+      "경기도 성남시 수정구 대왕판교로 815",
+      "네이버페이 / 일시불",
+      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
+    ),
+    createData(
+      "배송 완료",
+      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
+      "456%",
+      "2022.08.26",
+      "2022.08.02",
+      "108963",
+      "에스튜브 1세트",
+      "없음",
+      "1개",
+      "leisurethat",
+      "010-1234-5678",
+      "경기도 성남시 수정구 대왕판교로 815",
+      "네이버페이 / 일시불",
+      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
+    ),
+    createData(
+      "후원 취소",
+      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
+      "456%",
+      "2022.08.26",
+      "2022.08.02",
+      "108963",
+      "에스튜브 1세트",
+      "없음",
+      "1개",
+      "leisurethat",
+      "010-1234-5678",
+      "경기도 성남시 수정구 대왕판교로 815",
+      "네이버페이 / 일시불",
+      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
+    ),
+  ];
+
   return (
     <>
       {fundingList && fundingList.projectName && (
@@ -99,6 +200,7 @@ function FundingProject() {
                   </LeisurethatMainColorText>
                   <Leisurethat70ColorText>
                     {fundingList.orderDate} 펀딩 참여
+
                   </Leisurethat70ColorText>
                 </RewardCont>
               </ProjectRewardCont>

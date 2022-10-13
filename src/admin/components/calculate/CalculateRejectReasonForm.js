@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
@@ -10,6 +10,7 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { TextField } from "@mui/material";
 import styled from "styled-components";
+
 
 import {
   SET_CALCULATE_REJECT_REASON,
@@ -125,6 +126,7 @@ function CalculateRejectReasonForm({ round, close }) {
                   프로젝트 명
                 </Box>
                 <Box sx={{ fontSize: "16" }}>{detail.projectName}</Box>
+
               </Stack>
               <Stack
                 direction="row"
@@ -138,6 +140,7 @@ function CalculateRejectReasonForm({ round, close }) {
                   판매자 ID
                 </Box>
                 <Box sx={{ fontSize: "16" }}>{detail.makerUserName}</Box>
+
               </Stack>
               <Stack
                 direction="row"
@@ -151,6 +154,7 @@ function CalculateRejectReasonForm({ round, close }) {
                   카테고리
                 </Box>
                 <Box sx={{ fontSize: "16" }}>{detail.category}</Box>
+
               </Stack>
             </Box>
           </Box>

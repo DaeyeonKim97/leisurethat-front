@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -42,6 +43,7 @@ export default function MakerInfoModal(props) {
       >
         {props.children}
       </div>
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -53,9 +55,11 @@ export default function MakerInfoModal(props) {
             프로젝트 정보
           </Typography>
           <Divider style={{ marginBottom: "20px" }} />
+
           <ProjectInfo close={handleClose} />
         </Box>
       </Modal>
     </div>
   );
+
 }

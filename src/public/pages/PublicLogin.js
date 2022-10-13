@@ -1,11 +1,17 @@
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import MainInput from '../components/Login/MainInput'
-import { useLocation } from 'react-router-dom'
-import MainFormError from '../components/Login/MainFormError'
-import MainButton from '../components/Login/MainButton'
+// import MainInput from '../components/Login/MainInput'
+import { Link, useLocation } from 'react-router-dom'
+// import MainFormError from '../components/Login/MainFormError'
+// import MainButton from '../components/Login/MainButton'
 import MainFormBox from '../components/Main/MainFormBox'
 import { BaseBox } from '../components/shared'
+import MainInput from '../components/User/MainInput'
+import MainFormError from '../components/User/MainFormError'
+import MainButton from '../components/User/MainButton'
+import{callLoginAPI} from '../apis/MemberApiCalls';
+import { useNavigate } from 'react-router-dom';
+
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -20,7 +26,9 @@ const LogoContainer = styled.img`
 `
 
 const PublicLogin = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -31,18 +39,20 @@ const PublicLogin = () => {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      userName: location?.state?.userName || '',
+      username: location?.state?.username || '',
       password: location?.state?.password || '',
     },
   })
 
   const loading = false
 
-  const onSubmitValid = (data) => {
+  const onSubmitValid = async(form) => {
     if (loading) {
       return
     }
-    const { userName, password } = getValues()
+    const response = await callLoginAPI({form : form});
+
+    const { username, password } = getValues()
   }
 
   return (
@@ -52,18 +62,18 @@ const PublicLogin = () => {
           <div style={{ fontSize: '30px', fontWeight: 'bolder' }}>로그인</div>
           <form onSubmit={handleSubmit(onSubmitValid)}>
             <MainInput
-              {...register('userName', {
+              {...register('username', {
                 required: '아이디를 입력해 주세요.',
                 onChange() {
                   clearErrors('result')
                 },
-                minLength: { value: 5, message: '5글자 이상 입력해주세요.' },
+                // minLength: { value: 5, message: '5글자 이상 입력해주세요.' },
               })}
               type="text"
               placeholder="아이디"
-              hasError={Boolean(errors?.userName?.message)}
+              hasError={Boolean(errors?.username?.message)}
             />
-            <MainFormError message={errors?.userName?.message} />
+            <MainFormError message={errors?.username?.message} />
             <MainInput
               {...register('password', {
                 required: '비밀번호를 입력해 주세요.',
@@ -86,7 +96,9 @@ const PublicLogin = () => {
                 cursor: 'pointer',
               }}
             >
-              <div>아이디/비멀번호 찾기</div>
+              <div>
+                <Link to={'/user/match'}>아이디/비밀번호 찾기</Link>
+              </div>
             </div>
             <MainButton
               type="submit"
@@ -102,7 +114,7 @@ const PublicLogin = () => {
                 bgColor="#FEE500"
                 value={'카카오로 로그인'}
               />
-              <LogoContainer src="static/img/kakao.png" />
+              <LogoContainer src="/static/img/kakao.png" />
             </ButtonContainer>
             <ButtonContainer>
               <MainButton
@@ -111,7 +123,7 @@ const PublicLogin = () => {
                 bgColor="#00D337"
                 value={'네이버로 로그인'}
               />
-              <LogoContainer src="static/img/naver.png" />
+              <LogoContainer src="/static/img/naver.png" />
             </ButtonContainer>
             <MainFormError message={errors?.result?.message} />
           </form>
@@ -123,11 +135,11 @@ const PublicLogin = () => {
               fontSize: '12px',
             }}
           >
-            회원이 아니신가요?{' '}
+            회원이 아니신가요?
             <div
               style={{ marginLeft: '5px', color: '#00aeef', cursor: 'pointer' }}
             >
-              회원가입
+              <Link to={'/user/signup'}>회원가입</Link>
             </div>
           </div>
         </div>

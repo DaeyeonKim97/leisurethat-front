@@ -103,6 +103,7 @@ export default function CalculateTable() {
                     {calculate.projectName}
                   </StyledTableCell>
                   <StyledTableCell align="center">
+
                     <div
                       style={{
                         display: "flex",

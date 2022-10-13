@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal'
 import { Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
+import axios from 'axios'
 
 const style = {
   position: 'absolute',
@@ -22,6 +23,35 @@ export default function JudgeRefuseModal(props) {
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const [available, setAvailable] = React.useState(true)
+
+  const onClickRefuse = () => {
+    if (available) {
+      setAvailable(false)
+      let accessToken = 'Bearer ' + localStorage.getItem('accessToken')
+      axios
+        .delete(
+          'http://localhost:8001/project-detail/enroll/' + props.projectId,
+          {},
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res)
+          props.setInit(true)
+          alert('반려되었습니다')
+          handleClose()
+        })
+        .catch((err) => {
+          alert('프로젝트 정보 / 토큰 정보를 다시 확인해주세요!')
+          setAvailable(true)
+        })
+    }
   }
 
   return (
@@ -55,10 +85,18 @@ export default function JudgeRefuseModal(props) {
               <p style={{ margin: '7px 0px' }}>반려 사유를 등록해야 합니다. </p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'right' }}>
-              <Button variant="contained" style={{ marginRight: '5px' }}>
-                확인
+              {available ? (
+                <Button
+                  variant="contained"
+                  style={{ marginRight: '5px' }}
+                  onClick={onClickRefuse}
+                >
+                  확인
+                </Button>
+              ) : null}
+              <Button variant="outlined" onClick={handleClose}>
+                취소
               </Button>
-              <Button variant="outlined">취소</Button>
             </div>
           </Box>
         </Box>

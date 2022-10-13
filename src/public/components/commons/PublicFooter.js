@@ -84,7 +84,7 @@ export default function PublicFooter() {
   return (
     <FooterBigContainer>
       <FooterContainer>
-        <ImgContainer src="static/img/Logo_big.png" />
+        <ImgContainer src="/static/img/Logo_big.png" />
         <FooterTop>
           <div>
             <FooterRTitle>투자위험고지</FooterRTitle>

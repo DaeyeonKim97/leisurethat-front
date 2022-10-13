@@ -11,12 +11,7 @@ import { Typography, Button } from '@mui/material'
 import WaitingPaymentPagenation from './WaitingPaymentPagenation'
 import IconButton from '@mui/material/IconButton'
 import PageviewIcon from '@mui/icons-material/Pageview'
-
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
-import ProjectInfoModal from '../common/ProjectInfoModal/ProjectInfoModal'
 import MemberInfoModal from '../common/MemberInfoModal/MemberInfoModal'
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#6297BA',
@@ -38,26 +33,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-function createData(id, memberID, paymentStatus, paymentPrice, reward) {
-  return {
-    id,
-    memberID,
-    paymentStatus,
-    paymentPrice,
-    reward,
+export default function WaitingPaymentTable(id) {
+  const projectId = 1
+
+  function createData(id, memberID, paymentStatus, paymentPrice, reward) {
+    return {
+      id,
+      memberID,
+      paymentStatus,
+      paymentPrice,
+      reward,
+    }
   }
-}
 
-const rows = [
-  createData(1, 'member1212', '결제대기', '25000', '리워드1번'),
-  createData(2, 'member1212', '결제대기', '25000', '리워드1번'),
-  createData(3, 'member1212', '결제대기', '25000', '리워드1번'),
-  createData(4, 'member1212', '결제대기', '25000', '리워드1번'),
-  createData(5, 'member1212', '결제대기', '25000', '리워드1번'),
-  createData(6, 'member1212', '결제대기', '25000', '리워드1번'),
-]
+  let [rows, setRows] = React.useState([])
 
-export default function WaitingPaymentTable() {
+  React.useEffect(() => {
+    const getMemberList = async (page) => {
+      const requestURL = `http://localhost:8001/order/waiting?projectId=${projectId}`
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      rows = await fetch(requestURL, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => data.results.waitingList)
+
+      console.log('rows :', rows)
+      setRows(rows)
+    }
+
+    getMemberList(0)
+  }, [])
+
   return (
     <>
       <TableContainer
@@ -100,7 +111,7 @@ export default function WaitingPaymentTable() {
             {rows.map((row) => (
               <StyledTableRow key={row.id} hover>
                 <StyledTableCell component="th" scope="row" sx={{ width: 100 }}>
-                  {row.id}
+                  {row.orderId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
@@ -111,7 +122,7 @@ export default function WaitingPaymentTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.memberID}
+                    {row.sponserName}
                     <MemberInfoModal>
                       <IconButton
                         color="primary"
@@ -123,12 +134,14 @@ export default function WaitingPaymentTable() {
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.paymentStatus}
+                  {row.orderStatus}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.paymentPrice}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.reward}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.rewardName}
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

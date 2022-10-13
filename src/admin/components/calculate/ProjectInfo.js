@@ -1,7 +1,9 @@
+
 import { Button, Modal, Stack, Box } from "@mui/material";
 import React from "react";
 
 import MainFundingProject from "../../../public/components/Main/MainFundingProject";
+
 import {
   UnderLineContent,
   UnderLineContentBox,
@@ -67,6 +69,7 @@ const ProjectInfo = ({ close }) => {
                 <UnderLineContentBox>
                   <UnderLineContent
                     style={{ marginRight: "20px", width: "180px" }}
+
                   >
                     이름
                   </UnderLineContent>
@@ -75,6 +78,7 @@ const ProjectInfo = ({ close }) => {
                 <UnderLineContentBox>
                   <UnderLineContent
                     style={{ marginRight: "20px", width: "180px" }}
+
                   >
                     이메일
                   </UnderLineContent>
@@ -83,6 +87,7 @@ const ProjectInfo = ({ close }) => {
                 <UnderLineContentBox>
                   <UnderLineContent
                     style={{ marginRight: "20px", width: "180px" }}
+
                   >
                     휴대폰 번호
                   </UnderLineContent>
@@ -96,6 +101,7 @@ const ProjectInfo = ({ close }) => {
                 <UnderLineContentBox>
                   <UnderLineContent
                     style={{ marginRight: "20px", width: "50%" }}
+
                   >
                     프로젝트 명
                   </UnderLineContent>
@@ -104,12 +110,14 @@ const ProjectInfo = ({ close }) => {
                 <UnderLineContentBox>
                   <UnderLineContent
                     style={{ marginRight: "20px", width: "50%" }}
+
                   >
                     시작일
                   </UnderLineContent>
                   <UnderLineContent>{reward.startDate}</UnderLineContent>
                   <UnderLineContent
                     style={{ marginRight: "20px", width: "50%" }}
+
                   >
                     종료일
                   </UnderLineContent>
@@ -128,6 +136,7 @@ const ProjectInfo = ({ close }) => {
                     참여 인원
                   </UnderLineContent>
                   <UnderLineContent style={{ width: "50%" }}>
+
                     {reward.totalPersonnel}
                   </UnderLineContent>
                 </UnderLineContentBox>
@@ -148,6 +157,7 @@ const ProjectInfo = ({ close }) => {
                   {fundingInfo.payAmount}
                 </UnderLineContent>
                 <UnderLineContent style={{ marginRight: "20px", width: "50%" }}>
+
                   {fundingInfo.payCase}
                 </UnderLineContent>
               </UnderLineContentBox>
@@ -159,6 +169,7 @@ const ProjectInfo = ({ close }) => {
                   {fundingInfo.cardAmount}
                 </UnderLineContent>
                 <UnderLineContent sx={{ width: "50%" }}>
+
                   {fundingInfo.cardCase}
                 </UnderLineContent>
               </UnderLineContentBox>
@@ -167,6 +178,7 @@ const ProjectInfo = ({ close }) => {
                   총 펀딩 금액
                 </UnderLineContent>
                 <UnderLineContent sx={{ width: "50%" }}>
+
                   {fundingInfo.totalCal}
                 </UnderLineContent>
               </UnderLineContentBox>
@@ -186,6 +198,7 @@ const ProjectInfo = ({ close }) => {
                   정산일
                 </UnderLineContent>
                 <UnderLineContent sx={{ width: "50%", fontSize: "12px" }}>
+
                   {calInfo.cal1Date}
                 </UnderLineContent>
               </UnderLineContentBox>
@@ -200,6 +213,7 @@ const ProjectInfo = ({ close }) => {
                   정산일
                 </UnderLineContent>
                 <UnderLineContent sx={{ width: "50%" }}>
+
                   {calInfo.cal2Date}
                 </UnderLineContent>
               </UnderLineContentBox>
@@ -208,6 +222,7 @@ const ProjectInfo = ({ close }) => {
                   총 정산 금액
                 </UnderLineContent>
                 <UnderLineContent sx={{ width: "50%" }}>
+
                   {calInfo.totalCal}
                 </UnderLineContent>
               </UnderLineContentBox>
@@ -220,6 +235,7 @@ const ProjectInfo = ({ close }) => {
         <Button
           variant="contained"
           sx={{ width: "230px", height: "50px", marginTop: "30px" }}
+
           onClick={close}
         >
           확인 완료
@@ -230,3 +246,4 @@ const ProjectInfo = ({ close }) => {
 };
 
 export default ProjectInfo;
+

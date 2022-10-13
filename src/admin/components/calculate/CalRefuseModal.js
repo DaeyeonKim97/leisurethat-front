@@ -6,7 +6,6 @@ import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import CalculateRejectReasonForm from "./CalculateRejectReasonForm";
-
 import { callGetCalculateDetail } from "../../apis/CalculateAPICalls";
 import { useDispatch } from "react-redux";
 import { SET_CALCULATE_JUDGE } from "../../../modules/calculate/CalculateJudgeModule";

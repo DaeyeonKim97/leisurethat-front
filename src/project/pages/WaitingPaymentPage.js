@@ -3,6 +3,7 @@ import WaitingPaymentSearchForm from '../components/payment/WaitingPaymentSearch
 import WaitingPaymentTable from '../components/payment/WaitingPaymentTable'
 
 export default function WaitingPaymentPage() {
+  console.log('재휘')
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
