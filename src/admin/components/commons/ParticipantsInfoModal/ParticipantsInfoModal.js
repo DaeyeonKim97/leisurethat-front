@@ -3,6 +3,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
 import { Divider } from '@mui/material'
+import { useState } from 'react'
+import axios from 'axios'
 
 const style = {
   position: 'absolute',
@@ -24,6 +26,27 @@ export default function ParticipantsInfoModal(props) {
     setOpen(false)
   }
 
+  const [info, setInfo] = useState()
+
+  React.useEffect(() => {
+    console.log(props.projectId)
+    if (props.projectId) {
+      axios
+        .get(
+          `http://localhost:8001/project-detail/${props.projectId}/participant`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data)
+          setInfo(res.data.results.paymentList)
+        })
+    }
+  }, [])
+
   return (
     <div>
       <div
@@ -43,7 +66,15 @@ export default function ParticipantsInfoModal(props) {
             참여자 정보
           </Typography>
           <Divider style={{ marginBottom: '20px' }} />
-          Modal test
+          {info
+            ? info.map((payment) => (
+                <div>
+                  [{payment.paymentId}] {payment.order.orderMember.memberName} -{' '}
+                  {payment.order.orderReward.rewardTitle} {payment.paymentCount}
+                  개 : {payment.paymentPrice}₩ ({payment.paymentDate})
+                </div>
+              ))
+            : null}
         </Box>
       </Modal>
     </div>
