@@ -57,70 +57,32 @@ function createData(
   }
 }
 
-const rows = [
-  createData(
-    1,
-    'member1212',
-    '결제대기',
-    '25000',
-    '리워드1번',
-    '2022-09-19',
-    '',
-    'Y'
-  ),
-  createData(
-    2,
-    'member1212',
-    '결제대기',
-    '25000',
-    '리워드1번',
-    '2022-09-19',
-    '',
-    'Y'
-  ),
-  createData(
-    3,
-    'member1212',
-    '결제대기',
-    '25000',
-    '리워드1번',
-    '2022-09-19',
-    '',
-    'N'
-  ),
-  createData(
-    4,
-    'member1212',
-    '결제대기',
-    '25000',
-    '리워드1번',
-    '2022-09-19',
-    '',
-    'Y'
-  ),
-  createData(
-    5,
-    'member1212',
-    '결제대기',
-    '25000',
-    '리워드1번',
-    '2022-09-19',
-    '',
-    'N'
-  ),
-  createData(
-    6,
-    'member1212',
-    '결제대기',
-    '25000',
-    '리워드1번',
-    '2022-09-19',
-    '',
-    'Y'
-  ),
-]
+export default function CompletePaymentTable(id) {
+  let projectId = 1
 
-export default function CompletePaymentTable() {
+  let [rows, setRows] = React.useState([])
+
+  React.useEffect(() => {
+    const getMemberList = async (page) => {
+      const requestURL = `http://localhost:8001/order/complete?projectId=${projectId}`
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      rows = await fetch(requestURL, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => data.results.completeList)
+
+      console.log('rows :', rows)
+      setRows(rows)
+    }
+
+    getMemberList(0)
+  }, [])
+
   return (
     <>
       <TableContainer
@@ -164,14 +126,14 @@ export default function CompletePaymentTable() {
           </TableHead>
           <TableBody>
             {rows.map((row) => (
-              <StyledTableRow key={row.id} hover>
+              <StyledTableRow key={row.orderId} hover>
                 <StyledTableCell
                   component="th"
                   scope="row"
                   align="center"
                   sx={{ width: 100 }}
                 >
-                  {row.id}
+                  {row.orderId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
@@ -182,7 +144,7 @@ export default function CompletePaymentTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.memberID}
+                    {row.sponserName}
                     <MemberInfoModal>
                       <IconButton
                         color="primary"
@@ -194,12 +156,14 @@ export default function CompletePaymentTable() {
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.paymentStatus}
+                  {row.orderStatus}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.paymentPrice}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.reward}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.rewardName}
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.deliveryDate}
                 </StyledTableCell>
@@ -216,7 +180,7 @@ export default function CompletePaymentTable() {
                   </WaybillModal>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.deliveryYN === 'Y' ? '배송 완료' : '미 배송'}
+                  {row.deliveryStatus}
                 </StyledTableCell>
               </StyledTableRow>
             ))}

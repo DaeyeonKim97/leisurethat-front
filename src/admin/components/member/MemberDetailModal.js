@@ -6,6 +6,7 @@ import { Divider } from '@mui/material'
 import styled from "styled-components";
 import MemberLogTable from './MeberLogTable';
 import MemberFundingLogTable from './MemberFundingLogTable';
+import {useForm} from "react-hook-form";
 
 
 
@@ -84,11 +85,18 @@ button{
 `;
 
 export default function MemberDetailModal(props) {
+
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
   }
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm();
 
   return (
     <div>
@@ -113,54 +121,126 @@ export default function MemberDetailModal(props) {
 
                 <MemberFormBox>
                     <label>회원Id<span>*</span></label>
-                    <input type="text" defaultValue={props.id}></input>
+                    <input 
+                        name='id'
+                        type="text"
+                        {...register("id", {
+                        })}   
+                        defaultValue={props.id} 
+                        readOnly/>
                 </MemberFormBox>
 
 
                 <MemberFormBox>
                     <label>아이디</label>
-                    <input type="text"></input>
+                    <input 
+                        name='username'
+                        type="text"
+                        {...register("username", {
+                        })}   
+                        defaultValue={props.username} 
+                        readOnly/>
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>이름<span>*</span></label>
-                    <input type="text"></input>
+                    <input 
+                        name='name'
+                        type="text"
+                        {...register("name", {
+                        })}   
+                        defaultValue={props.name} 
+                        />
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>이메일<span>*</span></label>
-                    <input type="text"></input>
+                    <input 
+                        name='email'
+                        type="text"
+                        {...register("email", {
+                        })}   
+                        defaultValue={props.email} 
+                        />
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>휴대전화번호</label>
-                    <input type="text"></input>
+                    <input 
+                        name='phone'
+                        type="text"
+                        {...register("phone", {
+                        })}   
+                        defaultValue={props.phone} 
+                        />
                 </MemberFormBox>
 
                 <MemberFormBox>
-                    <label>기본배송지</label>
-                    <input type="text"></input>
+                <label>기본배송지</label>
+                <input 
+                        name='delivery'
+                        type="text"
+                        {...register("delivery", {
+                        })}   
+                        defaultValue={props.delivery} 
+                        />
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>가입일자</label>
-                    <input type="text"></input>
+                    <input 
+                        name='regDate'
+                        type="text"
+                        {...register("regDate", {
+                        })}   
+                        defaultValue={props.regDate} 
+                        readOnly/>
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>가입플랫폼</label>
-                    <input type="text"></input>
+                    <input 
+                        name='snsCategory'
+                        type="text"
+                        {...register("snsCategory", {
+                        })}   
+                        defaultValue={props.snsCategory} 
+                        readOnly/>
+                </MemberFormBox>
+
+                
+                <MemberFormBox>
+                    <label>권한<span>*</span></label>
+                    <input 
+                        name='role'
+                        type="text"
+                        {...register("role", {
+                        })}   
+                        defaultValue={props.role} 
+                        readOnly/>
                 </MemberFormBox>
 
                 <MemberFormBox>
                     <label>탈퇴여부<span>*</span></label>
-                    <input type="text"></input>
+                    <input 
+                        name='secYn'
+                        type="text"
+                        {...register("secYn", {
+                        })}   
+                        defaultValue={props.secYn} 
+                        />
                 </MemberFormBox>
 
                 
                 <MemberFormBox>
                     <label>탈퇴일자</label>
-                    <input type="text"></input>
+                    <input 
+                        name='secDate'
+                        type="text"
+                        {...register("secDate", {
+                        })}   
+                        defaultValue={props.secDate} 
+                        readOnly/>
                 </MemberFormBox>
 
                 <MemberFormBox style={{margin : "20px 0"}}>
@@ -173,13 +253,13 @@ export default function MemberDetailModal(props) {
 
             <MemberLogTableBox>
                 <h3>로그인 이력</h3>
-                <MemberLogTable/>
+                <MemberLogTable id={props.id}/>
 
-                <h3>아이디 변경 이력</h3>
+                {/* <h3>아이디 변경 이력</h3>
                 <MemberLogTable/>
 
                 <h3>휴대폰번호 변경 이력</h3>
-                <MemberLogTable/>
+                <MemberLogTable/> */}
 
                 <h3>펀딩 내역</h3>
                 <MemberFundingLogTable/>

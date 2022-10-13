@@ -17,8 +17,8 @@ import CalAcceptModal from "./CalAcceptModal";
 import CalRefuseModal from "./CalRefuseModal";
 import MakerInfoModal from "./MakerInfoModal";
 import ProjectInfoModal from "./ProjectInfoModal";
-import CalculatePagination from "./CalculatePagination";
 import CalculateModal from "./CalculateModal";
+import { useSelector } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,112 +41,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  projectId,
-  makerId,
-  makerName,
-  projectName,
-  calculateRound,
-  calculateState,
-  created,
-  accept
-) {
-  return {
-    projectId,
-    makerId,
-    makerName,
-    projectName,
-    calculateRound,
-    calculateState,
-    created,
-    accept,
-  };
-}
-
-const rows = [
-  createData(
-    1,
-    1,
-    "이상학",
-    "프로젝트 명",
-    "1차",
-    "승인 대기",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    2,
-    2,
-    "도연재",
-    "프로젝트 명",
-    "1차",
-    "승인 완료",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    3,
-    3,
-    "부시연",
-    "프로젝트 명",
-    "1차",
-    "정산 완료",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    4,
-    4,
-    "최은진",
-    "프로젝트 명",
-    "1차",
-    "정산 반려",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    5,
-    5,
-    "최윤서",
-    "프로젝트 명",
-    "2차",
-    "승인 대기",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    6,
-    6,
-    "문지현",
-    "프로젝트 명",
-    "2차",
-    "승인 완료",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    5,
-    5,
-    "최윤서",
-    "프로젝트 명",
-    "2차",
-    "정산 완료",
-    "2022-01-01",
-    "Y"
-  ),
-  createData(
-    6,
-    6,
-    "문지현",
-    "프로젝트 명",
-    "2차",
-    "정산 반려",
-    "2022-01-01",
-    "Y"
-  ),
-];
-
 export default function CalculateTable() {
+  const results = useSelector((state) => state.calculateReducer);
+  const calculateList = results.calculateList;
+
   return (
     <>
       <TableContainer
@@ -190,80 +88,22 @@ export default function CalculateTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, id) => (
-              <StyledTableRow key={id} hover>
-                <StyledTableCell
-                  component="th"
-                  scope="row"
-                  sx={{ width: 100 }}
-                  align="center"
-                >
-                  {row.projectId}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.projectName}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
+            {calculateList &&
+              calculateList.map((calculate, id) => (
+                <StyledTableRow key={id} hover>
+                  <StyledTableCell
+                    component="th"
+                    scope="row"
+                    sx={{ width: 100 }}
+                    align="center"
                   >
-                    {row.makerName}
-                    <MakerInfoModal>
-                      <IconButton
-                        color="primary"
-                        aria-label="add to shopping cart"
-                      >
-                        <PageviewIcon />
-                      </IconButton>
-                    </MakerInfoModal>
-                  </div>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {row.projectName}
-                    <ProjectInfoModal>
-                      <IconButton
-                        color="primary"
-                        aria-label="add to shopping cart"
-                      >
-                        <PageviewIcon />
-                      </IconButton>
-                    </ProjectInfoModal>
-                  </div>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.calculateRound}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.calculateState}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.created}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <CalculateModal buttonText="신청 내역" />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.calculateState === "정산 반려" ? (
-                    <CalculateModal
-                      buttonText="반려 사유"
-                      currentState={row.calculateState}
-                    />
-                  ) : (
-                    ""
-                  )}
+                    {calculate.projectId}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {calculate.projectName}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
 
-                  {row.calculateState === "승인 대기" ? (
                     <div
                       style={{
                         display: "flex",
@@ -272,42 +112,107 @@ export default function CalculateTable() {
                         justifyContent: "center",
                       }}
                     >
-                      <CalAcceptModal>
+                      {calculate.makerName}
+                      <MakerInfoModal calculateId={calculate.calculateId}>
                         <IconButton
                           color="primary"
                           aria-label="add to shopping cart"
                         >
-                          <CheckCircleOutlineIcon />
+                          <PageviewIcon />
                         </IconButton>
-                      </CalAcceptModal>
-                      <CalRefuseModal>
-                        <IconButton
-                          color="primary"
-                          aria-label="add to shopping cart"
-                        >
-                          <HighlightOffIcon color="error" />
-                        </IconButton>
-                      </CalRefuseModal>
+                      </MakerInfoModal>
                     </div>
-                  ) : (
-                    ""
-                  )}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {calculate.projectName}
+                      <ProjectInfoModal calculateId={calculate.calculateId}>
+                        <IconButton
+                          color="primary"
+                          aria-label="add to shopping cart"
+                        >
+                          <PageviewIcon />
+                        </IconButton>
+                      </ProjectInfoModal>
+                    </div>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {calculate.calculateRound}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {calculate.calculateStatus}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {calculate.calculateRegDate}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <CalculateModal
+                      buttonText="신청 내역"
+                      projectId={calculate.projectId}
+                      calculateId={calculate.calculateId}
+                    />
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {calculate.calculateStatus === "정산 반려" ? (
+                      <CalculateModal
+                        buttonText="반려 사유"
+                        currentState={calculate.calculateStatus}
+                        calculateId={calculate.calculateId}
+                      />
+                    ) : (
+                      ""
+                    )}
+
+                    {calculate.calculateStatus === "정산 신청" ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <CalAcceptModal
+                          calculateId={calculate.calculateId}
+                          projectId={calculate.projectId}
+                          calculateRound={calculate.calculateRound}
+                        >
+                          <IconButton
+                            color="primary"
+                            aria-label="add to shopping cart"
+                          >
+                            <CheckCircleOutlineIcon />
+                          </IconButton>
+                        </CalAcceptModal>
+                        <CalRefuseModal
+                          calculateId={calculate.calculateId}
+                          projectId={calculate.projectId}
+                          calculateRound={calculate.calculateRound}
+                        >
+                          <IconButton
+                            color="primary"
+                            aria-label="add to shopping cart"
+                          >
+                            <HighlightOffIcon color="error" />
+                          </IconButton>
+                        </CalRefuseModal>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "10px",
-        }}
-      >
-        <CalculatePagination />
-      </div>
     </>
   );
 }

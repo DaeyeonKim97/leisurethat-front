@@ -6,6 +6,9 @@ import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import CalculateRejectReasonForm from "./CalculateRejectReasonForm";
+import { callGetCalculateDetail } from "../../apis/CalculateAPICalls";
+import { useDispatch } from "react-redux";
+import { SET_CALCULATE_JUDGE } from "../../../modules/calculate/CalculateJudgeModule";
 const style = {
   position: "absolute",
   top: "50%",
@@ -70,8 +73,23 @@ function ChildModal({ modalType, close }) {
 }
 
 export default function CalRefuseModal(props) {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+
+    const judge = {
+      projectId: props.projectId,
+      calculateId: props.calculateId,
+      calculateRound: props.calculateRound,
+      calculateJudgeStatus: "반려",
+    };
+
+    dispatch({ type: SET_CALCULATE_JUDGE, payload: judge });
+    const calculateId = props.calculateId;
+    dispatch(callGetCalculateDetail({ calculateId }));
+  };
   const handleClose = () => {
     setOpen(false);
   };

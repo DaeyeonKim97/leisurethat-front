@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -6,6 +9,11 @@ import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 
+import {
+  SET_CALCULATE_JUDGE,
+  SET_JUDGE_SUCCESS,
+} from "../../../modules/calculate/CalculateJudgeModule";
+import { callCalculateJudgeRegistAPI } from "../../apis/CalculateAPICalls";
 const style = {
   position: "absolute",
   top: "50%",
@@ -18,9 +26,34 @@ const style = {
 };
 
 export default function CalAcceptModal(props) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateJudgeReducer);
+
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+
+  const handleOpen = () => {
+    setOpen(true);
+
+    const judge = {
+      projectId: props.projectId,
+      calculateId: props.calculateId,
+      calculateRound: props.calculateRound,
+      calculateJudgeStatus: "승인",
+    };
+
+    dispatch({ type: SET_CALCULATE_JUDGE, payload: judge });
+  };
   const handleClose = () => {
+    let formData = new FormData();
+
+    formData.append("projectId", results.projectId);
+    formData.append("calculateId", results.calculateId);
+    formData.append("projectId", results.projectId);
+    formData.append("calculateRound", results.calculateRound);
+    formData.append("calculateJudgeStatus", results.calculateJudgeStatus);
+    console.log(results);
+    dispatch(callCalculateJudgeRegistAPI(formData));
+    dispatch({ type: SET_JUDGE_SUCCESS });
     setOpen(false);
   };
 

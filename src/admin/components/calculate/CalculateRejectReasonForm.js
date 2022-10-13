@@ -1,3 +1,5 @@
+
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
@@ -8,37 +10,39 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { TextField } from "@mui/material";
 import styled from "styled-components";
-import CalculateModifyModal from "./CalculateModfiyModal";
 
-import TextArea from "./TextArea";
 
-function CalculateRejectReasonForm({ round, close, close2 }) {
+import {
+  SET_CALCULATE_REJECT_REASON,
+  SET_JUDGE_SUCCESS,
+} from "../../../modules/calculate/CalculateJudgeModule";
+import { callCalculateJudgeRegistAPI } from "../../apis/CalculateAPICalls";
+
+function CalculateRejectReasonForm({ round, close }) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateJudgeReducer);
+  const results2 = useSelector((state) => state.calculateReducer);
+  const detail = results2.calculateDetail;
+
+  const rejectSubmit = () => {
+    let formData = new FormData();
+
+    formData.append("projectId", results.projectId);
+    formData.append("calculateId", results.calculateId);
+    formData.append("projectId", results.projectId);
+    formData.append("calculateRound", results.calculateRound);
+    formData.append("calculateJudgeStatus", results.calculateJudgeStatus);
+    formData.append("calculateRejectTitle", " ");
+    formData.append("calculateRejectContent", results.calculateRejectContent);
+
+    dispatch(callCalculateJudgeRegistAPI(formData));
+    dispatch({ type: SET_JUDGE_SUCCESS });
+  };
+
   const ProjectLabel = styled.div`
     font-size: 24px;
     font-weight: bolder;
   `;
-
-  function createData(projectName, makerID, category, files, rejectContent) {
-    return {
-      projectName,
-      makerID,
-      category,
-      files,
-      rejectContent,
-    };
-  }
-
-  const data = createData(
-    "LEISURETHAT SAMPLE PROJECT 01",
-    "leisurethat2022",
-    "leisurethat sample category",
-    [
-      "LEISURETHAT_SAMPLE_PROJECT_01_video01.mp4",
-      "LEISURETHAT_SAMPLE_PROJECT_01_image01.png",
-      "LEISURETHAT_SAMPLE_PROJECT_01_image02.png",
-    ],
-    "반려사유 반려사유 반려사유 반려사유 반려사유 반려사유`~~~~"
-  );
 
   return (
     <>
@@ -121,7 +125,8 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
                 >
                   프로젝트 명
                 </Box>
-                <Box sx={{ fontSize: "16" }}>{data.projectName}</Box>
+                <Box sx={{ fontSize: "16" }}>{detail.projectName}</Box>
+
               </Stack>
               <Stack
                 direction="row"
@@ -134,7 +139,8 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
                 >
                   판매자 ID
                 </Box>
-                <Box sx={{ fontSize: "16" }}>{data.makerID}</Box>
+                <Box sx={{ fontSize: "16" }}>{detail.makerUserName}</Box>
+
               </Stack>
               <Stack
                 direction="row"
@@ -147,7 +153,8 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
                 >
                   카테고리
                 </Box>
-                <Box sx={{ fontSize: "16" }}>{data.category}</Box>
+                <Box sx={{ fontSize: "16" }}>{detail.category}</Box>
+
               </Stack>
             </Box>
           </Box>
@@ -180,19 +187,15 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
                 </Stack>
 
                 <Box sx={{ fontSize: "16" }}>
-                  {data.files.map((file, id) => (
-                    <>
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={1}
-                        sx={{ width: "100px" }}
-                      >
-                        <AttachFileIcon sx={{ color: "#00AEEF" }} />
-                        <div>{file}</div>
-                      </Stack>
-                    </>
-                  ))}
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ width: "100px" }}
+                  >
+                    <AttachFileIcon sx={{ color: "#00AEEF" }} />
+                    <div>{detail.atcDownload}</div>
+                  </Stack>
                 </Box>
               </Stack>
             </Box>
@@ -202,7 +205,7 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
             <ProjectLabel>반려 사유 / 피드백</ProjectLabel>
             <Box
               sx={{
-                height: "500px",
+                height: "300px",
                 borderRadius: "5px",
                 boxShadow: "0px 2px 4px gray",
               }}
@@ -214,7 +217,7 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
                 sx={{ padding: "20px" }}
               >
                 <FormatAlignLeftIcon sx={{ color: "#707070" }} />
-                <div>{data.projectName} 반려 사유 / 피드백</div>
+                <div>{detail.projectName} 반려 사유 / 피드백</div>
               </Stack>
               <Box
                 sx={{
@@ -223,19 +226,29 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
                   justifyContent: "center",
                 }}
               >
-                {/* <TextField
+                <TextField
                   id="outlined-multiline-static"
                   label="Multiline"
+                  name="calculateRejectContent"
                   multiline
                   rows={8}
-                  value={data.rejectContent}
+                  defaultValue={""}
                   sx={{
                     backgroundColor: "rgb(217,217,217, 0.1)",
                     width: "90%",
                     padding: "1%",
                   }}
-                /> */}
-                <TextArea />
+                  onChange={(e) => {
+                    dispatch({
+                      type: SET_CALCULATE_REJECT_REASON,
+                      payload: {
+                        name: e.target.name,
+                        value: e.target.value,
+                      },
+                    });
+                  }}
+                />
+                {/* <TextArea /> */}
               </Box>
             </Box>
           </Box>
@@ -244,7 +257,10 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
               variant="contained"
               color="primary"
               sx={{ fontWeight: "bold" }}
-              onClick={close}
+              onClick={() => {
+                rejectSubmit();
+                close();
+              }}
             >
               확인
             </Button>
@@ -254,7 +270,6 @@ function CalculateRejectReasonForm({ round, close, close2 }) {
               sx={{ fontWeight: "bold" }}
               onClick={() => {
                 close();
-                close2();
               }}
             >
               취소

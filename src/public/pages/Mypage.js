@@ -1,12 +1,26 @@
-import MypageTab from '../components/mypage/MypageTab';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+
+import styled from 'styled-components'
+
+import MypageTab from '../components/mypage/MypageTab'
+import {
+  callGetMyFundingList,
+  callGetMyProjectList,
+} from '../apis/MyPageAPICalls'
 
 function Mypage() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(callGetMyFundingList())
+    dispatch(callGetMyProjectList())
+  })
   const Title = styled.div`
     text-align: center;
     padding: 2%;
     border-bottom: 1px solid #d9d9d9; ;
-  `;
+  `
 
   return (
     <>
@@ -17,7 +31,7 @@ function Mypage() {
       </Title>
       <MypageTab />
     </>
-  );
+  )
 }
 
-export default Mypage;
+export default Mypage
