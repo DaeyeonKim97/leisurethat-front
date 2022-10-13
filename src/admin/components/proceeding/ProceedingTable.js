@@ -59,7 +59,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', '2022-01-01', 15, 'Y'),
 ]
 
-export default function ProceedingTable({ list }) {
+export default function ProceedingTable({ list, setInit }) {
   return (
     <>
       <TableContainer
@@ -120,7 +120,7 @@ export default function ProceedingTable({ list }) {
                     }}
                   >
                     {row.projectName}
-                    <ProjectInfoModal>
+                    <ProjectInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -140,7 +140,7 @@ export default function ProceedingTable({ list }) {
                     }}
                   >
                     {row.makerName}
-                    <MakerInfoModal>
+                    <MakerInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -152,7 +152,7 @@ export default function ProceedingTable({ list }) {
                 </StyledTableCell>
                 <StyledTableCell align="center">{row.endDate}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <ParticipantsInfoModal>
+                  <ParticipantsInfoModal projectId={row.projectId}>
                     <Button
                       variant="outlined"
                       style={{ margin: '0px 10px' }}
@@ -175,7 +175,10 @@ export default function ProceedingTable({ list }) {
                     {row.projectStatus === '모집중' ? (
                       <>
                         모집중
-                        <ProceedingRefuseModal>
+                        <ProceedingRefuseModal
+                          projectId={row.projectId}
+                          setInit={setInit}
+                        >
                           <IconButton color="primary">
                             <HighlightOffIcon color="primary" />
                           </IconButton>

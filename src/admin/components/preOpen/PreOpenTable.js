@@ -115,7 +115,7 @@ export default function PreOpenTable({ list }) {
                     }}
                   >
                     {row.projectName}
-                    <ProjectInfoModal>
+                    <ProjectInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -135,7 +135,7 @@ export default function PreOpenTable({ list }) {
                     }}
                   >
                     {row.makerName}
-                    <MakerInfoModal>
+                    <MakerInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"

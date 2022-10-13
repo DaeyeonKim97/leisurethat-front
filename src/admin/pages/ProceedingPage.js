@@ -31,7 +31,7 @@ export default function ProceedingPage() {
 
       setInit(false)
     }
-  }, [])
+  }, [init])
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
@@ -63,7 +63,7 @@ export default function ProceedingPage() {
           총 <span style={{ color: '#6297BA' }}>{count}</span> 개
         </section>
 
-        <ProceedingTable list={list} />
+        <ProceedingTable list={list} setInit={setInit} />
       </div>
     </section>
   )
