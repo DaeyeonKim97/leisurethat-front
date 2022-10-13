@@ -1,10 +1,11 @@
 /** @format */
 
-import Divider from '@mui/material/Divider';
-import PaymentSearchForm from '../components/Payment/PaymentSearchForm';
-import PaymentTable from '../components/Payment/PaymentTable';
-
+import Divider from '@mui/material/Divider'
+import PaymentSearchForm from '../components/Payment/PaymentSearchForm'
+import PaymentTable from '../components/Payment/PaymentTable'
+import { useSelector } from 'react-redux'
 export default function PaymentPage() {
+  const payments = useSelector((state) => state.adminPaymentHandler)
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
@@ -30,10 +31,14 @@ export default function PaymentPage() {
             alignSelf: 'flex-end',
           }}
         >
-          총 <span style={{ color: '#6297BA' }}>22320</span> 개
+          총{' '}
+          <span style={{ color: '#6297BA' }}>
+            {payments.length > 0 ? payments.length : '0'}
+          </span>{' '}
+          개
         </section>
         <PaymentTable />
       </div>
     </section>
-  );
+  )
 }
