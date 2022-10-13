@@ -61,7 +61,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', '2022-01-01', 15, 'Y'),
 ]
 
-export default function GiveupTable() {
+export default function GiveupTable({ list, setInit }) {
   return (
     <>
       <TableContainer
@@ -103,15 +103,15 @@ export default function GiveupTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.id} hover>
+            {list.map((row) => (
+              <StyledTableRow key={row.projectId} hover>
                 <StyledTableCell
                   component="th"
                   scope="row"
                   sx={{ width: 100 }}
                   align="center"
                 >
-                  {row.id}
+                  {row.projectId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
@@ -122,8 +122,8 @@ export default function GiveupTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.name}
-                    <ProjectInfoModal>
+                    {row.projectName}
+                    <ProjectInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -142,8 +142,8 @@ export default function GiveupTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.makerID}
-                    <MakerInfoModal>
+                    {row.makerName}
+                    <MakerInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -154,7 +154,7 @@ export default function GiveupTable() {
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <GiveupReasonModal>
+                  <GiveupReasonModal projectId={row.projectId}>
                     <Button
                       variant="contained"
                       style={{ margin: '0px 10px' }}
@@ -172,7 +172,7 @@ export default function GiveupTable() {
                       style={{ margin: '0px 10px' }}
                       size="midium"
                     >
-                      총 {row.participant} 명
+                      총 {row.participantNum} 명
                     </Button>
                   </ParticipantsInfoModal>
                 </StyledTableCell>
@@ -186,7 +186,10 @@ export default function GiveupTable() {
                       marginLeft: '30%',
                     }}
                   >
-                    <GiveupAcceptModal>
+                    <GiveupAcceptModal
+                      projectId={row.projectId}
+                      setInit={setInit}
+                    >
                       <IconButton color="primary">
                         <CheckCircleIcon color="primary" />
                       </IconButton>

@@ -1,8 +1,36 @@
 import Divider from '@mui/material/Divider'
 import PreOpenTable from '../components/preOpen/PreOpenTable'
 import PreOpenSearchForm from '../components/preOpen/PreOpenSearchForm'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function PreOpenPage() {
+  const [init, setInit] = useState(true)
+  const [list, setList] = useState([])
+  const [count, setCount] = useState(0)
+  const [page, setPage] = useState(0)
+  const size = 6
+
+  useEffect(() => {
+    if (init) {
+      axios
+        .get(
+          `http://localhost:8001/project-detail/preopen?page=${page}&size=${size}`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data)
+          setList(res.data.results.projectList)
+          setCount(res.data.results.total)
+        })
+
+      setInit(false)
+    }
+  }, [])
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
@@ -31,10 +59,10 @@ export default function PreOpenPage() {
             alignSelf: 'flex-end',
           }}
         >
-          총 <span style={{ color: '#6297BA' }}>22320</span> 개
+          총 <span style={{ color: '#6297BA' }}>{count}</span> 개
         </section>
 
-        <PreOpenTable />
+        <PreOpenTable list={list} />
       </div>
     </section>
   )

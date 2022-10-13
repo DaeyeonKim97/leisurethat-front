@@ -1,13 +1,17 @@
 import { Editor } from '@tinymce/tinymce-react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
-const TextArea = () => {
+const TextArea = ({ value, setValue }) => {
   const editorRef = useRef(null)
+  const handleEditorChange = (e) => {
+    setValue(e.target.getContent())
+  }
   return (
     <Editor
       apiKey="28u6x0bzs1bf7gwucyrhtslc95fggcjdol0yz5w3lamypatr"
       onInit={(evt, editor) => (editorRef.current = editor)}
       initialValue="<p>내용을 작성해 주세요</p>"
+      onChange={handleEditorChange}
       init={{
         height: 400,
         width: 600,

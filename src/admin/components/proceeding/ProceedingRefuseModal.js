@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal'
 import { Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
+import axios from 'axios'
 
 const style = {
   position: 'absolute',
@@ -22,6 +23,35 @@ export default function ProceedingRefuseModal(props) {
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const [available, setAvailable] = React.useState(true)
+
+  const onClickRefuse = () => {
+    if (available) {
+      setAvailable(false)
+      let accessToken = 'Bearer ' + localStorage.getItem('accessToken')
+      axios
+        .delete(
+          'http://localhost:8001/project-detail/open/' + props.projectId,
+          {},
+          {
+            headers: {
+              Authorization: accessToken,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res)
+          props.setInit(true)
+          alert('프로젝트가 강제 종료되었습니다.')
+          handleClose()
+        })
+        .catch((err) => {
+          alert('프로젝트 정보 / 토큰 정보를 다시 확인해주세요!')
+          setAvailable(true)
+        })
+    }
   }
 
   return (
@@ -55,10 +85,16 @@ export default function ProceedingRefuseModal(props) {
               </p>
             </div>
             <div style={{ display: 'flex', justifyContent: 'right' }}>
-              <Button variant="contained" style={{ marginRight: '5px' }}>
+              <Button
+                variant="contained"
+                style={{ marginRight: '5px' }}
+                onClick={onClickRefuse}
+              >
                 확인
               </Button>
-              <Button variant="outlined">취소</Button>
+              <Button variant="outlined" onClick={handleClose}>
+                취소
+              </Button>
             </div>
           </Box>
         </Box>

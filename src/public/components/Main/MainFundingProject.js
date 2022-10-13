@@ -16,13 +16,13 @@ const TextBox = styled.div`
   margin-right: 20px;
 `
 
-const MainFundingProject = ({ contents, img, text }) => {
+const MainFundingProject = ({ item }) => {
   const navigate = useNavigate()
   return (
-    <FundingContainer key={contents}>
+    <FundingContainer>
       <div
         onClick={() => {
-          navigate('/project-detail/10')
+          navigate(`/project-detail/${item.projectId}`)
         }}
         style={{ cursor: 'pointer' }}
       >
@@ -31,7 +31,7 @@ const MainFundingProject = ({ contents, img, text }) => {
             height: '240px',
             width: '100%',
           }}
-          src={`${img}`}
+          src={`${item ? item.projectAttachment.downloadAddress : null}`}
         ></ImgBox>
         <TextBox
           style={{
@@ -43,7 +43,7 @@ const MainFundingProject = ({ contents, img, text }) => {
           }}
         >
           {' '}
-          {text}{' '}
+          {item ? item.projectName : null}{' '}
         </TextBox>
       </div>
       <FundingContents>
@@ -52,7 +52,7 @@ const MainFundingProject = ({ contents, img, text }) => {
             width: '100%',
           }}
         >
-          캠핑 | 사업자명
+          {item ? item.projectCategory : null} | {item ? item.memberName : null}
         </TextBox>
         <FundingContents
           style={{
@@ -82,11 +82,11 @@ const MainFundingProject = ({ contents, img, text }) => {
                 marginRight: '20px',
               }}
             >
-              300%
+              {item ? item.totalAmount / item.targetAmount : null}%
             </TextBox>
-            <TextBox>2,500,400원</TextBox>
+            <TextBox>{item ? item.totalAmount : null} 원</TextBox>
           </FundingContents>
-          <TextBox>2022.08.12</TextBox>
+          <TextBox>{item ? item.endDate : null}</TextBox>
         </FundingContents>
       </FundingContents>
     </FundingContainer>

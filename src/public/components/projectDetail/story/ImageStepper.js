@@ -12,21 +12,26 @@ import { autoPlay } from 'react-swipeable-views-utils'
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews)
 
-export default function ImageStepper({ activeStep, setActiveStep, items }) {
+export default function ImageStepper({
+  activeStep,
+  setActiveStep,
+  items,
+  productList,
+}) {
   const theme = useTheme()
   // const [activeStep, setActiveStep] = React.useState(0)
-  const maxSteps = items.length
+  const maxSteps = productList ? productList.length : 1
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    if (maxSteps > 1) setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    if (maxSteps > 1) setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
   const handleStepChange = (step) => {
-    setActiveStep(step)
+    if (maxSteps > 1) setActiveStep(step)
   }
 
   return (
@@ -42,7 +47,9 @@ export default function ImageStepper({ activeStep, setActiveStep, items }) {
           bgcolor: 'background.default',
         }}
       >
-        <Typography color="gray">{items[activeStep].label}</Typography>
+        <Typography color="gray">
+          {productList ? productList[activeStep].productName : null}
+        </Typography>
       </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -50,24 +57,26 @@ export default function ImageStepper({ activeStep, setActiveStep, items }) {
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
-        {items.map((step, index) => (
-          <div key={index}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 400,
-                  display: 'contain',
-                  maxWidth: 600,
-                  overflow: 'hidden',
-                  width: '100%',
-                  objectFit: 'cover',
-                }}
-                src={step.imgPath}
-              />
-            ) : null}
-          </div>
-        ))}
+        {productList
+          ? productList.map((step, index) => (
+              <div key={index}>
+                {Math.abs(activeStep - index) <= 2 ? (
+                  <Box
+                    component="img"
+                    sx={{
+                      height: 400,
+                      display: 'contain',
+                      maxWidth: 600,
+                      overflow: 'hidden',
+                      width: '100%',
+                      objectFit: 'cover',
+                    }}
+                    src={step.productAttachment.downloadAddress}
+                  />
+                ) : null}
+              </div>
+            ))
+          : null}
       </AutoPlaySwipeableViews>
       <MobileStepper
         steps={maxSteps}

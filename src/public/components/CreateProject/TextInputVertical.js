@@ -5,11 +5,13 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Stack } from '@mui/material'
 
-const TextInputVertical = ({ title, lg, cal }) => {
-  const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'))
-
-  const handleChange = (newValue) => {
-    setValue(newValue)
+const TextInputVertical = ({ title, lg, cal, label, value, setValue }) => {
+  const handleChange = (e) => {
+    setValue(e.target.value)
+  }
+  const handleDateChange = (e) => {
+    setValue(e.$d)
+    console.log(e.$d)
   }
   return (
     <div style={{ display: 'flex', marginTop: '20px' }}>
@@ -23,16 +25,18 @@ const TextInputVertical = ({ title, lg, cal }) => {
           multiline
           rows={10}
           maxRows={10}
+          value={value}
+          onChange={handleChange}
         />
       ) : cal ? (
         <div style={{ marginTop: '25px' }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack>
               <DesktopDatePicker
-                label="배송일 정하기"
+                label={label}
                 inputFormat="MM/DD/YYYY"
                 value={value}
-                onChange={handleChange}
+                onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
               />
             </Stack>
@@ -44,6 +48,8 @@ const TextInputVertical = ({ title, lg, cal }) => {
           label={title}
           variant="outlined"
           style={{ marginTop: '25px', width: '400px', height: '50px' }}
+          value={value}
+          onChange={handleChange}
         />
       )}
     </div>
