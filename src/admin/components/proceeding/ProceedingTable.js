@@ -59,7 +59,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', '2022-01-01', 15, 'Y'),
 ]
 
-export default function ProceedingTable() {
+export default function ProceedingTable({ list }) {
   return (
     <>
       <TableContainer
@@ -100,15 +100,15 @@ export default function ProceedingTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.id} hover>
+            {list.map((row) => (
+              <StyledTableRow key={row.projectId} hover>
                 <StyledTableCell
                   component="th"
                   scope="row"
                   sx={{ width: 100 }}
                   align="center"
                 >
-                  {row.id}
+                  {row.projectId}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <div
@@ -119,7 +119,7 @@ export default function ProceedingTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.name}
+                    {row.projectName}
                     <ProjectInfoModal>
                       <IconButton
                         color="primary"
@@ -139,7 +139,7 @@ export default function ProceedingTable() {
                       justifyContent: 'center',
                     }}
                   >
-                    {row.makerID}
+                    {row.makerName}
                     <MakerInfoModal>
                       <IconButton
                         color="primary"
@@ -150,7 +150,7 @@ export default function ProceedingTable() {
                     </MakerInfoModal>
                   </div>
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.end}</StyledTableCell>
+                <StyledTableCell align="center">{row.endDate}</StyledTableCell>
                 <StyledTableCell align="center">
                   <ParticipantsInfoModal>
                     <Button
@@ -158,7 +158,7 @@ export default function ProceedingTable() {
                       style={{ margin: '0px 10px' }}
                       size="midium"
                     >
-                      총 {row.participant} 명
+                      총 {row.participantNum} 명
                     </Button>
                   </ParticipantsInfoModal>
                 </StyledTableCell>
@@ -172,9 +172,9 @@ export default function ProceedingTable() {
                       marginLeft: '30%',
                     }}
                   >
-                    {row.status === 'Y' ? (
+                    {row.projectStatus === '모집중' ? (
                       <>
-                        펀딩 진행중
+                        모집중
                         <ProceedingRefuseModal>
                           <IconButton color="primary">
                             <HighlightOffIcon color="primary" />
