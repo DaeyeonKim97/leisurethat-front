@@ -31,7 +31,7 @@ export default function JudgePage() {
 
       setInit(false)
     }
-  }, [])
+  }, [init])
 
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
@@ -64,7 +64,7 @@ export default function JudgePage() {
           총 <span style={{ color: '#6297BA' }}>{count}</span> 개
         </section>
 
-        <JudgeTable list={list} />
+        <JudgeTable list={list} setInit={setInit} />
       </div>
     </section>
   )

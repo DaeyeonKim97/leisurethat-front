@@ -60,7 +60,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', 1, '2022-01-01', 'Y'),
 ]
 
-export default function JudgeTable({ list }) {
+export default function JudgeTable({ list, setInit }) {
   return (
     <>
       <TableContainer
@@ -119,7 +119,7 @@ export default function JudgeTable({ list }) {
                     }}
                   >
                     {row.makerName}
-                    <MakerInfoModal>
+                    <MakerInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -130,7 +130,7 @@ export default function JudgeTable({ list }) {
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ProjectInfoModal>
+                  <ProjectInfoModal projectId={row.projectId}>
                     <Button
                       variant="outlined"
                       style={{ margin: '0px 10px' }}
@@ -152,7 +152,10 @@ export default function JudgeTable({ list }) {
                       justifyContent: 'center',
                     }}
                   >
-                    <JudgeAcceptModal projectId={row.projectId}>
+                    <JudgeAcceptModal
+                      projectId={row.projectId}
+                      setInit={setInit}
+                    >
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -160,7 +163,10 @@ export default function JudgeTable({ list }) {
                         <CheckCircleOutlineIcon />
                       </IconButton>
                     </JudgeAcceptModal>
-                    <JudgeRefuseModal projectId={row.projectId}>
+                    <JudgeRefuseModal
+                      projectId={row.projectId}
+                      setInit={setInit}
+                    >
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
