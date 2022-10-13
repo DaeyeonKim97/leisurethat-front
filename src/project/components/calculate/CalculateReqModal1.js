@@ -10,7 +10,17 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Stack from "@mui/material/Stack";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
+import {
+  SET_CALCULATE_APPLICATION,
+  SET_FILE,
+  INIT_FILE,
+  SET_POST_SUCCESS,
+} from "../../../modules/calculate/CalculateApplicationModule";
+
+import { callCalculateApplicationRegistAPI } from "../../apis/CalculateAPICalls";
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,8 +35,25 @@ const style = {
 };
 
 function ChildModal({ close }) {
+  const results = useSelector((state) => state.calculateApplicationReducer);
+  const results2 = useSelector((state) => state.calculateProjectReducer);
+  const calculateInfo = results2.calculateInfo;
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
+    const formData = new FormData();
+
+    formData.append("projectId", results.projectId);
+    formData.append("calculateStatus", results.calculateStatus);
+    formData.append("calculateDivision", results.calculateDivision);
+    formData.append("totalCalAmount", results.totalCalAmount);
+    formData.append("preCalAmount", results.preCalAmount);
+    formData.append("balance", results.balance);
+    formData.append("title", results.title);
+    formData.append("content", results.content);
+    formData.append("preCalApplicationFile", results.preCalApplicationFile);
+
+    dispatch(callCalculateApplicationRegistAPI(formData));
     setOpen(true);
   };
   const handleClose = () => {
@@ -51,67 +78,87 @@ function ChildModal({ close }) {
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
-        <Box sx={{ ...style, width: 500, height: 300 }}>
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleClose}
-            >
-              <CloseIcon color="primary" />
-            </IconButton>
-          </Box>
-          <Box>
-            <Box
-              sx={{
-                fontSize: "20px",
-                fontWeight: "bold",
-              }}
-            >
-              1차 정산 신청이 완료되었습니다.
+        {calculateInfo ? (
+          <Box sx={{ ...style, width: 500, height: 300 }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleClose}
+              >
+                <CloseIcon color="primary" />
+              </IconButton>
             </Box>
-            <Box
-              sx={{ color: "#757575", margin: "20px 0", lineHeight: "20px" }}
-            >
-              LEISURETHAT SAMPLE PROJECT 01
-              <br />
-              2022-07-29 leisurethat01
-              <br />
-              1차 정산 신청이 완료되었습니다.
+            <Box>
+              <Box
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                1차 정산 신청이 완료되었습니다.
+              </Box>
+              <Box
+                sx={{ color: "#757575", margin: "20px 0", lineHeight: "20px" }}
+              >
+                {calculateInfo.projectName}
+                <br />
+                1차 정산 신청이 완료되었습니다.
+              </Box>
+              <Box sx={{ color: "#00AEEF", margin: "10px 0" }}>
+                {new Date().toString()}
+              </Box>
             </Box>
-            <Box sx={{ color: "#00AEEF", margin: "10px 0" }}>
-              2022년 7월 29일, 금요일 (GMT+9) 대한민국 시간
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ fontWeight: "bold" }}
+                onClick={handleClose}
+              >
+                확인
+              </Button>
             </Box>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ fontWeight: "bold" }}
-              onClick={handleClose}
-            >
-              확인
-            </Button>
-          </Box>
-        </Box>
+        ) : (
+          ""
+        )}
       </Modal>
     </React.Fragment>
   );
 }
 
 export default function CalculateReqModal1(props) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateProjectReducer);
+  const calculateInfo = results.calculateInfo;
+
+  const { projectId } = useParams();
+
   const { buttonText } = props;
 
   const [open, setOpen] = React.useState(false);
   const [files, setFiles] = React.useState([]);
   const handleOpen = () => {
     setOpen(true);
+
+    const applicationInfo = {
+      projectId: projectId,
+      calculateDivision: "1차정산",
+      calculateStatus: "1차정산요청",
+      totalCalAmount: calculateInfo.actualAmount,
+      preCalAmount: calculateInfo.preAmount,
+      balance: calculateInfo.actualAmount - calculateInfo.preAmount,
+    };
+
+    dispatch({ type: SET_CALCULATE_APPLICATION, payload: applicationInfo });
   };
   const handleClose = () => {
     setOpen(false);
+    deleteFile();
   };
 
   const inputFiles = (e) => {
@@ -132,26 +179,14 @@ export default function CalculateReqModal1(props) {
       }
       setFiles(fileList);
     }
+
+    dispatch({ type: SET_FILE, payload: e.target.files[0] });
   };
 
-  const deleteFile = (id) => {
-    setFiles(
-      files.filter((file, i) => {
-        console.log(file, i, id);
-
-        return i !== id;
-      })
-    );
+  const deleteFile = () => {
+    setFiles(null);
+    dispatch({ type: INIT_FILE });
   };
-
-  function createData(totalCal, cal1st) {
-    return {
-      totalCal,
-      cal1st,
-    };
-  }
-
-  const data = createData("10,000,000", "8,000,000");
 
   return (
     <>
@@ -172,131 +207,145 @@ export default function CalculateReqModal1(props) {
             height: 600,
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleClose}
-            >
-              <CloseIcon color="primary" />
-            </IconButton>
-          </Box>
-          <Box>
-            <header
-              style={{ color: "#00AEEF", fontSize: 24, fontWeight: "bold" }}
-            >
-              1차 정산 신청
-            </header>
-            <Table sx={{ margin: "10px 0" }}>
-              <TableBody>
-                <TableRow>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align="center"
-                    sx={{ fontWeight: "bold", width: "50%" }}
-                  >
-                    배송 완료
-                  </TableCell>
-                  <TableCell align="center">{data.totalCal}</TableCell>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align="center"
-                    sx={{ fontWeight: "bold", width: "50%" }}
-                  >
-                    배송 완료
-                  </TableCell>
-                  <TableCell align="center">{data.cal1st}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-
-            <Button
-              variant="contained"
-              component="label"
-              sx={{
-                width: "100%",
-                height: "100px",
-                backgroundColor: "#D9D9D9",
-                fontSize: 24,
-              }}
-            >
-              파일 선택
-              <input
-                hidden
-                accept="image/*"
-                multiple
-                type="file"
-                onChange={inputFiles}
-              />
-            </Button>
-            <Box
-              sx={{
-                textAlign: "center",
-                color: "#D9D9D9",
-                width: "100%",
-                height: "20px",
-                padding: "2%",
-                marginBottom: "20px",
-              }}
-            >
-              등록할 파일을 선택한 후 [등록] 버튼을 클릭해주세요.
-            </Box>
-            <Box sx={{ height: "250px", overflowY: "scroll" }}>
-              {files
-                ? files.map((file, id) => (
-                    <Box key={id} sx={{ margin: "10px" }}>
-                      {console.log(file, id, files[id])}
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={1}
-                        sx={{
-                          padding: "20px 10px",
-                          backgroundColor: "#F8F8F8",
-                        }}
-                      >
-                        <AttachFileIcon sx={{ color: "#00AEEF" }} />
-                        <div>{file.name}</div>
-
-                        <IconButton
-                          component="label"
-                          onClick={() => deleteFile(id)}
-                        >
-                          <CloseIcon color="primary" />
-                        </IconButton>
-                      </Stack>
-                    </Box>
-                  ))
-                : ""}
-
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={1}
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  padding: "30px",
-                }}
-              >
-                <ChildModal close={handleClose} />
-
-                <Button
-                  variant="outlined"
-                  component="label"
+          {calculateInfo ? (
+            <>
+              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
                   onClick={handleClose}
                 >
-                  취소
+                  <CloseIcon color="primary" />
+                </IconButton>
+              </Box>
+              <Box>
+                <header
+                  style={{ color: "#00AEEF", fontSize: 24, fontWeight: "bold" }}
+                >
+                  1차 정산 신청
+                </header>
+                <Table sx={{ margin: "10px 0" }}>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                        sx={{ fontWeight: "bold", width: "50%" }}
+                      >
+                        총 정산 금액
+                      </TableCell>
+                      <TableCell align="center">
+                        {new Intl.NumberFormat("ko-KR").format(
+                          calculateInfo.actualAmount
+                        )}
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        align="center"
+                        sx={{ fontWeight: "bold", width: "50%" }}
+                      >
+                        1차 정산 금액
+                      </TableCell>
+                      <TableCell align="center">
+                        {new Intl.NumberFormat("ko-KR").format(
+                          calculateInfo.preAmount
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{
+                    width: "100%",
+                    height: "100px",
+                    backgroundColor: "#D9D9D9",
+                    fontSize: 24,
+                  }}
+                >
+                  파일 선택
+                  <input
+                    hidden
+                    accept="image/*"
+                    multiple
+                    type="file"
+                    onChange={inputFiles}
+                  />
                 </Button>
-              </Stack>
-            </Box>
-          </Box>
+                <Box
+                  sx={{
+                    textAlign: "center",
+                    color: "#D9D9D9",
+                    width: "100%",
+                    height: "20px",
+                    padding: "2%",
+                    marginBottom: "20px",
+                  }}
+                >
+                  등록할 파일을 선택한 후 [등록] 버튼을 클릭해주세요.
+                </Box>
+                <Box sx={{ height: "250px", overflowY: "scroll" }}>
+                  {files
+                    ? files.map((file, id) => (
+                        <Box key={id} sx={{ margin: "10px" }}>
+                          {console.log(file, id, files[id])}
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={1}
+                            sx={{
+                              padding: "20px 10px",
+                              backgroundColor: "#F8F8F8",
+                            }}
+                          >
+                            <AttachFileIcon sx={{ color: "#00AEEF" }} />
+                            <div>{file.name}</div>
+
+                            <IconButton
+                              component="label"
+                              onClick={() => deleteFile()}
+                            >
+                              <CloseIcon color="primary" />
+                            </IconButton>
+                          </Stack>
+                        </Box>
+                      ))
+                    : ""}
+
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      padding: "30px",
+                    }}
+                  >
+                    <ChildModal close={handleClose} />
+
+                    <Button
+                      variant="outlined"
+                      component="label"
+                      onClick={handleClose}
+                    >
+                      취소
+                    </Button>
+                  </Stack>
+                </Box>
+              </Box>{" "}
+            </>
+          ) : (
+            ""
+          )}
         </Box>
       </Modal>
     </>

@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -6,6 +9,9 @@ import Grid from "@mui/material/Grid";
 import { Button, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+
+import { GET_SEARCH_ORDERCANCLE } from "../../../modules/cancle/OrderSearchModule";
+import { callGetOrderCancleList } from "../../apis/OrderAPICalls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -36,6 +42,29 @@ const CssTextField = styled(TextField)({
 });
 
 export default function CancleSearchForm() {
+  const dispatch = useDispatch();
+  const { id, sponserName } = useSelector(
+    (state) => state.orderCancleSearchReducer
+  );
+  const { projectId } = useParams();
+
+  const onChange = (e) => {
+    dispatch({
+      type: GET_SEARCH_ORDERCANCLE,
+      payload: {
+        name: e.target.name,
+        value: e.target.value,
+      },
+    });
+  };
+
+  const onClick = () => {
+    console.log(id);
+    console.log(sponserName);
+    // 액션 생성 함수 import
+    dispatch(callGetOrderCancleList({ projectId, sponserName, id }));
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
@@ -62,16 +91,20 @@ export default function CancleSearchForm() {
             </Typography>
             <CssTextField
               id="outlined-basic"
+              name="id"
               label="주문 번호"
               variant="outlined"
               size="small"
               style={{ margin: "0px 15px" }}
+              onChange={onChange}
             />
             <CssTextField
               id="outlined-basic"
+              name="sponserName"
               label="후원자 명"
               variant="outlined"
               size="small"
+              onChange={onChange}
             />
           </Grid>
           <Grid
@@ -79,7 +112,9 @@ export default function CancleSearchForm() {
             xs={2}
             style={{ display: "flex", justifyContent: "right" }}
           >
-            <Button variant="contained">search</Button>
+            <Button variant="contained" onClick={onClick}>
+              search
+            </Button>
           </Grid>
         </Grid>
       </Item>

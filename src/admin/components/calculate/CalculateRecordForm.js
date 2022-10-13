@@ -10,6 +10,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 import CalculateDetailRecordModal from "./CalculateDetailRecordModal";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { callGetCalculateApplicationList } from "../../apis/CalculateAPICalls";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -77,10 +80,18 @@ const rows = [
   ),
 ];
 
-export default function CalculateRecordForm() {
+export default function CalculateRecordForm({ projectId }) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateReducer);
+  const applicationList = results.calculateApplicationList;
+
+  useEffect(() => {
+    dispatch(callGetCalculateApplicationList({ projectId }));
+  }, []);
+
   return (
     <>
-      <div style={{ height: "80vh" }}>
+      <div style={{ height: "500px" }}>
         <header style={{ color: "#00AEEF", fontSize: 36, fontWeight: "bold" }}>
           정산 신청 내역
         </header>
@@ -96,12 +107,12 @@ export default function CalculateRecordForm() {
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            height: "calc(100% - 320px)",
+            height: "calc(100% - 100px)",
           }}
         >
           <TableContainer
             component={Paper}
-            sx={{ height: "95%" }}
+            sx={{ height: "400px" }}
             style={{
               display: "flex",
               flexDirection: "column",
@@ -109,7 +120,7 @@ export default function CalculateRecordForm() {
             }}
           >
             <Table
-              sx={{ minWidth: 700, height: "0.8" }}
+              sx={{ minWidth: 700, height: "400px" }}
               style={{ flex: 1 }}
               aria-label="customized table"
             >
@@ -127,38 +138,40 @@ export default function CalculateRecordForm() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row, id) => (
-                  <StyledTableRow key={id} hover>
-                    <StyledTableCell
-                      component="th"
-                      scope="row"
-                      sx={{ width: 100 }}
-                      align="center"
-                    >
-                      {row.calId}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.projectName}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.calculateState}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.calculateRound}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.calculateState}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.created}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <CalculateDetailRecordModal
-                        calculateRound={row.calculateRound}
-                      />
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
+                {applicationList &&
+                  applicationList.map((application, id) => (
+                    <StyledTableRow key={id} hover>
+                      <StyledTableCell
+                        component="th"
+                        scope="row"
+                        sx={{ width: 100 }}
+                        align="center"
+                      >
+                        {application.calculateId}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {application.projectName}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {application.calculateState}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {application.calculateRound}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {application.calculateStatus}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {application.calculateRegDate}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <CalculateDetailRecordModal
+                          calculateRound={application.calculateRound}
+                          calculateId={application.calculateId}
+                        />
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>

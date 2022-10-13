@@ -1,18 +1,22 @@
 import { combineReducers } from 'redux'
-import mainProjectHandler from './main/MainState'
-import paymentProjectHandler from './payment/PaymentState'
-import rewardHandler from './payment/RewardState'
-import userHandler from './payment/UserState'
-import deliveryHandler from './payment/DeliveryState'
-import adminPaymentHandler from './payment/AdminPaymentState'
+import calculateReducer from './calculate/CalculateModule'
+import calculateProjectReducer from './calculate/CalculateProjectModule'
+import orderReducer from './cancle/OrderModule'
+import orderCancleSearchReducer from './cancle/OrderSearchModule'
+import calculateApplicationReducer from './calculate/CalculateApplicationModule'
+import calculateJudgeReducer from './calculate/CalculateJudgeModule'
+import calculateRejectModifyReducer from './calculate/CalculateRejectModifyModule'
+import mypageReducer from './mypage/MypageModule'
 
 const rootReducer = combineReducers({
-  mainProjectHandler,
-  paymentProjectHandler,
-  rewardHandler,
-  userHandler,
-  deliveryHandler,
-  adminPaymentHandler,
+  calculateReducer,
+  orderReducer,
+  calculateProjectReducer,
+  orderCancleSearchReducer,
+  calculateApplicationReducer,
+  calculateJudgeReducer,
+  calculateRejectModifyReducer,
+  mypageReducer,
 })
 
 export default rootReducer
