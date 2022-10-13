@@ -5,7 +5,11 @@ import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import CalculateRejectReasonForm from "./CalculateRejectReasonForm";
 
+import { callGetCalculateDetail } from "../../apis/CalculateAPICalls";
+import { useDispatch } from "react-redux";
+import { SET_CALCULATE_JUDGE } from "../../../modules/calculate/CalculateJudgeModule";
 const style = {
   position: "absolute",
   top: "50%",
@@ -17,9 +21,76 @@ const style = {
   p: 2,
 };
 
-export default function CalRefuseModal(props) {
+function ChildModal({ modalType, close }) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    close();
+  };
+
+  return (
+    <React.Fragment>
+      <Button variant="contained" onClick={handleOpen}>
+        확인
+      </Button>
+      <Modal
+        hideBackdrop
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: "900px", height: "auto" }}>
+          <Box>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleClose}
+              >
+                <CloseIcon color="primary" />
+              </IconButton>
+            </Box>
+            <Box>
+              <CalculateRejectReasonForm close={handleClose} />
+            </Box>
+          </Box>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+
+export default function CalRefuseModal(props) {
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+
+    const judge = {
+      projectId: props.projectId,
+      calculateId: props.calculateId,
+      calculateRound: props.calculateRound,
+      calculateJudgeStatus: "반려",
+    };
+
+    dispatch({ type: SET_CALCULATE_JUDGE, payload: judge });
+    const calculateId = props.calculateId;
+    dispatch(callGetCalculateDetail({ calculateId }));
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -55,13 +126,7 @@ export default function CalRefuseModal(props) {
               <p style={{ margin: "7px 0px" }}>반려 사유를 등록해야 합니다. </p>
             </div>
             <div style={{ display: "flex", justifyContent: "right" }}>
-              <Button
-                variant="contained"
-                style={{ marginRight: "5px" }}
-                onClick={handleClose}
-              >
-                확인
-              </Button>
+              <ChildModal close={handleClose} />
               <Button variant="outlined" onClick={handleClose}>
                 취소
               </Button>

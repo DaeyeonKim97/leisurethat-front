@@ -143,7 +143,7 @@ export default function NestedModal(props) {
           </Box>
           <Box>
             {buttonText === "신청 내역" ? (
-              <CalculateRecordForm />
+              <CalculateRecordForm projectId={props.projectId} />
             ) : (
               // <CalculateHistoryForm
               //   round={round}
@@ -154,6 +154,7 @@ export default function NestedModal(props) {
                 round={round}
                 close={handleClose}
                 childModal={ChildModal}
+                calculateId={props.calculateId}
               />
             )}
           </Box>

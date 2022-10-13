@@ -5,7 +5,9 @@ import Modal from "@mui/material/Modal";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-
+import { useDispatch, useSelector } from "react-redux";
+import { callCalculateJudgeModifyAPI } from "../../apis/CalculateAPICalls";
+import { SET_PUT_SUCCESS } from "../../../modules/calculate/CalculateRejectModifyModule";
 const style = {
   position: "absolute",
   top: "50%",
@@ -18,9 +20,23 @@ const style = {
 };
 
 export default function CalculateModifyModal(props) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateRejectModifyReducer);
+
   const { close } = props;
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    let formData = new FormData();
+
+    formData.append("rejectId", results.rejectId);
+    formData.append("judgeId", results.judgeId);
+    formData.append("rejectContent", results.rejectContent);
+
+    dispatch(callCalculateJudgeModifyAPI(formData));
+    dispatch({ type: SET_PUT_SUCCESS });
+
+    setOpen(true);
+  };
   const handleClose = () => {
     setOpen(false);
     close();
