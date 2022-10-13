@@ -35,6 +35,51 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+function createData(
+  calId,
+  calAmount,
+  makerName,
+  projectName,
+  calculateRound,
+  calculateState,
+  created,
+  accept
+) {
+  return {
+    calId,
+    calAmount,
+    makerName,
+    projectName,
+    calculateRound,
+    calculateState,
+    created,
+    accept,
+  };
+}
+
+const rows = [
+  createData(
+    2,
+    "50,000,000원",
+    "이상학",
+    "프로젝트 명",
+    "1차",
+    "승인 대기",
+    "2022-01-01",
+    "Y"
+  ),
+  createData(
+    1,
+    "50,000,000원",
+    "이상학",
+    "프로젝트 명",
+    "1차",
+    "승인 반려",
+    "2021-12-19",
+    "Y"
+  ),
+];
+
 export default function CalculateRecordForm({ projectId }) {
   const dispatch = useDispatch();
   const results = useSelector((state) => state.calculateReducer);
