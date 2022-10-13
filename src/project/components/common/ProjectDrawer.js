@@ -13,7 +13,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined'
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { fontSize } from '@mui/system'
 // import { Link } from 'react-router-dom';
@@ -25,12 +25,11 @@ export default function ProjectDrawer(props) {
     selected: '',
   })
 
-  const [projectId, setProjectId] = React.useState(0)
+  const { projectId } = useParams()
 
   const history = createBrowserHistory()
 
   React.useEffect(() => {
-    setProjectId(10)
     const unlistenHistoryEvent = history.listen(({ action }) => {
       if (action === 'POP') {
         navigate('/admin')

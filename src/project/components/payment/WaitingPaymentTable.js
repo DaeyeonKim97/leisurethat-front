@@ -1,40 +1,42 @@
-import * as React from 'react'
-import { styled } from '@mui/material/styles'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell, { tableCellClasses } from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
-import { Typography, Button } from '@mui/material'
-import WaitingPaymentPagenation from './WaitingPaymentPagenation'
-import IconButton from '@mui/material/IconButton'
-import PageviewIcon from '@mui/icons-material/Pageview'
-import MemberInfoModal from '../common/MemberInfoModal/MemberInfoModal'
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { Typography, Button } from "@mui/material";
+import WaitingPaymentPagenation from "./WaitingPaymentPagenation";
+import IconButton from "@mui/material/IconButton";
+import PageviewIcon from "@mui/icons-material/Pageview";
+import MemberInfoModal from "../common/MemberInfoModal/MemberInfoModal";
+import { useParams } from "react-router-dom";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#6297BA',
+    backgroundColor: "#6297BA",
     color: theme.palette.common.white,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
-}))
+}));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(even)': {
-    backgroundColor: '#E6F4F150',
+  "&:nth-of-type(even)": {
+    backgroundColor: "#E6F4F150",
   },
   // hide last border
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
-}))
+}));
 
 export default function WaitingPaymentTable(id) {
-  const projectId = 1
+  const { projectId } = useParams();
 
   function createData(id, memberID, paymentStatus, paymentPrice, reward) {
     return {
@@ -43,41 +45,41 @@ export default function WaitingPaymentTable(id) {
       paymentStatus,
       paymentPrice,
       reward,
-    }
+    };
   }
 
-  let [rows, setRows] = React.useState([])
+  let [rows, setRows] = React.useState([]);
 
   React.useEffect(() => {
     const getMemberList = async (page) => {
-      const requestURL = `http://localhost:8001/order/waiting?projectId=${projectId}`
+      const requestURL = `http://localhost:8001/order/waiting?projectId=${projectId}`;
       // eslint-disable-next-line react-hooks/exhaustive-deps
       rows = await fetch(requestURL, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: '*/*',
+          "Content-Type": "application/json",
+          Accept: "*/*",
         },
       })
         .then((response) => response.json())
-        .then((data) => data.results.waitingList)
+        .then((data) => data.results.waitingList);
 
-      console.log('rows :', rows)
-      setRows(rows)
-    }
+      console.log("rows :", rows);
+      setRows(rows);
+    };
 
-    getMemberList(0)
-  }, [])
+    getMemberList(0);
+  }, []);
 
   return (
     <>
       <TableContainer
         component={Paper}
-        sx={{ height: '95%' }}
+        sx={{ height: "95%" }}
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <Typography
@@ -92,7 +94,7 @@ export default function WaitingPaymentTable(id) {
           전체 결과
         </Typography>
         <Table
-          sx={{ minWidth: 700, height: '0.8' }}
+          sx={{ minWidth: 700, height: "0.8" }}
           style={{ flex: 1 }}
           aria-label="customized table"
         >
@@ -116,10 +118,10 @@ export default function WaitingPaymentTable(id) {
                 <StyledTableCell align="center">
                   <div
                     style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
                     {row.sponserName}
@@ -149,14 +151,14 @@ export default function WaitingPaymentTable(id) {
       </TableContainer>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '10px',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px",
         }}
       >
         <WaitingPaymentPagenation />
       </div>
     </>
-  )
+  );
 }
