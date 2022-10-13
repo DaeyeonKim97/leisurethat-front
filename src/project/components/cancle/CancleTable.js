@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import PageviewIcon from "@mui/icons-material/Pageview";
 
 import SponserInfoModal from "./SponserInfoModal";
-import CanclePagination from "./CanclePagination";
+import { useSelector } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,26 +35,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(orderId, sponserName, orderStatus, fundingAmount, reward) {
-  return {
-    orderId,
-    sponserName,
-    orderStatus,
-    fundingAmount,
-    reward,
-  };
-}
-
-const rows = [
-  createData(1, "김대연", "주문 취소", "25,000원", "리워드 명"),
-  createData(2, "박준호", "주문 취소", "25,000원", "리워드 명"),
-  createData(3, "박재휘", "주문 취소", "25,000원", "리워드 명"),
-  createData(4, "이상우", "주문 취소", "25,000원", "리워드 명"),
-  createData(5, "전재완", "주문 취소", "25,000원", "리워드 명"),
-  createData(6, "도연재", "주문 취소", "25,000원", "리워드 명"),
-];
-
 export default function CancleTable() {
+  const results = useSelector((state) => state.orderReducer);
+  const cancleList = results.orderCancleList;
+
   return (
     <>
       <TableContainer
@@ -94,58 +78,51 @@ export default function CancleTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, id) => (
-              <StyledTableRow key={id} hover>
-                <StyledTableCell
-                  component="th"
-                  align="center"
-                  scope="row"
-                  sx={{ width: 100 }}
-                >
-                  {row.orderId}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
+            {cancleList &&
+              cancleList.map((cancle, id) => (
+                <StyledTableRow key={id} hover>
+                  <StyledTableCell
+                    component="th"
+                    align="center"
+                    scope="row"
+                    sx={{ width: 100 }}
                   >
-                    {row.sponserName}
-                    <SponserInfoModal sponserId={id}>
-                      <IconButton
-                        color="primary"
-                        aria-label="add to shopping cart"
-                      >
-                        <PageviewIcon />
-                      </IconButton>
-                    </SponserInfoModal>
-                  </div>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.orderStatus}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.fundingAmount}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.reward}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+                    {cancle.orderId}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {cancle.sponserName}
+                      <SponserInfoModal orderId={cancle.orderId}>
+                        <IconButton
+                          color="primary"
+                          aria-label="add to shopping cart"
+                        >
+                          <PageviewIcon />
+                        </IconButton>
+                      </SponserInfoModal>
+                    </div>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {cancle.orderStatus}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {new Intl.NumberFormat("ko-KR").format(cancle.paymentPrice)}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {cancle.rewardName}
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "10px",
-        }}
-      >
-        <CanclePagination />
-      </div>
     </>
   );
 }
