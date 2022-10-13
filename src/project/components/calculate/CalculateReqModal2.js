@@ -11,6 +11,16 @@ import TableRow from "@mui/material/TableRow";
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
 
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
+import {
+  SET_CALCULATE_APPLICATION,
+  SET_POST_SUCCESS,
+} from "../../../modules/calculate/CalculateApplicationModule";
+
+import { callCalculateApplicationRegistAPI } from "../../apis/CalculateAPICalls";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,10 +35,30 @@ const style = {
 };
 
 function ChildModal({ close }) {
+  const results = useSelector((state) => state.calculateApplicationReducer);
+  const results2 = useSelector((state) => state.calculateProjectReducer);
+  const calculateInfo = results2.calculateInfo;
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+
   const handleOpen = () => {
+    const formData = new FormData();
+
+    formData.append("projectId", results.projectId);
+    formData.append("calculateStatus", results.calculateStatus);
+    formData.append("calculateDivision", results.calculateDivision);
+    formData.append("totalCalAmount", results.totalCalAmount);
+    formData.append("preCalAmount", results.preCalAmount);
+    formData.append("balance", results.balance);
+    formData.append("postCalAmount", results.postCalAmount);
+    formData.append("title", results.title);
+    formData.append("content", results.content);
+
+    dispatch(callCalculateApplicationRegistAPI(formData));
+
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     close();
@@ -78,12 +108,10 @@ function ChildModal({ close }) {
             >
               LEISURETHAT SAMPLE PROJECT 01
               <br />
-              2022-07-29 leisurethat01
-              <br />
               2차 정산 신청이 완료되었습니다.
             </Box>
             <Box sx={{ color: "#00AEEF", margin: "10px 0" }}>
-              2022년 7월 29일, 금요일 (GMT+9) 대한민국 시간
+              {new Date().toString()}
             </Box>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -103,10 +131,27 @@ function ChildModal({ close }) {
 }
 
 export default function CalculateReqModal1(props) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateProjectReducer);
+  const calculateInfo = results.calculateInfo;
+
+  const { projectId } = useParams();
+
   const { buttonText, currentState, round } = props;
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
+    const applicationInfo = {
+      projectId: projectId,
+      calculateDivision: "2차정산",
+      calculateStatus: "2차정산요청",
+      totalCalAmount: calculateInfo.actualAmount,
+      preCalAmount: calculateInfo.preAmount,
+      balance: 0,
+      postCalAmount: calculateInfo.postAmount,
+    };
+
+    dispatch({ type: SET_CALCULATE_APPLICATION, payload: applicationInfo });
     setOpen(true);
   };
   const handleClose = () => {
@@ -235,65 +280,73 @@ export default function CalculateReqModal1(props) {
 
                 <Box sx={{ margin: "10px 0" }}>
                   <ProjectLabel>배송 현황</ProjectLabel>
-                  <Box>
-                    <Table>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            align="center"
-                            sx={{ fontWeight: "bold", width: "50%" }}
-                          >
-                            배송 완료
-                          </TableCell>
-                          <TableCell align="center">
-                            {data.completionDel}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            align="center"
-                            sx={{ fontWeight: "bold", width: "50%" }}
-                          >
-                            배송 중
-                          </TableCell>
-                          <TableCell align="center">{data.shipping}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            align="center"
-                            sx={{ fontWeight: "bold", width: "50%" }}
-                          >
-                            배송 대기
-                          </TableCell>
-                          <TableCell align="center">
-                            {data.waitingDel}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            align="center"
-                            sx={{
-                              fontWeight: "bold",
-                              fontSize: "16px",
-                              width: "50%",
-                              color: "#00AEEF",
-                            }}
-                          >
-                            총 배송 건수
-                          </TableCell>
-                          <TableCell align="center">{data.totalDel}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </Box>
+                  {calculateInfo ? (
+                    <Box>
+                      <Table>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="center"
+                              sx={{ fontWeight: "bold", width: "50%" }}
+                            >
+                              배송 완료
+                            </TableCell>
+                            <TableCell align="center">
+                              {calculateInfo.deliveryCompleteCount}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="center"
+                              sx={{ fontWeight: "bold", width: "50%" }}
+                            >
+                              배송 중
+                            </TableCell>
+                            <TableCell align="center">
+                              {calculateInfo.deliveryOngoingCount}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="center"
+                              sx={{ fontWeight: "bold", width: "50%" }}
+                            >
+                              배송 대기
+                            </TableCell>
+                            <TableCell align="center">
+                              {calculateInfo.deliveryOnCallCount}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              align="center"
+                              sx={{
+                                fontWeight: "bold",
+                                fontSize: "16px",
+                                width: "50%",
+                                color: "#00AEEF",
+                              }}
+                            >
+                              총 배송 건수
+                            </TableCell>
+                            <TableCell align="center">
+                              {calculateInfo.totalDeliveryCount}
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </Box>
+                  ) : (
+                    ""
+                  )}
                 </Box>
                 <br />
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
