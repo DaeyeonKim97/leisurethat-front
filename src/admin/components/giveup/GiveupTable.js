@@ -61,7 +61,7 @@ const rows = [
   createData(6, '프로젝트 명', 'leisurethat01', '2022-01-01', 15, 'Y'),
 ]
 
-export default function GiveupTable({ list }) {
+export default function GiveupTable({ list, setInit }) {
   return (
     <>
       <TableContainer
@@ -123,7 +123,7 @@ export default function GiveupTable({ list }) {
                     }}
                   >
                     {row.projectName}
-                    <ProjectInfoModal>
+                    <ProjectInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -143,7 +143,7 @@ export default function GiveupTable({ list }) {
                     }}
                   >
                     {row.makerName}
-                    <MakerInfoModal>
+                    <MakerInfoModal projectId={row.projectId}>
                       <IconButton
                         color="primary"
                         aria-label="add to shopping cart"
@@ -154,7 +154,7 @@ export default function GiveupTable({ list }) {
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <GiveupReasonModal>
+                  <GiveupReasonModal projectId={row.projectId}>
                     <Button
                       variant="contained"
                       style={{ margin: '0px 10px' }}
@@ -186,7 +186,10 @@ export default function GiveupTable({ list }) {
                       marginLeft: '30%',
                     }}
                   >
-                    <GiveupAcceptModal>
+                    <GiveupAcceptModal
+                      projectId={row.projectId}
+                      setInit={setInit}
+                    >
                       <IconButton color="primary">
                         <CheckCircleIcon color="primary" />
                       </IconButton>

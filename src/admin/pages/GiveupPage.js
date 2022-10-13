@@ -31,7 +31,7 @@ export default function GiveupPage() {
 
       setInit(false)
     }
-  }, [])
+  }, [init])
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>
@@ -63,7 +63,7 @@ export default function GiveupPage() {
           총 <span style={{ color: '#6297BA' }}>{count}</span> 개
         </section>
 
-        <GiveupTable list={list} />
+        <GiveupTable list={list} setInit={setInit} />
       </div>
     </section>
   )
