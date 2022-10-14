@@ -43,7 +43,6 @@ const PublicPayment = () => {
   useEffect(() => {
     dispatch(PaymentAPI(params.rewardId))
   }, [])
-
   return (
     <BaseBox
       style={{

@@ -17,6 +17,7 @@ export function PaymentAPI(rewardId) {
       .then((res) => res.json())
       .then((date) => date.results)
       .catch((err) => console.log(err))
+    console.log(result)
     dispatch({ type: PAYMENT, payload: result.project })
     dispatch({ type: REWARD, payload: result.reward })
     dispatch({ type: USER, payload: result.user })
