@@ -59,7 +59,7 @@ function createData(
 }
 
 export default function CompletePaymentTable(id) {
-  let { projectId } = useParams();
+  const { projectId } = useParams();
 
   let [rows, setRows] = React.useState([]);
 
