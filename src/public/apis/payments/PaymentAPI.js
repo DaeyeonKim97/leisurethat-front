@@ -5,19 +5,18 @@ import { DELIVERY } from '../../../modules/payment/DeliveryState'
 
 //project 정보 불러오기
 export function PaymentAPI(rewardId) {
-  const paymentURL = 'http://localhost:8001/payments?rewardId=' + rewardId
+  const paymentURL = 'http://localhost:8001/payments/' + rewardId
   return async function paymentAPI(dispatch, getState) {
     const result = await fetch(paymentURL, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
       },
     })
       .then((res) => res.json())
       .then((date) => date.results)
       .catch((err) => console.log(err))
-    console.log(result)
     dispatch({ type: PAYMENT, payload: result.project })
     dispatch({ type: REWARD, payload: result.reward })
     dispatch({ type: USER, payload: result.user })

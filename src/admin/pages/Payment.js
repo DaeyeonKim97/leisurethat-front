@@ -6,6 +6,7 @@ import PaymentTable from '../components/Payment/PaymentTable'
 import { useSelector } from 'react-redux'
 export default function PaymentPage() {
   const payments = useSelector((state) => state.adminPaymentHandler)
+  console.log(payments)
   return (
     <section style={{ padding: 40, height: 'calc(100% - 64px)' }}>
       <header style={{ color: '#00AEEF', fontSize: 36, fontWeight: 'bold' }}>

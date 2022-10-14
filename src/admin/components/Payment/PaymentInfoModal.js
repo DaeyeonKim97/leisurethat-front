@@ -44,7 +44,6 @@ export default function ProjectInfoModal(props) {
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }))
-
   return (
     <div>
       {orderDelivery == null ? (
@@ -79,7 +78,7 @@ export default function ProjectInfoModal(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} marginBottom={1}>
-                  <Item>{orderDelivery.id}</Item>
+                  <Item>{orderDelivery.delivery.deliveryReceiver}</Item>
                 </Grid>
                 <Grid item xs={4} textAlign="center" marginBottom={1}>
                   <Typography variant="label" fontSize={16}>
@@ -87,11 +86,11 @@ export default function ProjectInfoModal(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} marginBottom={1}>
-                  <Item>{orderDelivery.delivery.basicAddress}</Item>
+                  <Item>{orderDelivery.delivery.deliveryBasicAddress}</Item>
                 </Grid>
                 <Grid item xs={4} marginBottom={1}></Grid>
                 <Grid item xs={6} marginBottom={1}>
-                  <Item>{orderDelivery.delivery.detailAddress}</Item>
+                  <Item>{orderDelivery.delivery.deliveryDetailAddress}</Item>
                 </Grid>
                 <Grid item xs={4} textAlign="center" marginBottom={1}>
                   <Typography variant="label" fontSize={16}>
@@ -112,7 +111,7 @@ export default function ProjectInfoModal(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} marginBottom={4}>
-                  <Item>{orderDelivery.deliveryState}</Item>
+                  <Item>{orderDelivery.delivertStatus}</Item>
                 </Grid>
                 <Grid item xs={3} textAlign="center">
                   <Button variant="contained" onClick={handleClose}>

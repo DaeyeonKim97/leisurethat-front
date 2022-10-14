@@ -39,7 +39,6 @@ const PublicPayment = () => {
 
   const content = useSelector((state) => state.paymentProjectHandler)
   const reward = useSelector((state) => state.rewardHandler)
-
   let totlaPrice = reward.price + reward.rewardFee
   useEffect(() => {
     dispatch(PaymentAPI(params.rewardId))
@@ -116,10 +115,10 @@ const PublicPayment = () => {
               sx={{ width: 300, height: 50 }}
               style={{ fontSize: '15px' }}
               onClick={() => {
-                TossAPI(params.projectId, params.rewardId)
+                TossAPI(params.rewardId)
               }}
             >
-              {[totlaPrice].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원
+              {/* {[totlaPrice].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 */}
               예약하기
             </Button>
           </div>

@@ -94,14 +94,14 @@ export default function PaymentTable() {
             {payments.length <= 1
               ? ''
               : payments.map((row) => (
-                  <StyledTableRow key={row.payment.id} hover>
+                  <StyledTableRow key={row.payment.paymentId} hover>
                     <StyledTableCell
                       component="th"
                       align="center"
                       scope="row"
                       sx={{ width: 100 }}
                     >
-                      {row.payment.id}
+                      {row.payment.paymentId}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.payment.order.member.id}
@@ -127,12 +127,12 @@ export default function PaymentTable() {
                       </div>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.payment.paymentState}
+                      {row.payment.paymentStatus}
                       <br />
-                      {row.payment.paymentDate}
+                      {row.payment.paymentReserveDate}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.payment.price}
+                      {row.payment.paymentPrice}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.payment.order.reward.title}

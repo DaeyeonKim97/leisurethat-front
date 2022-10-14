@@ -30,6 +30,7 @@ export default function RefundModal(props) {
     setOpen(false)
   }
   const { date } = props
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -76,7 +77,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item>{date.division == 'C' ? '카드' : '페이'}</Item>
+              <Item>{date.division == 'C' ? '카드' : '카드'}</Item>
             </Grid>
 
             <Grid item xs={4} textAlign="center" marginBottom={1}>
@@ -85,7 +86,7 @@ export default function RefundModal(props) {
               </Typography>
             </Grid>
             <Grid item xs={6} marginBottom={1}>
-              <Item> {date.price}</Item>
+              <Item> {date.paymentPrice}</Item>
             </Grid>
             <Grid item xs={4} textAlign="center" marginBottom={1}>
               <Typography variant="label" fontSize={16}>
