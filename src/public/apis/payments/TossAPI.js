@@ -1,6 +1,7 @@
 import { loadTossPayments } from '@tosspayments/payment-sdk'
-export async function TossAPI(projectId, rewardId) {
+export async function TossAPI(rewardId) {
   const clientKey = 'test_ck_7DLJOpm5Qrl2BpO2oKe3PNdxbWnY'
+  console.log(rewardId)
   const test = await loadTossPayments(clientKey).then((tossPayments) => {
     tossPayments.requestBillingAuth('카드', {
       // 빌링키 발급 요청을 위한 파라미터

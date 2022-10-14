@@ -4,7 +4,9 @@ export function adminPayments() {
   const url = 'http://localhost:8001/payments'
   return async function (dispatch, getState) {
     const result = await fetch(url, {
-      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+      },
     })
       .then((res) => res.json())
       .then((date) => date.results)

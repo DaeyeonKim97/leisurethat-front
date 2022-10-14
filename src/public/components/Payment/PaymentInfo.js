@@ -53,6 +53,7 @@ const PaymentInfo = ({
   const user = useSelector((state) => state.userHandler)
   const delivery = useSelector((state) => state.deliveryHandler)
   const navigate = useNavigate()
+
   return (
     <div
       style={{
@@ -64,7 +65,7 @@ const PaymentInfo = ({
       <div style={{ display: 'flex' }}>
         <div style={{ marginRight: '60px' }}>
           <UnderLineContentsBox>프로젝트</UnderLineContentsBox>
-          <MainFundingProject content={content} />
+          <MainFundingProject item={content} />
         </div>
         <div style={{ width: '795px' }}>
           <div>
@@ -105,7 +106,7 @@ const PaymentInfo = ({
                 >
                   수령인
                 </UnderLineContent>
-                <UnderLineContent>{delivery.receiver}</UnderLineContent>
+                <UnderLineContent>{delivery.deliveryReceiver}</UnderLineContent>
               </UnderLineContentBox>
               <UnderLineContentBox style={{ alignItems: 'center' }}>
                 <UnderLineContent
@@ -122,7 +123,8 @@ const PaymentInfo = ({
                   배송지 주소
                 </UnderLineContent>
                 <UnderLineContent>
-                  {delivery.basicAddress + delivery.detailAddress}
+                  {delivery.deliveryBasicAddress +
+                    delivery.deliveryDetailAddress}
                 </UnderLineContent>
                 {complete ? (
                   ''
