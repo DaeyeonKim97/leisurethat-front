@@ -64,8 +64,10 @@ const Input = styled(motion.input)`
 export default function PublicHeader() {
   const navigate = useNavigate()
 
-  const [isLogin, setLogin] = React.useState(false)
+  // const [isLogin, setLogin] = React.useState(true)
   //true false 여부에 따라서 로그인되고 안되고의 레이아웃 결정
+
+  const isLogin = window.localStorage.getItem('accessToken');
 
   const [searchOpen, setSerchOpen] = React.useState(false)
   const inputAnimation = useAnimation()
@@ -160,7 +162,7 @@ export default function PublicHeader() {
             </motion.svg>
           </Search>
 
-          {isLogin ? (
+          { (isLogin == null || isLogin === undefined) ? (
             <div>
               <Button
                 variant="outlined"
@@ -206,6 +208,10 @@ export default function PublicHeader() {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+
+              <div>
+              
+              </div>
             </div>
           )}
         </FlexBox>

@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
@@ -9,36 +12,22 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { TextField } from "@mui/material";
 import styled from "styled-components";
 import CalculateModifyModal from "./CalculateModfiyModal";
+import { callGetCalculateRejectReason } from "../../apis/CalculateAPICalls";
+import { SET_CALCULATE_REJECT_REASON_MODIFY } from "../../../modules/calculate/CalculateRejectModifyModule";
 
-import TextArea from "./TextArea";
+function CalculateRejectForm({ round, close, childModal, calculateId }) {
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.calculateReducer);
+  const rejectReason = results.rejectReason;
 
-function CalculateRejectForm({ round, close, childModal }) {
+  useEffect(() => {
+    dispatch(callGetCalculateRejectReason({ calculateId }));
+  }, []);
+
   const ProjectLabel = styled.div`
     font-size: 24px;
     font-weight: bolder;
   `;
-
-  function createData(projectName, makerID, category, files, rejectContent) {
-    return {
-      projectName,
-      makerID,
-      category,
-      files,
-      rejectContent,
-    };
-  }
-
-  const data = createData(
-    "LEISURETHAT SAMPLE PROJECT 01",
-    "leisurethat2022",
-    "leisurethat sample category",
-    [
-      "LEISURETHAT_SAMPLE_PROJECT_01_video01.mp4",
-      "LEISURETHAT_SAMPLE_PROJECT_01_image01.png",
-      "LEISURETHAT_SAMPLE_PROJECT_01_image02.png",
-    ],
-    "반려사유 반려사유 반려사유 반려사유 반려사유 반려사유`~~~~"
-  );
 
   return (
     <>
@@ -101,156 +90,168 @@ function CalculateRejectForm({ round, close, childModal }) {
           overflowY: "scroll",
         }}
       >
-        <Box sx={{ width: "90%" }}>
-          <Box sx={{ margin: "10px 0" }}>
-            <ProjectLabel>프로젝트 정보</ProjectLabel>
-            <Box
-              sx={{
-                backgroundColor: "rgb(217,217,217, 0.3)", //#d9d9d9
-                boxShadow: "0px 2px 4px gray",
-              }}
-            >
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={3}
-                sx={{ padding: "20px 2% 0 2%" }}
+        {rejectReason ? (
+          <Box sx={{ width: "90%" }}>
+            <Box sx={{ margin: "10px 0" }}>
+              <ProjectLabel>프로젝트 정보</ProjectLabel>
+              <Box
+                sx={{
+                  backgroundColor: "rgb(217,217,217, 0.3)", //#d9d9d9
+                  boxShadow: "0px 2px 4px gray",
+                }}
               >
-                <Box
-                  sx={{ fontSize: "16", fontWeight: "bold", width: "100px" }}
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={3}
+                  sx={{ padding: "20px 2% 0 2%" }}
                 >
-                  프로젝트 명
-                </Box>
-                <Box sx={{ fontSize: "16" }}>{data.projectName}</Box>
-              </Stack>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={3}
-                sx={{ padding: "20px 2% 0 2%" }}
-              >
-                <Box
-                  sx={{ fontSize: "16", fontWeight: "bold", width: "100px" }}
+                  <Box
+                    sx={{ fontSize: "16", fontWeight: "bold", width: "100px" }}
+                  >
+                    프로젝트 명
+                  </Box>
+                  <Box sx={{ fontSize: "16" }}>{rejectReason.projectName}</Box>
+                </Stack>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={3}
+                  sx={{ padding: "20px 2% 0 2%" }}
                 >
-                  판매자 ID
-                </Box>
-                <Box sx={{ fontSize: "16" }}>{data.makerID}</Box>
-              </Stack>
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={3}
-                sx={{ padding: "2%" }}
-              >
-                <Box
-                  sx={{ fontSize: "16", fontWeight: "bold", width: "100px" }}
+                  <Box
+                    sx={{ fontSize: "16", fontWeight: "bold", width: "100px" }}
+                  >
+                    판매자 ID
+                  </Box>
+                  <Box sx={{ fontSize: "16" }}>
+                    {rejectReason.makerUserName}
+                  </Box>
+                </Stack>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={3}
+                  sx={{ padding: "2%" }}
                 >
-                  카테고리
-                </Box>
-                <Box sx={{ fontSize: "16" }}>{data.category}</Box>
-              </Stack>
+                  <Box
+                    sx={{ fontSize: "16", fontWeight: "bold", width: "100px" }}
+                  >
+                    카테고리
+                  </Box>
+                  <Box sx={{ fontSize: "16" }}>{rejectReason.category}</Box>
+                </Stack>
+              </Box>
             </Box>
-          </Box>
-          <br />
-          <Box sx={{ margin: "10px 0" }}>
-            <ProjectLabel>제출 서류</ProjectLabel>
-            <Box>
-              <Stack
-                direction="row"
-                // alignItems="center"
-                spacing={3}
-                sx={{ margin: "10px 0" }}
+            <br />
+            <Box sx={{ margin: "10px 0" }}>
+              <ProjectLabel>제출 서류</ProjectLabel>
+              <Box>
+                <Stack
+                  direction="row"
+                  // alignItems="center"
+                  spacing={3}
+                  sx={{ margin: "10px 0" }}
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ width: "100px" }}
+                  >
+                    <FolderOpenIcon sx={{ color: "#757575" }} />
+                    <Box
+                      sx={{
+                        color: "#757575",
+                        fontSize: "16px",
+                        fontWeight: "bolder",
+                      }}
+                    >
+                      첨부파일
+                    </Box>
+                  </Stack>
+
+                  <Box sx={{ fontSize: "16" }}>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      spacing={1}
+                      sx={{ width: "100px" }}
+                    >
+                      <AttachFileIcon sx={{ color: "#00AEEF" }} />
+                      <div>{rejectReason.atcDownload}</div>
+                    </Stack>
+                  </Box>
+                </Stack>
+              </Box>
+            </Box>
+            <br />
+            <Box sx={{ margin: "10px 0" }}>
+              <ProjectLabel>반려 사유 / 피드백</ProjectLabel>
+              <Box
+                sx={{
+                  height: "300px",
+                  borderRadius: "5px",
+                  boxShadow: "0px 2px 4px gray",
+                }}
               >
                 <Stack
                   direction="row"
                   alignItems="center"
                   spacing={1}
-                  sx={{ width: "100px" }}
+                  sx={{ padding: "20px" }}
                 >
-                  <FolderOpenIcon sx={{ color: "#757575" }} />
-                  <Box
-                    sx={{
-                      color: "#757575",
-                      fontSize: "16px",
-                      fontWeight: "bolder",
-                    }}
-                  >
-                    첨부파일
-                  </Box>
+                  <FormatAlignLeftIcon sx={{ color: "#707070" }} />
+                  <div>{rejectReason.projectName} 반려 사유 / 피드백</div>
                 </Stack>
-
-                <Box sx={{ fontSize: "16" }}>
-                  {data.files.map((file, id) => (
-                    <>
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        spacing={1}
-                        sx={{ width: "100px" }}
-                      >
-                        <AttachFileIcon sx={{ color: "#00AEEF" }} />
-                        <div>{file}</div>
-                      </Stack>
-                    </>
-                  ))}
-                </Box>
-              </Stack>
-            </Box>
-          </Box>
-          <br />
-          <Box sx={{ margin: "10px 0" }}>
-            <ProjectLabel>반려 사유 / 피드백</ProjectLabel>
-            <Box
-              sx={{
-                height: "500px",
-                borderRadius: "5px",
-                boxShadow: "0px 2px 4px gray",
-              }}
-            >
-              <Stack
-                direction="row"
-                alignItems="center"
-                spacing={1}
-                sx={{ padding: "20px" }}
-              >
-                <FormatAlignLeftIcon sx={{ color: "#707070" }} />
-                <div>{data.projectName} 반려 사유 / 피드백</div>
-              </Stack>
-              <Box
-                sx={{
-                  height: "80%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {/* <TextField
-                  id="outlined-multiline-static"
-                  label="Multiline"
-                  multiline
-                  rows={8}
-                  value={data.rejectContent}
+                <Box
                   sx={{
-                    backgroundColor: "rgb(217,217,217, 0.1)",
-                    width: "90%",
-                    padding: "1%",
+                    height: "80%",
+                    display: "flex",
+                    justifyContent: "center",
                   }}
-                /> */}
-                <TextArea />
+                >
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Multiline"
+                    name="rejectContent"
+                    multiline
+                    rows={8}
+                    required
+                    defaultValue={rejectReason.rejectContent}
+                    sx={{
+                      backgroundColor: "rgb(217,217,217, 0.1)",
+                      width: "90%",
+                      padding: "1%",
+                    }}
+                    onChange={(e) => {
+                      dispatch({
+                        type: SET_CALCULATE_REJECT_REASON_MODIFY,
+                        payload: {
+                          name: e.target.name,
+                          value: e.target.value,
+                        },
+                      });
+                    }}
+                  />
+                </Box>
               </Box>
             </Box>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <CalculateModifyModal close={close} />
+              <Button
+                variant="outlined"
+                color="primary"
+                sx={{ fontWeight: "bold" }}
+                onClick={close}
+              >
+                취소
+              </Button>
+            </Box>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <CalculateModifyModal close={close} />
-            <Button
-              variant="outlined"
-              color="primary"
-              sx={{ fontWeight: "bold" }}
-              onClick={close}
-            >
-              취소
-            </Button>
-          </Box>
-        </Box>
+        ) : (
+          ""
+        )}
       </Box>
     </>
   );

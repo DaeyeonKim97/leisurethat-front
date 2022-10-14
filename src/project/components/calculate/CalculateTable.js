@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import CalculateModal from "./CalculateModal";
 import CalculateReqModal1 from "./CalculateReqModal1";
 import CalculateReqModal2 from "./CalculateReqModal2";
+import { useSelector } from "react-redux";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#6297BA",
@@ -63,6 +64,8 @@ const rows = [
 ];
 
 export default function CalculateTable() {
+  const results = useSelector((state) => state.calculateProjectReducer);
+  const calculateList = results.calculateList;
   return (
     <>
       <TableContainer
@@ -100,49 +103,56 @@ export default function CalculateTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, id) => (
-              <StyledTableRow key={id} hover>
-                <StyledTableCell
-                  align="center"
-                  component="th"
-                  scope="row"
-                  sx={{ width: 100 }}
-                >
-                  {row.round}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.currentState !== "정산 반려" ? (
-                    `${row.currentState}`
-                  ) : (
-                    <CalculateModal
-                      buttonText={row.currentState}
-                      calRound={row.round}
-                    />
-                  )}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
+            {calculateList &&
+              calculateList.map((row, id) => (
+                <StyledTableRow key={id} hover>
+                  <StyledTableCell
+                    align="center"
+                    component="th"
+                    scope="row"
+                    sx={{ width: 100 }}
                   >
-                    {row.calculateAmount}
-                  </div>
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.created}</StyledTableCell>
-                <StyledTableCell align="center">{row.giveDate}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <CalculateModal
-                    buttonText="신청 내역"
-                    currentState={row.currentState}
-                    round={row.round}
-                  />
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+                    {row.calculateRound}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.status !== "정산 반려" ? (
+                      `${row.status}`
+                    ) : (
+                      <CalculateModal
+                        buttonText={row.status}
+                        round={row.calculateRound}
+                        calculateId={row.calculateId}
+                      />
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {new Intl.NumberFormat("ko-KR").format(row.amount)}
+                    </div>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.regDate}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.giveDate ? row.giveDate : "-"}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <CalculateModal
+                      buttonText="신청 내역"
+                      currentState={row.status}
+                      round={row.calculateRound}
+                      calculateId={row.calculateId}
+                    />
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

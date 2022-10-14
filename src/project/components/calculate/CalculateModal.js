@@ -22,8 +22,8 @@ const style = {
 };
 
 export default function NestedModal(props) {
-  const { buttonText, currentState, round } = props;
-
+  const { buttonText, currentState, round, calculateId } = props;
+  console.log(calculateId);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -68,10 +68,15 @@ export default function NestedModal(props) {
               <CalculateHistoryForm
                 round={round}
                 currentState={currentState}
+                calculateId={calculateId}
                 close={handleClose}
               />
             ) : (
-              <CalculateRejectForm round={round} close={handleClose} />
+              <CalculateRejectForm
+                round={round}
+                close={handleClose}
+                calculateId={calculateId}
+              />
             )}
           </Box>
         </Box>

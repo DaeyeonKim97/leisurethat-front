@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -8,6 +10,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { Divider, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
+
+import { callGetSponserInfo } from "../../apis/OrderAPICalls";
 
 const style = {
   position: "absolute",
@@ -23,10 +27,16 @@ const style = {
 };
 
 export default function SponserInfoModal(props) {
-  const { sponserId } = props;
+  const dispatch = useDispatch();
+  const results = useSelector((state) => state.orderReducer);
+  const sponserInfo = results.sponserInfo;
+
   const [open, setOpen] = React.useState(false);
-  const [userInfo, setUserInfo] = React.useState("");
-  const handleOpen = () => setOpen(true);
+
+  const handleOpen = (orderId) => {
+    setOpen(true);
+    dispatch(callGetSponserInfo({ orderId }));
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -49,65 +59,15 @@ export default function SponserInfoModal(props) {
     };
   }
 
-  const rows = [
-    createData(
-      "김대연",
-      "Dykim",
-      1,
-      "010-0000-0000",
-      "경기도 성남시",
-      "1층 113호"
-    ),
-    createData(
-      "박준호",
-      "junho",
-      2,
-      "010-0000-0000",
-      "경기도 성남시",
-      "1층 113호"
-    ),
-    createData(
-      "박재휘",
-      "jhpark",
-      3,
-      "010-0000-0000",
-      "경기도 성남시",
-      "1층 113호"
-    ),
-    createData(
-      "이상우",
-      "sangwoolee",
-      4,
-      "010-0000-0000",
-      "경기도 성남시",
-      "1층 113호"
-    ),
-    createData(
-      "전재완",
-      "wantop",
-      5,
-      "010-0000-0000",
-      "경기도 성남시",
-      "1층 113호"
-    ),
-    createData(
-      "도연재",
-      "DYJ",
-      6,
-      "010-0000-0000",
-      "경기도 성남시",
-      "1층 113호"
-    ),
-  ];
-
-  React.useEffect(() => {
-    setUserInfo(rows.filter((row, id) => id === sponserId));
-  }, []);
-
   return (
     <div>
-      {console.log(userInfo)}
-      <div onClick={handleOpen}>{props.children}</div>
+      <div
+        onClick={() => {
+          handleOpen(props.orderId);
+        }}
+      >
+        {props.children}
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -131,7 +91,7 @@ export default function SponserInfoModal(props) {
             후원자 정보
           </Typography>
           <Divider style={{ marginBottom: "20px" }} />
-          {userInfo ? (
+          {sponserInfo ? (
             <Box>
               <Stack
                 direction="row"
@@ -146,7 +106,7 @@ export default function SponserInfoModal(props) {
                 </InputLabel>
                 <TextField
                   sx={{ width: "300px" }}
-                  defaultValue={userInfo[0].name}
+                  defaultValue={sponserInfo.name}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -165,7 +125,7 @@ export default function SponserInfoModal(props) {
                 </InputLabel>
                 <TextField
                   sx={{ width: "300px" }}
-                  defaultValue={userInfo[0].sponserId}
+                  defaultValue={sponserInfo.userName}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -184,7 +144,7 @@ export default function SponserInfoModal(props) {
                 </InputLabel>
                 <TextField
                   sx={{ width: "300px" }}
-                  defaultValue={userInfo[0].orderId}
+                  defaultValue={sponserInfo.orderId}
                   InputProps={{
                     readOnly: true,
                   }}
@@ -205,14 +165,14 @@ export default function SponserInfoModal(props) {
                 <Box>
                   <TextField
                     sx={{ width: "300px" }}
-                    defaultValue={userInfo[0].basicAddress}
+                    defaultValue={sponserInfo.basicAddress}
                     InputProps={{
                       readOnly: true,
                     }}
                   />
                   <TextField
                     sx={{ width: "300px" }}
-                    defaultValue={userInfo[0].detailAddress}
+                    defaultValue={sponserInfo.detailAddress}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -232,7 +192,7 @@ export default function SponserInfoModal(props) {
                 </InputLabel>
                 <TextField
                   sx={{ width: "300px" }}
-                  defaultValue={userInfo[0].phone}
+                  defaultValue={sponserInfo.phone}
                   InputProps={{
                     readOnly: true,
                   }}

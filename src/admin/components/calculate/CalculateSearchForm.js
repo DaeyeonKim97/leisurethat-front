@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+import { callGetCalculateList } from "../../apis/CalculateAPICalls";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -37,12 +38,10 @@ const CssTextField = styled(TextField)({
 });
 
 export default function CalculateSearchForm() {
-  const [currency, setCurrency] = React.useState("EUR");
-
+  const [currency, setCurrency] = React.useState("null");
   const handleChange = (event) => {
     setCurrency(event.target.value);
   };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Item>
@@ -89,6 +88,7 @@ export default function CalculateSearchForm() {
               size="small"
               style={{ margin: "0px 15px", width: "200px" }}
             >
+              <MenuItem value="null">-----</MenuItem>
               <MenuItem value="승인 대기">승인 대기</MenuItem>
               <MenuItem value="승인 완료">승인 완료</MenuItem>
               <MenuItem value="정산 완료">정산 완료</MenuItem>

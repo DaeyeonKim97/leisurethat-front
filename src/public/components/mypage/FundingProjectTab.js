@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import Paging from "./Paging";
+import FundingPaging from "./FundingPaging";
 import Modal from "@mui/material/Modal";
 import NestedModal from "./Modal";
 import { Dataset } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 function FundingProject() {
+  const results = useSelector((state) => state.mypageReducer);
+  const fundingList = results.fundingList;
+
   const FundingProjectWrap = styled.div`
     display: flex;
     justify-content: center;
@@ -63,110 +67,9 @@ function FundingProject() {
     margin: 10px 0;
   `;
 
-  function createData(
-    paymentState,
-    projectName,
-    achievements,
-    paymentAt,
-    orderAt,
-    fundingId,
-    rewardName,
-    option,
-    number,
-    recipient,
-    phone,
-    address,
-    paymentMethod,
-    totalAmount
-  ) {
-    return {
-      paymentState,
-      projectName,
-      achievements,
-      paymentAt,
-      orderAt,
-      fundingId,
-      rewardName,
-      option,
-      number,
-      recipient,
-      phone,
-      address,
-      paymentMethod,
-      totalAmount,
-    };
-  }
-
-  const datas = [
-    createData(
-      "결제 대기",
-      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
-      "456%",
-      "2022.08.26",
-      "2022.08.02",
-      "108963",
-      "에스튜브 1세트",
-      "없음",
-      "1개",
-      "leisurethat",
-      "010-1234-5678",
-      "경기도 성남시 수정구 대왕판교로 815",
-      "네이버페이 / 일시불",
-      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
-    ),
-    createData(
-      "배송 중",
-      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
-      "456%",
-      "2022.08.26",
-      "2022.08.02",
-      "108963",
-      "에스튜브 1세트",
-      "없음",
-      "1개",
-      "leisurethat",
-      "010-1234-5678",
-      "경기도 성남시 수정구 대왕판교로 815",
-      "네이버페이 / 일시불",
-      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
-    ),
-    createData(
-      "배송 완료",
-      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
-      "456%",
-      "2022.08.26",
-      "2022.08.02",
-      "108963",
-      "에스튜브 1세트",
-      "없음",
-      "1개",
-      "leisurethat",
-      "010-1234-5678",
-      "경기도 성남시 수정구 대왕판교로 815",
-      "네이버페이 / 일시불",
-      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
-    ),
-    createData(
-      "후원 취소",
-      "단 1초 만에 구명튜브로 변신! 수상 레저의 수호신, 에스튜브!",
-      "456%",
-      "2022.08.26",
-      "2022.08.02",
-      "108963",
-      "에스튜브 1세트",
-      "없음",
-      "1개",
-      "leisurethat",
-      "010-1234-5678",
-      "경기도 성남시 수정구 대왕판교로 815",
-      "네이버페이 / 일시불",
-      "33,000 원 (펀딩금액 33,000 원 + 추가펀딩 0원)"
-    ),
-  ];
-
   return (
     <>
-      {datas.map((data, id) => (
+      {fundingList && fundingList.projectName && (
         <FundingProjectWrap>
           <FundingProjectCont>
             <ProjectListTitle>
@@ -176,28 +79,25 @@ function FundingProject() {
             </ProjectListTitle>
             <ProjectRewardsWrap>
               <ProjectRewardImgDiv>
-                <ProjectRewardImg
-                  src="https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"
-                  alt="test"
-                />
+                <ProjectRewardImg src={fundingList.projectImg} alt="test" />
               </ProjectRewardImgDiv>
               <ProjectRewardCont>
                 <LeisurethatMainColorText>
-                  {data.paymentState}
+                  {fundingList.paymentStatus}
                 </LeisurethatMainColorText>
-                <div>{data.projectName}</div>
+                <div>{fundingList.projectName}</div>
                 <RewardCont>
                   <LeisurethatMainColorText>
-                    {data.achievements}
+                    {fundingList.achievement}%
                   </LeisurethatMainColorText>
                   <LeisurethatMainColorText>
-                    {data.paymentAt}
+                    {fundingList.projectEndDate}
                   </LeisurethatMainColorText>
                   <LeisurethatMainColorText>
-                    {data.paymentState}
+                    {fundingList.paymentStatus}
                   </LeisurethatMainColorText>
                   <Leisurethat70ColorText>
-                    {data.orderAt} 펀딩 참여
+                    {fundingList.orderDate} 펀딩 참여
                   </Leisurethat70ColorText>
                 </RewardCont>
               </ProjectRewardCont>
@@ -208,7 +108,7 @@ function FundingProject() {
                   펀딩번호
                 </Leisurethat70ColorText>
                 <LeisurethatblackColorText style={{ margin: "10px 100px" }}>
-                  {data.fundingId}
+                  {fundingList.orderId}
                 </LeisurethatblackColorText>
               </RewardCont>
               <RewardCont>
@@ -216,7 +116,7 @@ function FundingProject() {
                   선택한 리워드
                 </Leisurethat70ColorText>
                 <LeisurethatblackColorText style={{ margin: "10px 100px" }}>
-                  {data.rewardName}
+                  {fundingList.rewardName}
                 </LeisurethatblackColorText>
               </RewardCont>
               <RewardCont>
@@ -224,7 +124,7 @@ function FundingProject() {
                   리워드 옵션
                 </Leisurethat70ColorText>
                 <LeisurethatblackColorText style={{ margin: "10px 100px" }}>
-                  {data.option}
+                  {fundingList.rewardOption ? fundingList.rewardOption : "없음"}
                 </LeisurethatblackColorText>
               </RewardCont>
               <RewardCont>
@@ -232,7 +132,7 @@ function FundingProject() {
                   구매 수량
                 </Leisurethat70ColorText>
                 <LeisurethatblackColorText style={{ margin: "10px 100px" }}>
-                  {data.number}
+                  {fundingList.rewardAmount}
                 </LeisurethatblackColorText>
               </RewardCont>
               <RewardCont>
@@ -240,7 +140,7 @@ function FundingProject() {
                   받는분/연락처
                 </Leisurethat70ColorText>
                 <LeisurethatblackColorText style={{ margin: "10px 100px" }}>
-                  {data.recipient} / {data.phone}
+                  {fundingList.receiver} / {fundingList.receiverPhone}
                 </LeisurethatblackColorText>
               </RewardCont>
               <RewardCont>
@@ -250,9 +150,9 @@ function FundingProject() {
                 <LeisurethatblackColorText
                   style={{ margin: "10px 100px", width: "300px" }}
                 >
-                  {data.address}
+                  {fundingList.basicAddress} {" " + fundingList.detailAddress}
                 </LeisurethatblackColorText>
-                {data.paymentState === "결제 대기" ? (
+                {fundingList.paymentStatus === "결제 대기" ? (
                   <div>
                     <NestedModal
                       buttonText={"배송지 변경"}
@@ -262,8 +162,8 @@ function FundingProject() {
                 ) : (
                   ""
                 )}
-                {data.paymentState === "배송 중" ||
-                data.paymentState === "배송 완료" ? (
+                {fundingList.paymentStatus === "배송 중" ||
+                fundingList.paymentStatus === "배송 완료" ? (
                   <div>
                     <NestedModal buttonText={"배송 조회"} buttonType={"gray"} />
                   </div>
@@ -278,9 +178,9 @@ function FundingProject() {
                 <LeisurethatblackColorText
                   style={{ margin: "10px 100px", width: "300px" }}
                 >
-                  {data.paymentMethod}
+                  {fundingList.paymentDivision}
                 </LeisurethatblackColorText>
-                {data.paymentState === "결제 대기" ? (
+                {fundingList.paymentStatus === "결제 대기" ? (
                   <div>
                     <NestedModal buttonText={"펀딩 취소"} modalType={"one"} />
                   </div>
@@ -293,16 +193,16 @@ function FundingProject() {
                   총 결제금액
                 </Leisurethat70ColorText>
                 <LeisurethatblackColorText style={{ margin: "10px 100px" }}>
-                  {data.totalAmount}
+                  {fundingList.paymentPrice}
                 </LeisurethatblackColorText>
               </RewardCont>
             </div>
             <div style={{ padding: "20px" }}>
-              <Paging />
+              <FundingPaging />
             </div>
           </FundingProjectCont>
         </FundingProjectWrap>
-      ))}
+      )}
     </>
   );
 }

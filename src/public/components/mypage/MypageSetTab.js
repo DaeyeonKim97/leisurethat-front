@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
@@ -20,6 +21,8 @@ function MypageSetTab() {
   const [checkPassword, setCheckPassword] = useState()
   const [phone, setPhone] = useState()
   const [ssn, setSsn] = useState()
+  const [user,setUser] = useState({})
+  const navigate = useNavigate();
 
   const inputStyle = {
     width: '100%',
@@ -74,6 +77,100 @@ function MypageSetTab() {
     return ssn === '' || check.test(ssn) ? true : false
   }
 
+  const logout = () =>{
+    window.localStorage.clear();
+    navigate("/", { replace: true });
+    window.scrollTo(0,0);
+    window.location.reload();
+  }
+
+  const secession = ()=>{
+    const answer = window.confirm("정말 탈퇴하시겠습니까?");
+    if(!answer){
+      return
+    }
+    
+    const deleteMember = async()=>{
+      const username = window.localStorage.getItem('username');
+      const requestURL = `http://localhost:8001/user/${username}`;
+      
+       await fetch(requestURL, {
+        method: "DELETE",
+        headers: {
+            "Accept": "*/*",
+        },
+    })
+    
+
+     }
+  
+     deleteMember();
+     window.localStorage.clear();
+     navigate("/", { replace: true });
+     window.scrollTo(0,0);
+     window.location.reload();
+    
+
+  }
+
+  const updatePassword = async(password,newPassword)=>{
+    const username = window.localStorage.getItem('username');
+    const requestURL = `http://localhost:8001/user/password`; 
+
+    console.log(password);
+    console.log(newPassword);
+
+  
+    let data =  await fetch(requestURL, {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+          "Accept": "*/*",
+      },
+      body: JSON.stringify({
+        username: username,
+        oldPassword: password,
+        newPassword: newPassword,              
+    })
+  })
+  .then(response => response.json())
+
+  console.log("data :" , data);
+  setUser(data);
+    
+  }
+
+
+  useEffect(() => {
+
+    const getMember = async()=>{
+      const username = window.localStorage.getItem('username');
+      const requestURL = `http://localhost:8001/user/${username}`;
+      
+      let data =  await fetch(requestURL, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "*/*",
+        },
+    })
+    .then(response => response.json())
+    .then(data=>{
+      console.log(data.results.member);
+      setUser(data.results.member);
+
+    })
+  
+
+    
+    
+     }
+  
+     getMember();
+     
+     
+    }, []);
+
   return (
     <>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -102,12 +199,12 @@ function MypageSetTab() {
               <InputLabel shrink htmlFor="userName">
                 이름
               </InputLabel>
-              <TextField defaultValue={name} id="userName" sx={inputStyle} />
+              <TextField defaultValue={user.name} multiline id="userName" sx={inputStyle} />
 
               <InputLabel shrink htmlFor="userEmail">
                 이메일
               </InputLabel>
-              <TextField defaultValue={email} id="userEmail" sx={inputStyle} />
+              <TextField defaultValue={user.email} id="userEmail" multiline sx={inputStyle} />
 
               <InputLabel shrink htmlFor="userPostalCode">
                 기본배송지
@@ -202,7 +299,7 @@ function MypageSetTab() {
                 }
               />
 
-              <Button variant="contained" sx={inputStyle}>
+              <Button onClick={updatePassword} variant="contained" sx={inputStyle}>
                 비밀번호 변경
               </Button>
             </Box>
@@ -301,7 +398,7 @@ function MypageSetTab() {
             <Box>
               <Stack direction="row" spacing={2} sx={{ padding: '40px' }}>
                 <LogoutIcon color="neutral" />
-                <Typography>logout</Typography>
+                <Button onClick={logout}>logout</Button>
               </Stack>
 
               <Box sx={{ padding: '20px' }}>
@@ -324,6 +421,7 @@ function MypageSetTab() {
 
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Button
+                    onClick={secession}
                     variant="contained"
                     sx={{ color: '#ffffff', backgroundColor: '#d9d9d9' }}
                   >

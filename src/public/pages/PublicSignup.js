@@ -1,8 +1,10 @@
 import styled, {css} from "styled-components";
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import { useForm } from "react-hook-form";
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 import SignupButton from '../components/signup/SignupButton';
+import {callDuplicationAPI, callRegisterAPI} from '../apis/MemberApiCalls';
+import { useNavigate } from 'react-router-dom';
 
 
 const CertButton = styled.button`
@@ -30,7 +32,7 @@ background-color: ${props => props.emailCertState ==='before' ? "#00AEEF40" : "#
 const ErrorMessage = styled.div`
     margin : 10px 0;
     color : #E54545;
-    font-size : 14px;
+    font-size : 12px;
 `
 
 
@@ -118,26 +120,113 @@ function PublicSignup() {
 
     const [emailCertState,setEmailCertState] = useState("before");
     const [idCheckCertState,setIdCheckCertState] = useState("before");
+    const [responseState,setResponseState]=useState(0);
+    const [hideCertCode,setHideCertCode] = useState(0);
+    const navigate = useNavigate();
 
+    const callSendEmailAPI = async(email) => {
+    
+        const requestURL = `http://localhost:8001/mail/match`;
+        console.log("전달된 email :" , email);
+    
+            const result =  await fetch(requestURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                },
+                body: JSON.stringify({
+                    email: email,
+               
+                })
+            })
+            .then(response => response.json())
+    
+            console.log('[MemberAPICalls] callMatchIdAPI RESULT : ', result);
+
+            setHideCertCode(result);
+            
+    
+            // if(result.httpStatus === 201){
+            //     alert("회원가입에 성공하셨습니다.");
+            //     document.location.href = '/login';          
+            // } else if(result.httpStatus === 400){
+            //    //회원가입 실패페이지(?)
+            // }
+            // }
+    
+    }
+    
 
     const {
         register,
         formState: { errors },
-        handleSubmit
+        handleSubmit,
+        watch
       } = useForm();
 
-      const onSubmit = (data) => console.log(data, errors);
+
+      const watchPassword = watch("password", "");
+      const watchEmail = watch("email", "");
+      const inputCertCode = watch("inputCertCode", "");
+
+      const onSubmit = async(form) => {   
+            const requestURL = `http://localhost:8001/signup`;
+            console.log("전달된 form :" , form);
+        
+                const result =  await fetch(requestURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "*/*"
+                    },
+                    body: JSON.stringify({
+                        username: form.username,
+                        password: form.password,
+                        email: form.email,
+                        name: form.name                
+                    })
+                })
+                .then(response => response.json());
+        
+                console.log('[MemberAPICalls] callRegisterAPI RESULT : ', result);
+                
+        
+                if(result.httpStatus === 201){
+                    alert("회원가입에 성공하셨습니다.");
+                    document.location.href = '/login';          
+                } else if(result.httpStatus === 400){
+                   //회원가입 실패페이지(?)
+                }
+                
+      }
+
+      const sendEmail = () => {
+        const receiveCertCode = callSendEmailAPI(watchEmail);
+        setHideCertCode(receiveCertCode);
+        setEmailCertState("progress");
+      }
 
       const emailCert = () => {
-        setEmailCertState("progress");
-        console.log(emailCertState);
+        console.log("입력된 인증코드 : ",inputCertCode);
+        console.log("인증 코드", hideCertCode);
+            if(inputCertCode == hideCertCode){
+                alert("인증 완료");
+                return;
+            }
+
+            alert("인증번호가 일치하지 않습니다.");
       }
 
 
       const idCheckCert = () => {
-        setIdCheckCertState("after");
-        console.log(idCheckCertState);
-        alert("사용가능한 아이디 입니다.");
+
+        const username = watch("username");
+        console.log(username);
+        callDuplicationAPI(username);
+        // setIdCheckCertState("after");
+        // console.log(idCheckCertState);
+        // alert("사용가능한 아이디 입니다.");
       }
 
 
@@ -152,6 +241,7 @@ function PublicSignup() {
 <NaverLogin>네이버로 로그인</NaverLogin>
 
 <SignupTitle>이메일로 가입</SignupTitle>
+<input type="number" name="hideCertCode" value={hideCertCode}/>
 
 
 <form style={{marginTop: '20px'}} className="formGroup" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
@@ -159,35 +249,43 @@ function PublicSignup() {
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            id="email"
-            type="email"
+            name="email"
+            type="text"
+            {...register("email", {
+                required : true,
+                pattern: {
+                    value: /^[\w.]+@[\w.]+\.[A-Za-z]{2,3}$/,
+                    message: "올바른 이메일 형식을 입력해주세요"
+                },
+            })}
             />
-            <CertButton emailCertState={emailCertState} type="button" onClick={emailCert}>{emailCertState==='progress'? '재전송' : '인증하기' }</CertButton>
+            <CertButton emailCertState={emailCertState} type="button" onClick={sendEmail}>{emailCertState==='progress'? '재전송' : '인증하기' }</CertButton>
         </InputBox>
-
 
        
         {emailCertState==='progress'?
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            id="emailCert"
+            name="inputCertCode"
             type="text"
+            {...register("inputCertCode", {
+            })}
             />
-            <CertButton emailCertState type="button">확인</CertButton>
+            <CertButton onClick={emailCert} emailCertState type="button">확인</CertButton>
         </InputBox> 
         : null}
 
         <ErrorMessage>
-            {errors.name?.type === "required" && "이메일을 입력해주세요"}
-            {errors.name?.type === "maxLength" && errors.name.message}
+            {errors.email?.type === "required" && "이메일을 입력해주세요"}
+            {errors.email?.type === "pattern" && errors.email.message}
         </ErrorMessage>
 
 
         <label htmlFor="name">이름</label>
         <InputBox>
             <BasicInput
-            id="name"
+            name="name"
             type="text"
             {...register("name", {
                 required: true,
@@ -199,40 +297,53 @@ function PublicSignup() {
             />
         </InputBox>
 
-
+        
         <ErrorMessage>
           {errors.name?.type === "required" && "이름을 입력해주세요"}
           {errors.name?.type === "maxLength" && errors.name.message}
         </ErrorMessage>
 
-        <label htmlFor="nickname">아이디</label>
+        <label htmlFor="username">아이디</label>
 
         <InputBox style={{display : "flex"}}>
             <BasicInput
             cert
-            id="nickname"
+            name="username"
             type="text"
-            {...register("nickname", {
+            {...register("username", {
                 required : true,
                 pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "문자열을 입력하여 주시길 바랍니다."
-                }
+                    value: /^[a-z]+[a-z0-9]{5,19}$/g,
+                    message: "영문, 숫자 조합으로 입력하여 주시길 바랍니다."
+                },
+
+                minLength: {
+                    value: 6,
+                    message: "아이디는 6자 이상으로 입력하여 주시길 바랍니다."
+                    },
+                
+                
+                maxLength: {
+                    value: 20,
+                    message: "아이디는 20 이하로 입력하여 주시길 바랍니다."
+                    }
             })}
             />
             <CertButton  idCheckCertState={idCheckCertState} type="button" onClick={idCheckCert}>중복확인</CertButton>
         </InputBox>
 
         <ErrorMessage>
-          {errors.nickname?.type === "required" && "아이디를 입력해주세요"}
-          {errors.nickname?.type === "maxLength" && errors.name.message}
+          {errors.username?.type === "required" && "아이디를 입력해주세요"}
+          {errors.username?.type === "maxLength" && errors.username.message}
+          {errors.username?.type === "minLength" && errors.username.message}
+          {errors.username?.type === "pattern" && errors.username.message}
         </ErrorMessage>
 
 
         <label htmlFor="password">비밀번호</label>
         <InputBox>
             <BasicInput
-            id="password"
+            name="password"
             type="password"
             {...register("password", {
                 required : true,
@@ -245,14 +356,16 @@ function PublicSignup() {
             {errors.password?.type==="required" && "비밀번호를 입력해주세요"}
         </ErrorMessage>
 
-        <label htmlFor="password">비밀번호확인</label>
+        <label htmlFor="passwordCheck">비밀번호확인</label>
 
         <InputBox>
             <BasicInput
-            id="passwordCheck"
+            name="passwordCheck"
             type="password"
             {...register("passwordCheck", {
                 required : true,
+                validate: (value) => 
+                    value===watchPassword,
             })}
             />
         </InputBox>
@@ -260,6 +373,7 @@ function PublicSignup() {
 
         <ErrorMessage>
             {errors.passwordCheck?.type==="required" && "비밀번호를 입력해주세요"}
+            {errors.passwordCheck?.type==="validate" && "비밀번호가 일치하지 않습니다."}
         </ErrorMessage>
 
 

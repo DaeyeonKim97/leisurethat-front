@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@tinymce/tinymce-react": "^4.2.0",
     "@toast-ui/react-editor": "^3.2.0",
+    "@tosspayments/payment-sdk": "^1.1.1",
     "axios": "^1.1.2",
     "dayjs": "^1.11.5",
     "dotenv": "^16.0.2",
@@ -23,16 +24,22 @@
     "moment": "^2.29.4",
     "prettier": "^2.7.1",
     "prop-types": "^15.8.1",
+    "query-string": "^7.1.1",
     "react": "^18.2.0",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.37.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.39.2",
+    "react-redux": "^8.0.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
+    "redux": "^4.2.0",
+    "redux-actions": "^2.6.5",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
     "web-vitals": "^2.1.4"
@@ -60,11 +67,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": false,
-    "singleQuote": true
   }
 }

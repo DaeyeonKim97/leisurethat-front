@@ -6,21 +6,38 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useState,useEffect } from 'react';
 
-function createData(id, modifyDate) {
-  return { id, modifyDate };
-}
 
-const rows = [
-  createData(1,'2022-09-01'),
-  createData(2,'2022-09-02'),
-  createData(3,'2022-09-03'),
-  createData(4,'2022-09-04'),
-  createData(5,'2022-09-05'),
+export default function DenseTable(props) {
 
-];
+  let [rows,setRows] = useState([]);
 
-export default function DenseTable() {
+  useEffect(() => {
+
+    const getLoginLog = async()=>{
+      const requestURL = `http://localhost:8001/user/loginlog/${props.id}`;
+      const loginLog =  await fetch(requestURL, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "*/*"
+        },
+    })
+    .then(response => response.json())
+    .then(data=>{
+      console.log(data.results.loginLog);
+      setRows(data.results.loginLog);
+      
+    })
+  
+     }
+  
+     getLoginLog();
+     
+    }, []);
+
+
   return (
     <TableContainer sx={{ width: 500 }} component={Paper}>
       <Table size="small" aria-label="a dense table">
@@ -39,7 +56,7 @@ export default function DenseTable() {
               <TableCell component="th" scope="row">
                 {row.id}
               </TableCell>
-              <TableCell align="right">{row.modifyDate}</TableCell>
+              <TableCell align="right">{row.loginDate.slice(0,19).replace('T',' ')}</TableCell>
             </TableRow>
           ))}
         </TableBody>
