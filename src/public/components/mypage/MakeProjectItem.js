@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Box from "@mui/material/Box";
@@ -25,7 +24,7 @@ function MakeProjectItem({ data }) {
 
     if (
       data.projectStatus === "심사요청" ||
-      data.projectStatus === "반려" ||
+      data.projectStatus === "심사반려" ||
       data.projectStatus === "취소" ||
       data.projectStatus === "펀딩포기" ||
       data.projectStatus === "강제종료"
@@ -37,13 +36,14 @@ function MakeProjectItem({ data }) {
       } else if (data.projectStatus === "심사요청") {
         setButtonType("modalbutton");
         setButtonLabel("심사 요청중");
-      } else if (data.projectStatus === "반려") {
+      } else if (data.projectStatus === "심사반려") {
         setButtonType("modalbutton");
         setButtonLabel("반려 사유 확인");
       } else if (data.projectStatus === "취소") {
         setButtonType("modalbutton");
         setButtonLabel("취소 사유 확인");
       } else if (data.projectStatus === "강제종료") {
+        console.log("있음");
         setButtonType("modalbutton");
         setButtonLabel("종료 사유 확인");
       }
@@ -59,7 +59,7 @@ function MakeProjectItem({ data }) {
       setButtonType("projectManagement");
       setButtonLabel("프로젝트 관리하기");
     }
-  }, []);
+  }, [data]);
 
   /**
    * buttonLabel
@@ -144,7 +144,6 @@ function MakeProjectItem({ data }) {
     navigate(`/project/${data.projectId}`);
   };
 
-
   return (
     <Box sx={{ height: "400px", border: "1px solid #d9d9d9" }}>
       <Box sx={{ width: "100%", height: "200px" }}>
@@ -165,19 +164,16 @@ function MakeProjectItem({ data }) {
         <Box>
           {projectStatusType == "open" ? (
             <Box sx={projectOpen}>{data.projectStatus}</Box>
-
           ) : (
             ""
           )}
           {projectStatusType == "closed" ? (
             <Box sx={projectClosed}>{data.projectStatus}</Box>
-
           ) : (
             ""
           )}
           {projectStatusType == "closing" ? (
             <Box sx={projectClosing}>{data.projectStatus}</Box>
-
           ) : (
             ""
           )}
@@ -244,7 +240,7 @@ function MakeProjectItem({ data }) {
         )}
       </Box>
     </Box>
-  )
+  );
 }
 
-export default MakeProjectItem
+export default MakeProjectItem;
